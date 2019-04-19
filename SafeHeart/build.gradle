@@ -7,9 +7,12 @@ apply plugin: 'application'
 mainClassName = 'XD.SafeHeart.Main'
 
 repositories {
-    jcenter()
+	jcenter()
 }
 
 dependencies {
     testCompile 'junit:junit:4.12'
+	compile 'ca.uhn.hapi.fhir:hapi-fhir-base:2.3'
+	compile 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:2.3'
+	compile 'ca.uhn.hapi.fhir:hapi-fhir-validation-resources-dstu3:2.3'
 }
