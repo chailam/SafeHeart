@@ -14,6 +14,7 @@ In Assignment 2a, our UML used:
 
 24. MVC - Some MVC Patttern. This is because from the requirement,  our design is a single user currently; also the user cannot input into the UI to update the data. So currently, we do not need a controller for interpretting the user input. We only have the Model (Manager) and View (UI,JFrame) in our UML as part of MVC. With MVC pattern, UI depends on the Manager, but Manager not depends on UI. Hence, Manager can be built and tested indepemndently of the UI. 
 
+2.Open Closed Principle - pg7
 
 
 Week 3
@@ -61,7 +62,7 @@ Week 4
 Provides mechanism for getting Open Closed Principle (no2) to work.
 Our strategy should be to depend on omterfaces - abstract functions and classes - rather than concrete functions or classes.
 
-11. The Interface Sebgregation Principle - pg19
+11. The Interface Segregation Principle - pg19
 A module that has several clients that use it differently, create a separate, abstract, interface for each client.
 
 Package Principle
