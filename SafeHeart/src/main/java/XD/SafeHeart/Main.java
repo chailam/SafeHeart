@@ -6,13 +6,7 @@
  */
 package XD.SafeHeart;
 
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.model.primitive.IdDt;
-import ca.uhn.fhir.rest.client.IGenericClient;
-import org.hl7.fhir.dstu3.model.*;
-
 import java.io.IOException;
-import java.util.List;
 
 /**
  *
@@ -24,45 +18,11 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String args[]) throws IOException {
-        // context - create this once, as it's an expensive operation
-        // see http://hapifhir.io/doc_intro.html
-        FhirContext ctx = FhirContext.forDstu3();
         String serverBaseUrl = "http://hapi-fhir.erc.monash.edu:8080/baseDstu3/";
+
+        FhirManager manager = new FhirManager(serverBaseUrl);
         
-        // increase timeouts since the server might be powered down
-        // see http://hapifhir.io/doc_rest_client_http_config.html
-        ctx.getRestfulClientFactory().setConnectTimeout(60 * 1000);
-        ctx.getRestfulClientFactory().setSocketTimeout(60 * 1000);
-        
-        // create the RESTful client to work with our FHIR server
-        // see http://hapifhir.io/doc_rest_client.html
-        IGenericClient client = ctx.newRestfulGenericClient(serverBaseUrl);
-
-        System.out.println("Press Enter to send to server: " + serverBaseUrl);
-        System.in.read();
-
-        try {
-            // perform a search for Patients with last name 'Fhirman'
-            // see http://hapifhir.io/doc_rest_client.html#SearchQuery_-_Type
-            Bundle response = client.search()
-                    .forResource(Patient.class)
-                    .where(Patient.FAMILY.matches().values("Lebrón484"))
-                    .returnBundle(Bundle.class)
-                    .execute();
-
-            System.out.println("Found " + response.getTotal()
-                    + " Lebrón484 patients. Their logical IDs are:");
-            response.getEntry().forEach((entry) -> {
-                // within each entry is a resource - print its logical ID
-                System.out.println(entry.getResource().getIdElement().getIdPart());
-            });
-        } catch (Exception e) {
-            System.out.println("An error occurred trying to search:");
-            e.printStackTrace();
-        }
-
-        System.out.println("Press Enter to end.");
-        System.in.read();
+        manager.searchPatientById("9308");
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
