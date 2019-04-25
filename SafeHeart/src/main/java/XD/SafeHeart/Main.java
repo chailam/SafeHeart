@@ -23,6 +23,10 @@ public class Main {
         FhirManager manager = new FhirManager(serverBaseUrl);
         
         manager.searchPatientById("9308");
+        manager.searchPractitionerById("9310");
+        manager.searchEncounterById("9311");
+        manager.searchDiagReportById("3281");
+        manager.searchObservationById("3273");
         
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
