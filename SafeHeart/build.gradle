@@ -15,4 +15,8 @@ dependencies {
 	compile 'ca.uhn.hapi.fhir:hapi-fhir-base:2.3'
 	compile 'ca.uhn.hapi.fhir:hapi-fhir-structures-dstu3:2.3'
 	compile 'ca.uhn.hapi.fhir:hapi-fhir-validation-resources-dstu3:2.3'
+        /* Failed to load class org.slf4j.impl.StaticLoggerBinder fix
+         * https://stackoverflow.com/questions/46786084/gradle-junit-tests-logging-with-slf4j
+        */
+        compile group: 'org.slf4j', name:'slf4j-simple', version: '1.7.21'
 }
