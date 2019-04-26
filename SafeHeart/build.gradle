@@ -4,7 +4,7 @@ apply plugin: 'application'
 
     group = 'XD'
 
-mainClassName = 'XD.SafeHeart.Main'
+mainClassName = 'XD.SafeHeart.System.Main'
 
 repositories {
 	jcenter()
