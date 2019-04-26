@@ -2,9 +2,9 @@ apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'application'
 
-    group = 'XD'
+    group = 'xd'
 
-mainClassName = 'XD.SafeHeart.System.Main'
+mainClassName = 'xd.safeheart.system.Main'
 
 repositories {
 	jcenter()
