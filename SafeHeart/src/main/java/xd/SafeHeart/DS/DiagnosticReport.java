@@ -1,4 +1,4 @@
-package XD.SafeHeart.DS;
+package xd.safeheart.ds;
 import java.util.ArrayList;
 
 /* Created by: Loi Chai Lam

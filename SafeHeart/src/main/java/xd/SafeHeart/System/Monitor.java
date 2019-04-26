@@ -4,7 +4,7 @@
  *	 Aik Han Ng (28947991)
  *	 Chai Lam Loi (28136179)
  */
-package XD.SafeHeart.System;
+package xd.safeheart.system;
 
 /**
  *
