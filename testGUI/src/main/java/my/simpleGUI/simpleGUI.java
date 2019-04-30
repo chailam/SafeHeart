@@ -4,17 +4,13 @@
  * and open the template in the editor.
  */
 package my.simpleGUI;
-import java.awt.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import javax.swing.JCheckBox;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
 import my.data.Data;
 import my.data.Person;
 import my.data.Ob;
-import javax.swing.ListSelectionModel;
 /**
  *
  * @author caila
@@ -25,11 +21,11 @@ public class simpleGUI extends javax.swing.JFrame {
      * Creates new form simpleGUI
      */
     public simpleGUI() {
-        initComponents();
-        ///// Insert the manual code
-        jListInitialize();
+        initComponents();  
         /////Set the text for clinician name
         jLabel2.setText("Clinician name");
+        ///// Insert the manual code
+        jListInitialize();
     }
 
     /**
@@ -68,27 +64,23 @@ public class simpleGUI extends javax.swing.JFrame {
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE))
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(55, 55, 55)))
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton1)))
                 .addContainerGap())
         );
@@ -122,7 +114,7 @@ public class simpleGUI extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -130,36 +122,32 @@ public class simpleGUI extends javax.swing.JFrame {
 
     ///// Action for the button "start"
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        System.out.println("Selected; ");
         int[] indices = jList1.getSelectedIndices();
-        List<Person> itm = jList1.getSelectedValuesList();
+        List<Person> personList = jList1.getSelectedValuesList();
+        ///// Clear all the data in list
+        selectedPerson.clear();
+        selectedObs.clear();
         
-        for (int i=0;i<indices.length;i++){
-            System.out.println("Index: "+indices[i]);
-        }
-        for (Person p : itm){
-            int a = p.getId();
-            System.out.println("Item: "+ a);
-        }
-        
-        ArrayList <Ob> lOb = user.getObList();   ///// get the list of observation
-        for (Person p : itm){
+        System.out.println("Selected; ");
+
+        for (Person p : personList){
             int pID = p.getId();
             for (Ob o : lOb){
                 if(o.getPatient().getId() == pID){
-                    System.out.println("Cho: "+ o.getValue());
+                    selectedPerson.add(p);
+                    selectedObs.add(o);
+                    System.out.println("Cho: "+ o.getValue() + " id: " + p.getId());
                 }     
             }
-        }       
+        } 
+       
+        jTableInitialize();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    ///// Reset the Model to show the value
+    ///// Reset the Model for list to show the value
     private void jListInitialize(){
-        jList1 = new javax.swing.JList<>();
         jScrollPane1.setViewportView(jList1);
         DefaultListModel<Person> listModel = new DefaultListModel<>();
-        ArrayList <Person> lUser = user.getPersonList();   ///// get the list of patient
         for (Person p : lUser) {
             listModel.addElement(p);
 	}
@@ -168,7 +156,15 @@ public class simpleGUI extends javax.swing.JFrame {
         jList1.setCellRenderer(new CheckBoxListCellRenderer());
     }
     
-    
+    ///// Reset the Model for table to show the value
+    private void jTableInitialize(){
+        jScrollPane2.setViewportView(jTable1);
+        //System.out.println(jTable1.getRowCount());
+        System.out.println(selectedPerson.size());
+        TableModel tableModel = new TableModel(selectedPerson, selectedObs);
+        jTable1.setModel(tableModel);
+    }
+
     
     /**
      * @param args the command line arguments
@@ -203,6 +199,7 @@ public class simpleGUI extends javax.swing.JFrame {
                 new simpleGUI().setVisible(true);
             }
         });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -216,5 +213,10 @@ public class simpleGUI extends javax.swing.JFrame {
     
     ///// My declaration of variable
     private Data user = new Data(); /////Initialize the Manager
-    private javax.swing.JList<Person> jList1;
+    private javax.swing.JList<Person> jList1 = new javax.swing.JList<>();
+    private javax.swing.JTable jTable1 = new javax.swing.JTable();
+    private ArrayList <Person> lUser = user.getPersonList();   ///// get the list of patient
+    private ArrayList <Ob> lOb = user.getObList();   ///// get the list of observation
+    private ArrayList <Person> selectedPerson = new ArrayList<>(); /// The selected person and its data in checkbox
+    private ArrayList <Ob> selectedObs = new ArrayList<>(); /// The selected person and its data in checkbox
 }
