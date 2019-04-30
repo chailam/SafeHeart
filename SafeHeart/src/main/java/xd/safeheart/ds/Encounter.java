@@ -12,7 +12,14 @@ public class Encounter {
 	private Clinician clinician;
 	
 	// Constructor
-	public Encounter() {
+	public Encounter(int id) {
+            this.id = id;
+	}
+        
+        public Encounter(int id, Patient patient, Clinician clinician) {
+            this.id = id;
+            this.patient = patient;
+            this.clinician = clinician;
 	}
 	
 	

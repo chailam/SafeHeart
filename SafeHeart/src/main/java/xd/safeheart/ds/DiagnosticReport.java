@@ -17,6 +17,11 @@ public class DiagnosticReport {
 	public DiagnosticReport(int id) {
 		this.id = id;
 	}
+        
+        public DiagnosticReport(int id, Encounter refEncounter) {
+		this.id = id;
+                this.refEncounter = refEncounter;
+	}
 	
 	/* The getter method for private variable: id, refEncounter, Observation with that Id */
 	public int getId() {

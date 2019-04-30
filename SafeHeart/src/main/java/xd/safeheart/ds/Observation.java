@@ -16,6 +16,14 @@ public class Observation {
 	public Observation(int id){
 		this.id = id;
 	}
+        
+        public Observation(int id, String type, String unit, Patient patient, String value){
+		this.id = id;
+                this.patient = patient;
+                this.unit = unit;
+                this.value = value;
+                this.type = type;
+	}
 	
 	
 	/* The getter method for private variable: id, type, unit, patient, value */
