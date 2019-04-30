@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package my.simpleGUI;
+package my.view;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
-import my.data.Ob;
-import my.data.Person;
+import my.model.Ob;
+import my.model.Person;
 
 public class TableModel extends AbstractTableModel {
 

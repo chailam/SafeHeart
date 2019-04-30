@@ -5,15 +5,13 @@
  */
 package client;
 
-import my.simpleGUI.*;
-
 /**
  *
  * @author caila
  */
 public class Client {
-     public static void main(String args[]){
-         simpleGUI ui = new simpleGUI();
-         ui.start();
+    public static void main(String args[]){
+        Manager m = new Manager();
+        m.run();
      }
 }

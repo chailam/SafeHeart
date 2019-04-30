@@ -3,21 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package my.data;
+package client;
 
+import my.view.simpleGUI;
+import controller.Controller;
+import my.model.*;
 import java.util.ArrayList;
 
-/**
- *
- * @author caila
- */
-public class Data {
-  private Person person;
-  private ArrayList <Person> lPerson = new ArrayList<>();
-  private ArrayList <Ob> lOb = new ArrayList<>();
-  private Ob ob;
+
+public class Manager {
   
-    public Data(){
+        ArrayList <Person> lPerson = new ArrayList<>();
+        ArrayList <Ob> lOb = new ArrayList<>();
+        Person person;
+        Ob ob;
+        simpleGUI view;  //the view
+        Controller controller;
+
+    public void run(){
+        /////put all method access to server here
+        this.allMethod();
+        view = new simpleGUI(lPerson,lOb);
+        controller = new Controller(person,view,ob);
+        controller.startView();
+    }
+    
+    
+     private void allMethod(){
         this.person = new Person(1, "familyName1", "GivenName1", 1, "F" );
         this.lPerson.add(this.person);
         this.ob = new Ob(101,"Cho", "mg/L", this.person, "1Cho");
@@ -48,12 +60,5 @@ public class Data {
         this.ob = new Ob(106,"Cho", "mg/L", this.person, "6Cho");
         this.lOb.add(this.ob);
     }
-    
-    public ArrayList getPersonList(){
-        return this.lPerson;    
-        }
-    
-    public ArrayList getObList(){
-        return this.lOb;    
-        }
+     
 }

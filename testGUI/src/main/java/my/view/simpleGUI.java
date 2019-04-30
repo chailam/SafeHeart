@@ -3,29 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package my.simpleGUI;
+package my.view;
 
+import my.model.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import my.data.Data;
-import my.data.Person;
-import my.data.Ob;
-/**
- *
- * @author caila
- */
+
 public class simpleGUI extends javax.swing.JFrame {
 
+    ///// My declaration of variable
+    private javax.swing.JList<Person> jList1 = new javax.swing.JList<>();
+    private javax.swing.JTable jTable1 = new javax.swing.JTable();
+    private ArrayList <Person> lUser;
+    private ArrayList <Ob> lOb;
+    private ArrayList <Person> selectedPerson = new ArrayList<>(); /// The selected person and its data in checkbox
+    private ArrayList <Ob> selectedObs = new ArrayList<>(); /// The selected person and its data in checkbox
+    
     /**
      * Creates new form simpleGUI
      */
-    public simpleGUI() {
+    public simpleGUI(ArrayList<Person> p, ArrayList<Ob> o) {
+        this.lOb = o;
+        this.lUser = p;
         initComponents();  
         /////Set the text for clinician name
         jLabel2.setText("Clinician name");
         ///// Insert the manual code
         jListInitialize();
+        start();
     }
 
     /**
@@ -193,12 +199,11 @@ public class simpleGUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new simpleGUI().setVisible(true);
-            }
-        });
-        
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new simpleGUI().setVisible(true);
+//            }
+//        });    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -209,13 +214,5 @@ public class simpleGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
-    
-    ///// My declaration of variable
-    private Data user = new Data(); /////Initialize the Manager
-    private javax.swing.JList<Person> jList1 = new javax.swing.JList<>();
-    private javax.swing.JTable jTable1 = new javax.swing.JTable();
-    private ArrayList <Person> lUser = user.getPersonList();   ///// get the list of patient
-    private ArrayList <Ob> lOb = user.getObList();   ///// get the list of observation
-    private ArrayList <Person> selectedPerson = new ArrayList<>(); /// The selected person and its data in checkbox
-    private ArrayList <Ob> selectedObs = new ArrayList<>(); /// The selected person and its data in checkbox
+   
 }
