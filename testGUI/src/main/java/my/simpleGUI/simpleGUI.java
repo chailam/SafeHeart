@@ -5,9 +5,11 @@
  */
 package my.simpleGUI;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import my.data.Data;
 import my.data.Person;
+import javax.swing.ListSelectionModel;
 /**
  *
  * @author caila
@@ -19,7 +21,8 @@ public class simpleGUI extends javax.swing.JFrame {
      */
     public simpleGUI() {
         initComponents();
-        resetModel();
+        ///// Insert the manual code
+        jListInitialize();
     }
 
     /**
@@ -33,20 +36,13 @@ public class simpleGUI extends javax.swing.JFrame {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList2);
 
         jTextField1.setText("jTextField1");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -56,17 +52,31 @@ public class simpleGUI extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTextField1);
 
+        jButton1.setText("Start");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addGap(71, 71, 71)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -76,7 +86,10 @@ public class simpleGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
 
@@ -119,14 +132,32 @@ public class simpleGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    ///// Action for the button "start"
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Selected; ");
+        int[] indices = jList1.getSelectedIndices();
+        //List<Person> itm = jList1.getSelectedValuesList();
+        
+        for (int i=0;i<indices.length;i++){
+            System.out.println("Index: "+indices[i]);
+        }
+        //for (String s : itm){
+        //    System.out.println("Item: "+s);
+        //}
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     ///// Reset the Model to show the value
-    private void resetModel(){
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        ArrayList <Person> lUser = user.getList();   ///// get the list of patient
+    private void jListInitialize(){
+        jList1 = new javax.swing.JList<>();
+        jScrollPane1.setViewportView(jList1);
+        DefaultListModel<Person> listModel = new DefaultListModel<>();
+        ArrayList <Person> lUser = user.getPersonList();   ///// get the list of patient
         for (Person p : lUser) {
-            listModel.addElement(p.getFamilyName() + " " + p.getGivenName() + " " +  p.getAge() + " " + p.getGender());
+            listModel.addElement(p);
 	}
-        jList2.setModel(listModel);     
+        jList1.setModel(listModel);     
     }
     
     /**
@@ -165,10 +196,10 @@ public class simpleGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
@@ -176,4 +207,5 @@ public class simpleGUI extends javax.swing.JFrame {
     
     ///// My declaration of variable
     private Data user = new Data(); /////Initialize the Manager
+    private javax.swing.JList<Person> jList1;
 }

@@ -70,5 +70,10 @@ public class Person {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-
+        
+        /////So that it will show in UI
+        @Override
+        public String toString(){
+            return this.familyName + " " + this.givenName + " " + this.age + " " + this.gender;
+        }
 }
