@@ -64,5 +64,10 @@ public class UserRole {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
+        
+        @Override
+        public String toString(){
+            return this.familyName + " " + this.givenName + " " + this.age + " " + this.gender;
+        }
 
 }

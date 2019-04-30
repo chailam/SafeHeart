@@ -9,6 +9,7 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import my.data.Data;
 import my.data.Person;
+import my.data.Ob;
 import javax.swing.ListSelectionModel;
 /**
  *
@@ -137,15 +138,25 @@ public class simpleGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("Selected; ");
         int[] indices = jList1.getSelectedIndices();
-        //List<Person> itm = jList1.getSelectedValuesList();
+        List<Person> itm = jList1.getSelectedValuesList();
         
         for (int i=0;i<indices.length;i++){
             System.out.println("Index: "+indices[i]);
         }
-        //for (String s : itm){
-        //    System.out.println("Item: "+s);
-        //}
+        for (Person p : itm){
+            int a = p.getId();
+            System.out.println("Item: "+ a);
+        }
         
+        ArrayList <Ob> lOb = user.getObList();   ///// get the list of observation
+        for (Person p : itm){
+            int pID = p.getId();
+            for (Ob o : lOb){
+                if(o.getPatient().getId() == pID){
+                    System.out.println("Cho: "+ o.getValue());
+                }     
+            }
+        }       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     ///// Reset the Model to show the value

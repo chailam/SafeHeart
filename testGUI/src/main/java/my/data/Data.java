@@ -20,32 +20,32 @@ public class Data {
     public Data(){
         this.person = new Person(1, "familyName1", "GivenName1", 1, "F" );
         this.lPerson.add(this.person);
-        this.ob = new Ob(101,"Cho", "mg/L", this.person, "22");
+        this.ob = new Ob(101,"Cho", "mg/L", this.person, "1Cho");
         this.lOb.add(this.ob);
         
         this.person = new Person(2, "familyName2", "GivenName2", 2, "M" );
         this.lPerson.add(this.person);
-        this.ob = new Ob(102,"Cho", "mg/L", this.person, "32");
+        this.ob = new Ob(102,"Cho", "mg/L", this.person, "2Cho");
         this.lOb.add(this.ob);
         
         this.person = new Person(3, "familyName3", "GivenName3", 3, "F" );
         this.lPerson.add(this.person);
-        this.ob = new Ob(103,"Cho", "mg/L", this.person, "42");
+        this.ob = new Ob(103,"Cho", "mg/L", this.person, "3Cho");
         this.lOb.add(this.ob);
         
         this.person = new Person(4, "familyName4", "GivenName4", 4, "F" );
         this.lPerson.add(this.person);
-        this.ob = new Ob(104,"Cho", "mg/L", this.person, "52");
+        this.ob = new Ob(104,"Cho", "mg/L", this.person, "4Cho");
         this.lOb.add(this.ob);
         
         this.person = new Person(5, "familyName5", "GivenName5", 5, "M" );
         this.lPerson.add(this.person);
-        this.ob = new Ob(105,"Cho", "mg/L", this.person, "62");
+        this.ob = new Ob(105,"Cho", "mg/L", this.person, "5Cho");
         this.lOb.add(this.ob);
         
         this.person = new Person(6, "familyName6", "GivenName6", 6, "F" );
         this.lPerson.add(this.person);
-        this.ob = new Ob(106,"Cho", "mg/L", this.person, "72");
+        this.ob = new Ob(106,"Cho", "mg/L", this.person, "6Cho");
         this.lOb.add(this.ob);
     }
     
