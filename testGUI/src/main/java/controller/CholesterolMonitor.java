@@ -15,15 +15,14 @@ import my.model.Ob;
  */
 public class CholesterolMonitor implements InterfaceMonitor {
     
-    public CholesterolMonitor(){
-        
+    public CholesterolMonitor(){ 
     }
     
     @Override
      public void monitorUpdate(DataRetrieval dR, Controller c){
          //retrieve cholesterol in DataRetrieval retrieve cholesterol function
          ArrayList <Ob> newlObd = dR.reGetObs();
-         c.updateChoMonitor(newlObd);       
+         c.updateCholesterol(newlObd);       
      }
     
 }

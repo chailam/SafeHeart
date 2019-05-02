@@ -16,15 +16,14 @@ public class Client {
         DataRetrieval dR = new DataRetrieval();
         dR.startRetrieve();
 
-        Controller controller;
-        controller = new Controller(dR.getPersonList(),dR.getObList());
-        controller.startView();
+        Controller c;
+        c = new Controller(dR.getPersonList(),dR.getObList());
+        c.startView();
         
         InterfaceMonitor m;
         m = new CholesterolMonitor();
         
-        System.out.println(dR.reGetObs());
         /*TODO: set time loop to execute this every 1 hours*/
-        //m.monitorUpdate(dR, controller);
+        //m.monitorUpdate(dR, c);
      }
 }

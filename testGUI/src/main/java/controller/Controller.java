@@ -30,7 +30,7 @@ public class Controller {
     }
     /////Try to update value every 1 hours here
     
-    public void updateChoMonitor(ArrayList <Ob> newlOb){
+    public void updateCholesterol(ArrayList <Ob> newlOb){
         this.view.updateView(newlOb);
     }
 }
