@@ -1,4 +1,4 @@
-package xd.safeheart.ds;
+package xd.safeheart.model;
 import java.util.HashSet;
 
 /* Created by: Loi Chai Lam

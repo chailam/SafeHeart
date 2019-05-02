@@ -1,4 +1,4 @@
-package xd.safeheart.ds;
+package xd.safeheart.model;
 
 /* Created by: Loi Chai Lam
  * Modified Date: 25-4-2019
