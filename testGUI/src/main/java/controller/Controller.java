@@ -30,7 +30,7 @@ public class Controller {
     }
     /////Try to update value every 1 hours here
     
-    public void updateView(){
-        ///view.xxxxxx  (see it later)
+    public void updateChoMonitor(ArrayList <Ob> newlOb){
+        this.view.updateView(newlOb);
     }
 }

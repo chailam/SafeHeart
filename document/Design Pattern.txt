@@ -4,13 +4,11 @@ FIT3077 Design Pattern
 In Assignment 2a, our UML used:
 7. Role
 
-8. Abstract Factory : Client to UI <<interface>> (????) << I don't know this correct or not
 
 10. DIP - server interface and UI interface, so that when server and UI change, no effect to the client side. Hence, there is a interface between Client and UI alos Manager and Server. 
 
 19. Abstract Server - any changes in server will propagate to the client & client cannot easily use other servers with similar properties. Introduce an absstract interface between client and the server. The abstract interface is a hinge point where design can flex. Different server implementation can be used without affecting the client.
 
-21. Adapter. Manager class act as Adapte. So the UI (JFrame, also as Adapteer) can retrieve data from Adaptee.
 
 24. MVC - Some MVC Patttern. This is because from the requirement,  our design is a single user currently; also the user cannot input into the UI to update the data. So currently, we do not need a controller for interpretting the user input. We only have the Model (Manager) and View (UI,JFrame) in our UML as part of MVC. With MVC pattern, UI depends on the Manager, but Manager not depends on UI. Hence, Manager can be built and tested indepemndently of the UI. 
 

@@ -129,6 +129,11 @@ public class simpleGUI extends javax.swing.JFrame {
 
     ///// Action for the button "start"
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        getSelected();
+        jTableInitialize();
+    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    private void getSelected(){
         int[] indices = jList1.getSelectedIndices();
         List<Person> personList = jList1.getSelectedValuesList();
         ///// Clear all the data in list
@@ -147,9 +152,17 @@ public class simpleGUI extends javax.swing.JFrame {
                 }     
             }
         } 
+    }
+    
+    
+    public void updateView(ArrayList<Ob> o){
+        this.lOb = o;
+        System.out.println("View: "+ this.lOb);
+        getSelected();
         jTableInitialize();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
+    }
+    
+    
     ///// Reset the Model for list to show the value
     private void jListInitialize(){
         jScrollPane1.setViewportView(jList1);

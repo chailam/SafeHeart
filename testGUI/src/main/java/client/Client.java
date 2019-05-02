@@ -5,7 +5,9 @@
  */
 package client;
 
+import controller.CholesterolMonitor;
 import controller.Controller;
+import controller.InterfaceMonitor;
 
 
 public class Client {
@@ -17,5 +19,12 @@ public class Client {
         Controller controller;
         controller = new Controller(dR.getPersonList(),dR.getObList());
         controller.startView();
+        
+        InterfaceMonitor m;
+        m = new CholesterolMonitor();
+        
+        System.out.println(dR.reGetObs());
+        /*TODO: set time loop to execute this every 1 hours*/
+        //m.monitorUpdate(dR, controller);
      }
 }

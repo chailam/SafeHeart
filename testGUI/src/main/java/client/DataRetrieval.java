@@ -5,6 +5,7 @@
  */
 package client;
 
+import java.util.ArrayList;
 import my.model.*;
 
 public class DataRetrieval extends AbstractDataRetrieval{
@@ -53,4 +54,15 @@ public class DataRetrieval extends AbstractDataRetrieval{
         this.lOb.add(this.ob);
     }
  
+    public ArrayList <Ob> reGetObs(){
+        this.lOb.clear();
+        this.ob = new Ob(201,"Cho", "mg/L", this.person, "201Cho");
+        this.lOb.add(this.ob);
+        this.ob = new Ob(202,"Cho", "mg/L", this.person, "202Cho");
+        this.lOb.add(this.ob);
+        this.ob = new Ob(203,"Cho", "mg/L", this.person, "203Cho");
+        this.lOb.add(this.ob);
+        return this.lOb;
+               
+    }
 }

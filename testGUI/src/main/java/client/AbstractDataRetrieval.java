@@ -12,8 +12,8 @@ import my.model.*;
 
 public abstract class AbstractDataRetrieval {
     //Interface or Abstract???
-    ArrayList <Person> lPerson;
-    ArrayList <Ob> lOb;
+    protected ArrayList <Person> lPerson;
+    protected ArrayList <Ob> lOb;
     // all the lists...............observation, diagreport, encounter and all
 
     public AbstractDataRetrieval(){
