@@ -5,13 +5,17 @@
  */
 package client;
 
-/**
- *
- * @author caila
- */
+import controller.Controller;
+
+
 public class Client {
     public static void main(String args[]){
-        Manager m = new Manager();
-        m.run();
+        //Retrieve data from server
+        DataRetrieval dR = new DataRetrieval();
+        dR.startRetrieve();
+
+        Controller controller;
+        controller = new Controller(dR.getPersonList(),dR.getObList());
+        controller.startView();
      }
 }

@@ -5,31 +5,23 @@
  */
 package client;
 
-import my.view.simpleGUI;
-import controller.Controller;
 import my.model.*;
-import java.util.ArrayList;
 
+public class DataRetrieval extends AbstractDataRetrieval{
 
-public class Manager {
-  
-        ArrayList <Person> lPerson = new ArrayList<>();
-        ArrayList <Ob> lOb = new ArrayList<>();
-        Person person;
-        Ob ob;
-        simpleGUI view;  //the view
-        Controller controller;
-
-    public void run(){
-        /////put all method access to server here
+    private Person person;
+    private Ob ob;
+    
+    public DataRetrieval(){
+    //Constructor
+    }
+   
+    public void startRetrieve(){
+        // the retrieval process
         this.allMethod();
-        view = new simpleGUI(lPerson,lOb);
-        controller = new Controller(person,view,ob);
-        controller.startView();
     }
     
-    
-     private void allMethod(){
+    private void allMethod(){
         this.person = new Person(1, "familyName1", "GivenName1", 1, "F" );
         this.lPerson.add(this.person);
         this.ob = new Ob(101,"Cho", "mg/L", this.person, "1Cho");
@@ -60,5 +52,5 @@ public class Manager {
         this.ob = new Ob(106,"Cho", "mg/L", this.person, "6Cho");
         this.lOb.add(this.ob);
     }
-     
+ 
 }

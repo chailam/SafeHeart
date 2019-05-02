@@ -51,6 +51,7 @@ public class simpleGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("FIT3077  Assignment 2");
 
         jScrollPane2.setAutoscrolls(true);
 
