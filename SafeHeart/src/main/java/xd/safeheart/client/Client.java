@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package xd.safeheart.client;
 
-import controller.Controller;
+import xd.safeheart.system.*;
+import xd.safeheart.controller.Controller;
 
 
 public class Client {
@@ -15,7 +16,7 @@ public class Client {
         dR.startRetrieve();
 
         Controller c;
-        c = new Controller(dR.getPersonList(),dR.getObList());
+        c = new Controller(dR.getPersonList(),dR.getObList(),dR.getPractitioner());
         c.startView();
         
         InterfaceMonitor m;
