@@ -5,9 +5,7 @@
  */
 package client;
 
-import controller.CholesterolMonitor;
 import controller.Controller;
-import controller.InterfaceMonitor;
 
 
 public class Client {
