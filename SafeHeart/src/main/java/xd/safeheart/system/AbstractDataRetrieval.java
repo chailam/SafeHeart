@@ -5,27 +5,27 @@
  */
 package xd.safeheart.system;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import xd.safeheart.model.*;
 
 
 
 public abstract class AbstractDataRetrieval {
     //Interface or Abstract???
-    protected ArrayList <Patient> lPatient;
-    protected ArrayList <Observation> lOb;
+    protected HashMap <String, Patient> patientMap;
+    protected HashMap <String, Observation> choObsMap;
 
     public AbstractDataRetrieval(){
-        lPatient = new ArrayList<>();
-        lOb = new ArrayList<>();
+        patientMap = new HashMap<>();
+        choObsMap = new HashMap<>();
 }
     
-    public ArrayList <Patient> getPersonList(){
-        return this.lPatient;
+    public HashMap <String,Patient> getPersonList(){
+        return this.patientMap;
     }
     
-    public ArrayList <Observation> getObList(){
-        return this.lOb;
+    public HashMap <String, Observation> getObList(){
+        return this.choObsMap;
     }
 
    /* TODO: all the setter and getter*/

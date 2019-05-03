@@ -6,7 +6,7 @@
 package xd.safeheart.system;
 
 import xd.safeheart.controller.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 import xd.safeheart.model.*;
 
 /**
@@ -21,8 +21,8 @@ public class CholesterolMonitor implements InterfaceMonitor {
     @Override
      public void monitorUpdate(DataRetrieval dR, Controller c){
          //retrieve cholesterol in DataRetrieval retrieve cholesterol function
-         ArrayList <Observation> newlObd = dR.reGetObs();
-         c.updateCholesterol(newlObd);       
+//         HashMap <String, Observation> newlObd = dR.reGetObs();
+//         c.updateCholesterol(newlObd);       
      }
     
 }
