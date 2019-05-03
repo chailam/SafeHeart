@@ -14,6 +14,7 @@ import xd.safeheart.model.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import java.util.List;
 import java.util.Date;
@@ -21,6 +22,9 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.hl7.fhir.exceptions.FHIRException;
 
 /**
  *
@@ -33,7 +37,8 @@ public class FhirManager {
     private xd.safeheart.model.Practitioner practitioner;
     private final HashMap<String, xd.safeheart.model.Encounter> encounterMap;
     private final HashMap<String, xd.safeheart.model.Patient> patientMap;
-    private final HashMap<String, xd.safeheart.model.Observation> observationMap;
+    private final HashMap<String, xd.safeheart.model.DiagnosticReport> diagMap;
+    private final HashMap<String, xd.safeheart.model.Observation> choObsMap;
     public FhirManager(String inputUrl) {
         serverBaseUrl = inputUrl;
         
@@ -54,17 +59,23 @@ public class FhirManager {
         
         encounterMap = new HashMap<>();
         patientMap = new HashMap<>();
-        observationMap = new HashMap<>();
-        
+        diagMap = new HashMap<>();
+        choObsMap = new HashMap<>(); 
     }
     
     public boolean populateDataByPractitionerId(String id) {
+        System.out.println("Searching for Practitioner");
         org.hl7.fhir.dstu3.model.Practitioner targetPractitioner = this.searchPractitionerById(id);
-        if(targetPractitioner == null){ return false; }
+        if(targetPractitioner == null){ 
+            System.out.println("Searching for Practitioner FAILED");
+            return false; 
+        }
         else {
+            System.out.println("Storing Practitioner");
             // Store practitioner
             this.practitioner = this.createModelPractitoner(targetPractitioner);
             
+            System.out.println("Querying for all encounter of that practitioner");
             // get all encounter for that practitioner
             Bundle encBundle = this.client.search()
                     .forResource(org.hl7.fhir.dstu3.model.Encounter.class)
@@ -72,6 +83,7 @@ public class FhirManager {
                     .returnBundle(Bundle.class)
                     .execute();
             
+            System.out.println("Generating all Patient and Encounter");
             encBundle.getEntry().forEach((entry) -> {
                 // within each entry is a resource
                 this.insertPatientAndEncounter(entry);
@@ -87,9 +99,12 @@ public class FhirManager {
                 });
             }
             
+            System.out.println("Querying for all DiagnosticReport");
+            this.queryDiagReport();
+            
             // maybe use url $everything http://build.fhir.org/patient-operation-everything.html
             
-            //System.out.println(this.encounterMap.get("9323").getId());
+            System.out.println("Data retrieved and populated");
                     
             return true;
         }
@@ -124,6 +139,90 @@ public class FhirManager {
                 )
         );
     }
+    
+    private void queryDiagReport()
+    {
+        // https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
+        // iterate encountermap
+        Iterator it = this.encounterMap.entrySet().iterator();
+        while (it.hasNext()) {
+            HashMap.Entry pair = (HashMap.Entry)it.next();
+            // code here
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            // get all diagReport for an Encounter
+            Bundle diagBundle = this.client.search()
+                    .forResource(org.hl7.fhir.dstu3.model.DiagnosticReport.class)
+                    .where(org.hl7.fhir.dstu3.model.DiagnosticReport.CONTEXT.hasId((String)pair.getKey()))
+                    .returnBundle(Bundle.class)
+                    .execute();
+            
+            diagBundle.getEntry().forEach((entry) -> {
+                // within each entry is a resource
+                this.insertDiagAndObserver(entry, (xd.safeheart.model.Encounter) pair.getValue());
+            });
+            
+            // keep going to next page
+            while (diagBundle.getLink(Bundle.LINK_NEXT) != null) {
+                // load next page
+                diagBundle = client.loadPage().next(diagBundle).execute();
+                diagBundle.getEntry().forEach((entry) -> {
+                // within each entry is a resource
+                    this.insertDiagAndObserver(entry, (xd.safeheart.model.Encounter) pair.getValue());
+                });
+            }
+            
+            // code end
+            it.remove(); // avoids a ConcurrentModificationException
+        }
+            
+    }
+    
+    private void insertDiagAndObserver(Bundle.BundleEntryComponent entry, xd.safeheart.model.Encounter enc)
+    {
+        String entryId;
+        // get id of entry
+        entryId = entry.getResource().getIdElement().getIdPart();
+        org.hl7.fhir.dstu3.model.DiagnosticReport targetDiag;
+        // get diagreport by id
+        targetDiag = this.searchDiagReportById(entry.getResource().getIdElement().getIdPart());
+        // insert into diag map
+        this.diagMap.put(entryId, new xd.safeheart.model.DiagnosticReport(Integer.parseInt(entryId), enc));
+        List<Reference> lResult = targetDiag.getResult();
+        // for every obs in diagreport
+        for (Reference r : lResult)
+        {
+            org.hl7.fhir.dstu3.model.Observation targetObs;
+            // get obs by url
+            targetObs = client.read()
+                    .resource(org.hl7.fhir.dstu3.model.Observation.class)
+                    .withUrl(serverBaseUrl + r.getReference())
+                    .execute(); 
+            String targetObsType = targetObs.getCode().getText();
+            if(targetObsType == "Total Cholesterol")
+            {
+                org.hl7.fhir.dstu3.model.Patient obsPatient;
+                // get patient by url
+                obsPatient = client.read()
+                        .resource(org.hl7.fhir.dstu3.model.Patient.class)
+                        .withUrl(serverBaseUrl + targetObs.getSubject().getReference())
+                        .execute(); 
+                try {
+                    // create observer, then insert to the map
+                    System.out.println(targetObs.getIdBase());
+                    choObsMap.put(targetObs.getIdBase(), new xd.safeheart.model.Observation(
+                            Integer.parseInt(targetObs.getIdBase()),
+                            targetObsType,
+                            targetObs.getValueQuantity().getUnit(),
+                            this.createModelPatient(obsPatient),
+                            targetObs.getValueQuantity().getValue().toString()
+                    ));
+                            } catch (FHIRException ex) {
+                    Logger.getLogger(FhirManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+    
     private org.hl7.fhir.dstu3.model.Resource searchResourceByUrl(String url) {
         return client.search()
                 .byUrl(url)
