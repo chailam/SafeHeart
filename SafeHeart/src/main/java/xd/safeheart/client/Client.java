@@ -22,6 +22,11 @@ public class Client {
         InterfaceMonitor m;
         m = new CholesterolMonitor();
         
+        String serverBaseUrl = "http://hapi-fhir.erc.monash.edu:8080/baseDstu3/";
+        FhirManager f;
+        f = new FhirManager(serverBaseUrl);
+        f.populateDataByPractitionerId("1");
+        
         /*TODO: set time loop to execute this every 1 hours*/
         //m.monitorUpdate(dR, c);
      }

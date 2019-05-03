@@ -15,6 +15,13 @@ import xd.safeheart.model.*;
 import java.io.IOException;
 import java.util.HashMap;
 
+import java.util.List;
+import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 /**
  *
  * @author Aik Han Ng <angg0008@student.monash.edu>
@@ -56,39 +63,28 @@ public class FhirManager {
         if(targetPractitioner == null){ return false; }
         else {
             // Store practitioner
-            System.out.println(targetPractitioner.getName().get(0).getGivenAsSingleString());
-            this.practitioner = new xd.safeheart.model.Practitioner(id, 
-                    targetPractitioner.getName().get(0).getFamilyAsSingleString(),
-                    targetPractitioner.getName().get(0).getGivenAsSingleString()
-            );
+            this.practitioner = this.createModelPractitoner(targetPractitioner);
             
+            // get all encounter for that practitioner
             Bundle encBundle = this.client.search()
                     .forResource(org.hl7.fhir.dstu3.model.Encounter.class)
                     .where(org.hl7.fhir.dstu3.model.Encounter.PARTICIPANT.hasId(id))
                     .returnBundle(Bundle.class)
                     .execute();
             
-            System.out.println(encBundle.getTotal());
-            
             encBundle.getEntry().forEach((entry) -> {
                 // within each entry is a resource
-                System.out.println(entry.getResource().getIdElement().getIdPart());
-                System.out.println(this.searchEncounterById(entry.getResource().getIdElement().getIdPart()).getSubject().getReference());
-                //this.encounterMap.put(entryId, this.searchEncounterById(id));
+                this.insertPatientAndEncounter(entry);
             });
             
-            // maybe make this a method
+            // keep going to next page
             while (encBundle.getLink(Bundle.LINK_NEXT) != null) {
-                System.out.println("next-page");
                 // load next page
                 encBundle = client.loadPage().next(encBundle).execute();
                 encBundle.getEntry().forEach((entry) -> {
                 // within each entry is a resource
-                String entryId = entry.getResource().getIdElement().getIdPart();
-                System.out.println(entryId);
-                //this.encounterMap.put(entryId, this.searchEncounterById(entryId));
-                System.out.println(this.searchEncounterById(entryId).getSubject().getReference());
-            });
+                    this.insertPatientAndEncounter(entry);
+                });
             }
             
             // maybe use url $everything http://build.fhir.org/patient-operation-everything.html
@@ -99,6 +95,35 @@ public class FhirManager {
         }
     }
     
+    private void insertPatientAndEncounter(Bundle.BundleEntryComponent entry)
+    {
+        String entryId;
+        // get id of entry
+        entryId = entry.getResource().getIdElement().getIdPart();
+        org.hl7.fhir.dstu3.model.Encounter targetEncounter;
+        // get encounter by id
+        targetEncounter = this.searchEncounterById(entry.getResource().getIdElement().getIdPart());
+        org.hl7.fhir.dstu3.model.Patient encPatient;
+        // get patient by url
+        encPatient = client.read()
+                .resource(org.hl7.fhir.dstu3.model.Patient.class)
+                .withUrl(serverBaseUrl + targetEncounter.getSubject().getReference())
+                .execute(); 
+        xd.safeheart.model.Patient modelPatient;
+        // create model patient
+        modelPatient = this.createModelPatient(encPatient);
+        
+        // put into patientmap
+        this.patientMap.put(Integer.toString(modelPatient.getId()), modelPatient);
+
+        // put into encountermap
+        this.encounterMap.put(entryId, 
+                new xd.safeheart.model.Encounter(Integer.parseInt(entryId),
+                        modelPatient,
+                        this.practitioner
+                )
+        );
+    }
     private org.hl7.fhir.dstu3.model.Resource searchResourceByUrl(String url) {
         return client.search()
                 .byUrl(url)
@@ -211,5 +236,57 @@ public class FhirManager {
             e.printStackTrace();
             return null;
         }
+    }
+    
+    private xd.safeheart.model.Practitioner createModelPractitoner(org.hl7.fhir.dstu3.model.Practitioner prac)
+    {
+        org.hl7.fhir.dstu3.model.HumanName name = prac.hasName() ? this.getOfficialName(prac.getName()) : null;
+        String familyName = prac.hasName() && name != null ? name.getFamily() : "null";
+        String givenName = prac.hasName() && name != null ? name.getGivenAsSingleString() : "null";
+        return new xd.safeheart.model.Practitioner(Integer.parseInt(prac.getIdElement().getIdPart()), 
+                    familyName,
+                    givenName,
+                    prac.hasBirthDate() ? this.calculateAgeFromDate(prac.getBirthDate()) : -1,
+                    prac.hasGender() ? prac.getGender().getDefinition() : "null"
+            );
+    }
+    
+    private xd.safeheart.model.Patient createModelPatient(org.hl7.fhir.dstu3.model.Patient pat)
+    {
+        org.hl7.fhir.dstu3.model.HumanName name = pat.hasName() ? this.getOfficialName(pat.getName()) : null;
+        String familyName = pat.hasName() && name != null ? name.getFamily() : "null";
+        String givenName = pat.hasName() && name != null ? name.getGivenAsSingleString() : "null";
+        return new xd.safeheart.model.Patient(Integer.parseInt(pat.getIdElement().getIdPart()),
+                        familyName,
+                        givenName,
+                        pat.hasBirthDate() ? this.calculateAgeFromDate(pat.getBirthDate()) : -1, 
+                        pat.hasGender() ? pat.getGender().getDefinition() : "null"
+        );
+    }
+    
+    private org.hl7.fhir.dstu3.model.HumanName getOfficialName (List<org.hl7.fhir.dstu3.model.HumanName> lname)
+    {
+        for (HumanName h : lname)
+        {
+            if (h.getUse() == org.hl7.fhir.dstu3.model.HumanName.NameUse.OFFICIAL)
+            {
+                return h;
+            }
+        }
+        return null;
+    }
+    
+    /*
+    Calculate age from Date
+    https://stackoverflow.com/questions/1116123/how-do-i-calculate-someones-age-in-java
+    https://stackoverflow.com/questions/21242110/convert-java-util-date-to-java-time-localdate
+    */
+    private int calculateAgeFromDate(Date dobDate)
+    {
+        LocalDate now = LocalDate.now();
+        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate dobLocalDate = dobDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
+        return Period.between(dobLocalDate, now).getYears();
     }
 }
