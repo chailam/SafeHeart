@@ -5,7 +5,7 @@
  */
 package xd.safeheart.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import xd.safeheart.view.*;
 import xd.safeheart.model.*;
 
@@ -14,16 +14,16 @@ import xd.safeheart.model.*;
  * @author caila
  */
 public class Controller {
-    private ArrayList <Patient> lPatient;
-    private ArrayList <Observation> lOb;
+    private HashMap <String,Patient> patientMap;
+    private HashMap <String,Observation> choObsMap;
     private View view;  //the view
     private Practitioner prac;
   
-    public Controller(ArrayList <Patient> lPatient, ArrayList <Observation> lOb, Practitioner prac){
-        this.lPatient = lPatient;
-        this.lOb = lOb;
+    public Controller(HashMap <String,Patient> patientMap, HashMap <String,Observation> choObsMap, Practitioner prac){
+        this.patientMap = patientMap;
+        this.choObsMap = choObsMap;
         this.prac = prac;
-        this.view = new View (this.lPatient,this.lOb, this.prac);
+        this.view = new View (this.patientMap,this.choObsMap, this.prac);
     }
     
     public void startView(){
@@ -32,7 +32,7 @@ public class Controller {
     }
     /////Try to update value every 1 hours here
     
-    public void updateCholesterol(ArrayList <Observation> newlOb){
-        this.view.updateView(newlOb);
+    public void updateCholesterol(HashMap <String,Observation> newchoObsMap){
+        this.view.updateView(newchoObsMap);
     }
 }

@@ -7,6 +7,7 @@ package xd.safeheart.view;
 
 import xd.safeheart.model.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
 
@@ -15,17 +16,17 @@ public class View extends javax.swing.JFrame {
     ///// My declaration of variable
     private javax.swing.JList<Patient> jList1 = new javax.swing.JList<>();
     private javax.swing.JTable jTable1 = new javax.swing.JTable();
-    private ArrayList <Patient> lPatient;
-    private ArrayList <Observation> lOb;
+    private HashMap <String,Patient> patientMap;
+    private HashMap <String,Observation> choObsMap;
     private ArrayList <Patient> selectedPatient = new ArrayList<>(); /// The selected person and its data in checkbox
     private ArrayList <Observation> selectedObs = new ArrayList<>(); /// The selected person and its data in checkbox
     
     /**
      * Creates new form simpleGUI
      */
-    public View(ArrayList<Patient> p, ArrayList<Observation> o, Practitioner prac) {
-        this.lOb = o;
-        this.lPatient = p;
+    public View(HashMap<String,Patient> p, HashMap<String,Observation> o, Practitioner prac) {
+        this.choObsMap = o;
+        this.patientMap = p;
         initComponents();  
         /////Set the text for clinician name
         jLabel2.setText(prac.getFamilyName() + " " + prac.getGivenName());
@@ -141,18 +142,18 @@ public class View extends javax.swing.JFrame {
 
         for (Patient p : patientList){
             int pID = p.getId();
-            for (Observation o : lOb){
-                if(o.getPatient().getId() == pID){
-                    selectedPatient.add(p);
-                    selectedObs.add(o);
-                }     
-            }
+             for (HashMap.Entry<String, Observation> entry : choObsMap.entrySet()) {
+                    if(entry.getValue().getPatient().getId() == pID){
+                        selectedPatient.add(p);
+                        selectedObs.add(entry.getValue());
+                    }
+                }
         } 
     }
     
     
-    public void updateView(ArrayList<Observation> o){
-        this.lOb = o;
+    public void updateView(HashMap<String, Observation> o){
+        this.choObsMap = o;
         getSelected();
         jTableInitialize();
     }
@@ -162,9 +163,10 @@ public class View extends javax.swing.JFrame {
     private void jListInitialize(){
         jScrollPane1.setViewportView(jList1);
         DefaultListModel<Patient> listModel = new DefaultListModel<>();
-        for (Patient p : lPatient) {
-            listModel.addElement(p);
-	}
+        for (HashMap.Entry<String, Patient> entry : patientMap.entrySet()) {
+            listModel.addElement(entry.getValue());
+        }
+
         jList1.setModel(listModel);   
         ///// Make the list become Checkbox
         jList1.setCellRenderer(new CheckBoxListCellRenderer());
