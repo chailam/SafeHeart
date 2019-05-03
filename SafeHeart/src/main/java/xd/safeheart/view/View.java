@@ -136,6 +136,17 @@ public class View extends javax.swing.JFrame {
     
     private void getSelected(){
         List<Patient> patientList = jList1.getSelectedValuesList();
+//        System.out.println("clicked");
+//        for (Patient p : patientList){
+//            int pID = p.getId();
+//            System.out.println(pID);
+//        }
+//        
+//        System.out.println(this.choObsMap.size());
+//        for (HashMap.Entry<String, Observation> entry : choObsMap.entrySet()) {
+//             System.out.println(entry.getValue());
+//        }
+
         ///// Clear all the data in list
         selectedPatient.clear();
         selectedObs.clear();
@@ -144,6 +155,8 @@ public class View extends javax.swing.JFrame {
             int pID = p.getId();
              for (HashMap.Entry<String, Observation> entry : choObsMap.entrySet()) {
                     if(entry.getValue().getPatient().getId() == pID){
+                        System.out.println(entry.getValue());
+                        System.out.println(pID);
                         selectedPatient.add(p);
                         selectedObs.add(entry.getValue());
                     }
