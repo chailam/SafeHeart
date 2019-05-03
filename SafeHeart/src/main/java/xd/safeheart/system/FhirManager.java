@@ -31,9 +31,9 @@ public class FhirManager {
     private final FhirContext ctx;
     private final IGenericClient client;
     private xd.safeheart.model.Practitioner practitioner;
-    private HashMap<String, xd.safeheart.model.Encounter> encounterMap;
-    private HashMap<String, xd.safeheart.model.Patient> patientMap;
-    private HashMap<String, xd.safeheart.model.Observation> observationMap;
+    private final HashMap<String, xd.safeheart.model.Encounter> encounterMap;
+    private final HashMap<String, xd.safeheart.model.Patient> patientMap;
+    private final HashMap<String, xd.safeheart.model.Observation> observationMap;
     public FhirManager(String inputUrl) {
         serverBaseUrl = inputUrl;
         
@@ -52,9 +52,9 @@ public class FhirManager {
         
         //practitioner = null;
         
-        encounterMap = new HashMap<String, xd.safeheart.model.Encounter>();
-        patientMap = new HashMap<String, xd.safeheart.model.Patient>();
-        observationMap = new HashMap<String, xd.safeheart.model.Observation>();
+        encounterMap = new HashMap<>();
+        patientMap = new HashMap<>();
+        observationMap = new HashMap<>();
         
     }
     
@@ -240,9 +240,10 @@ public class FhirManager {
     
     private xd.safeheart.model.Practitioner createModelPractitoner(org.hl7.fhir.dstu3.model.Practitioner prac)
     {
-        org.hl7.fhir.dstu3.model.HumanName name = prac.hasName() ? this.getOfficialName(prac.getName()) : null;
-        String familyName = prac.hasName() && name != null ? name.getFamily() : "null";
-        String givenName = prac.hasName() && name != null ? name.getGivenAsSingleString() : "null";
+        // practitioner has only one name
+        org.hl7.fhir.dstu3.model.HumanName name = prac.hasName() ? prac.getName().get(0) : null;
+        String familyName = name != null ? name.getFamily() : "null";
+        String givenName = name != null ? name.getGivenAsSingleString() : "null";
         return new xd.safeheart.model.Practitioner(Integer.parseInt(prac.getIdElement().getIdPart()), 
                     familyName,
                     givenName,
@@ -254,8 +255,8 @@ public class FhirManager {
     private xd.safeheart.model.Patient createModelPatient(org.hl7.fhir.dstu3.model.Patient pat)
     {
         org.hl7.fhir.dstu3.model.HumanName name = pat.hasName() ? this.getOfficialName(pat.getName()) : null;
-        String familyName = pat.hasName() && name != null ? name.getFamily() : "null";
-        String givenName = pat.hasName() && name != null ? name.getGivenAsSingleString() : "null";
+        String familyName = name != null ? name.getFamily() : "null";
+        String givenName = name != null ? name.getGivenAsSingleString() : "null";
         return new xd.safeheart.model.Patient(Integer.parseInt(pat.getIdElement().getIdPart()),
                         familyName,
                         givenName,
