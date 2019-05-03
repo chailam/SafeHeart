@@ -213,7 +213,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
                             targetObs.getValueQuantity().getValue().toString()
                     ));
                             } catch (FHIRException ex) {
-                    Logger.getLogger(FhirManager.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
