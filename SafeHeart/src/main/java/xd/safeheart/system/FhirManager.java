@@ -148,7 +148,6 @@ public class FhirManager {
         while (it.hasNext()) {
             HashMap.Entry pair = (HashMap.Entry)it.next();
             // code here
-            System.out.println(pair.getKey() + " = " + pair.getValue());
             // get all diagReport for an Encounter
             Bundle diagBundle = this.client.search()
                     .forResource(org.hl7.fhir.dstu3.model.DiagnosticReport.class)
@@ -208,7 +207,6 @@ public class FhirManager {
                         .execute(); 
                 try {
                     // create observer, then insert to the map
-                    System.out.println(targetObs.getIdBase());
                     choObsMap.put(targetObs.getIdBase(), new xd.safeheart.model.Observation(
                             Integer.parseInt(targetObs.getIdBase()),
                             targetObsType,
