@@ -14,10 +14,10 @@ import xd.safeheart.model.*;
  * @author caila
  */
 public class Controller {
-    private HashMap <String,Patient> patientMap;
-    private HashMap <String,Observation> choObsMap;
-    private View view;  //the view
-    private Practitioner prac;
+    private final HashMap <String,Patient> patientMap;
+    private final HashMap <String,Observation> choObsMap;
+    private final View view;  //the view
+    private final Practitioner prac;
   
     public Controller(HashMap <String,Patient> patientMap, HashMap <String,Observation> choObsMap, Practitioner prac){
         this.patientMap = patientMap;

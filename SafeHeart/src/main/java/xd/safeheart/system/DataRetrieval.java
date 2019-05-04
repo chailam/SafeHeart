@@ -4,15 +4,11 @@ the list of the patient is lPatient and observation is lOb
 */
 package xd.safeheart.system;
 
-import java.util.ArrayList;
 import xd.safeheart.model.*;
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.model.primitive.IdDt;
 import ca.uhn.fhir.rest.client.IGenericClient;
 import org.hl7.fhir.dstu3.model.*;
-import xd.safeheart.model.*;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -21,7 +17,6 @@ import java.util.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hl7.fhir.exceptions.FHIRException;
