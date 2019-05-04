@@ -7,25 +7,23 @@ package xd.safeheart.view;
 
 import xd.safeheart.model.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import javax.swing.DefaultListModel;
 
 public class View extends javax.swing.JFrame {
 
     ///// My declaration of variable
-    private javax.swing.JList<Patient> selectedPatientList = new javax.swing.JList<>();
-    private javax.swing.JTable detailTable = new javax.swing.JTable();
-    private HashMap <String,Patient> patientMap;
-    private HashMap <String,Observation> choObsMap;
-    private ArrayList <Patient> selectedPatient = new ArrayList<>(); /// The selected person and its data in checkbox
-    private ArrayList <Observation> selectedObs = new ArrayList<>(); /// The selected person and its data in checkbox
+    private final javax.swing.JList<Patient> selectedPatientList = new javax.swing.JList<>();
+    private final javax.swing.JTable detailTable = new javax.swing.JTable();
+    private final ArrayList <Patient> selectedPatient;
+    private final ArrayList <Observation> selectedObs; 
+    private final CheckBoxListCellRenderer chkBoxRenderer;
     
     /**
      * Creates new form simpleGUI
      */
     public View() {
-        this.choObsMap = new HashMap<>();
+        this.selectedObs = new ArrayList<>();
+        this.selectedPatient = new ArrayList<>();
+        this.chkBoxRenderer = new CheckBoxListCellRenderer();
         initComponents();  
         /////Set the text for clinician name
         ///// Insert the manual code
@@ -46,10 +44,10 @@ public class View extends javax.swing.JFrame {
         patientPane = new javax.swing.JScrollPane();
         detailPane = new javax.swing.JScrollPane();
         showButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        pracNameText = new javax.swing.JLabel();
         pracIdText = new javax.swing.JTextField();
         initButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        pracLabel = new javax.swing.JLabel();
         displayText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -94,13 +92,11 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel1.setText("Practitioner:");
-
-        pracIdText.setText("ID");
+        pracNameText.setText("Practitioner:");
 
         initButton.setText("Initialise");
 
-        jLabel2.setText("Practitioner ID:");
+        pracLabel.setText("Practitioner ID:");
 
         displayText.setForeground(new java.awt.Color(255, 0, 0));
 
@@ -114,11 +110,11 @@ public class View extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(jLabel1)
+                .addComponent(pracNameText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(displayText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(183, 183, 183)
-                .addComponent(jLabel2)
+                .addComponent(pracLabel)
                 .addGap(18, 18, 18)
                 .addComponent(pracIdText, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -130,10 +126,10 @@ public class View extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(pracNameText)
                     .addComponent(pracIdText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(initButton)
-                    .addComponent(jLabel2)
+                    .addComponent(pracLabel)
                     .addComponent(displayText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -149,8 +145,8 @@ public class View extends javax.swing.JFrame {
 //        jTableInitialize();
     }//GEN-LAST:event_showButtonActionPerformed
     
-    private void getSelected(){
-        List<Patient> patientList = selectedPatientList.getSelectedValuesList();
+//    private void getSelected(){
+//        List<Patient> patientList = selectedPatientList.getSelectedValuesList();
 //        System.out.println("clicked");
 //        for (Patient p : patientList){
 //            int pID = p.getId();
@@ -161,44 +157,44 @@ public class View extends javax.swing.JFrame {
 //        for (HashMap.Entry<String, Observation> entry : choObsMap.entrySet()) {
 //             System.out.println(entry.getValue());
 //        }
-
-        ///// Clear all the data in list
-        selectedPatient.clear();
-        selectedObs.clear();
-
-        for (Patient p : patientList){
-            int pID = p.getId();
-             for (HashMap.Entry<String, Observation> entry : choObsMap.entrySet()) {
-                    if(entry.getValue().getPatient().getId() == pID){
-                        System.out.println(entry.getValue());
-                        System.out.println(pID);
-                        selectedPatient.add(p);
-                        selectedObs.add(entry.getValue());
-                    }
-                }
-        } 
-    }
+//
+//        ///// Clear all the data in list
+//        selectedPatient.clear();
+//        selectedObs.clear();
+//
+//        for (Patient p : patientList){
+//            int pID = p.getId();
+//             for (HashMap.Entry<String, Observation> entry : choObsMap.entrySet()) {
+//                    if(entry.getValue().getPatient().getId() == pID){
+//                        System.out.println(entry.getValue());
+//                        System.out.println(pID);
+//                        selectedPatient.add(p);
+//                        selectedObs.add(entry.getValue());
+//                    }
+//                }
+//        } 
+//    }
     
     
-    public void updateView(HashMap<String, Observation> o){
-        this.choObsMap = o;
-        getSelected();
-        jTableInitialize();
-    }
+//    public void updateView(HashMap<String, Observation> o){
+//        this.choObsMap = o;
+//        getSelected();
+//        jTableInitialize();
+//    }
     
     
     // Reset the Model for list to show the value
-    private void jListInitialize(){
-        patientPane.setViewportView(selectedPatientList);
-        DefaultListModel<Patient> listModel = new DefaultListModel<>();
-        for (HashMap.Entry<String, Patient> entry : patientMap.entrySet()) {
-            listModel.addElement(entry.getValue());
-        }
-
-        selectedPatientList.setModel(listModel);   
-        ///// Make the list become Checkbox
-        selectedPatientList.setCellRenderer(new CheckBoxListCellRenderer());
-    }
+//    private void jListInitialize(){
+//        patientPane.setViewportView(selectedPatientList);
+//        DefaultListModel<Patient> listModel = new DefaultListModel<>();
+//        for (HashMap.Entry<String, Patient> entry : patientMap.entrySet()) {
+//            listModel.addElement(entry.getValue());
+//        }
+//
+//        selectedPatientList.setModel(listModel);   
+//        ///// Make the list become Checkbox
+//        selectedPatientList.setCellRenderer(new CheckBoxListCellRenderer());
+//    }
     
     ///// Reset the Model for table to show the value
     private void jTableInitialize(){
@@ -207,14 +203,19 @@ public class View extends javax.swing.JFrame {
         detailTable.setModel(tableModel);
     }
     
-    public CheckBoxListCellRenderer getNewCheckBoxListCellRenderer()
+    public CheckBoxListCellRenderer getCheckBoxListCellRenderer()
     {
-        return new CheckBoxListCellRenderer();
+        return this.chkBoxRenderer;
     }
 
     public javax.swing.JTextField getPracIdText()
     {
         return this.pracIdText;
+    }
+    
+    public javax.swing.JLabel getPracNameText()
+    {
+        return this.pracNameText;
     }
     
     public javax.swing.JLabel getDisplayText()
@@ -309,11 +310,11 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JScrollPane detailPane;
     private javax.swing.JLabel displayText;
     private javax.swing.JButton initButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane patientPane;
     private javax.swing.JTextField pracIdText;
+    private javax.swing.JLabel pracLabel;
+    private javax.swing.JLabel pracNameText;
     private javax.swing.JButton showButton;
     // End of variables declaration//GEN-END:variables
    

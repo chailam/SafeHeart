@@ -51,6 +51,11 @@ public class Controller {
         JLabel display = this.view.getDisplayText();
         JList<Patient> selectedPatientList = this.view.getSelectedPatientList();
         display.setText("");
+        // clean view
+        this.view.getSelectedPatient().clear();
+        this.view.getSelectedOb().clear();
+        this.updateDetailTable();
+        // practitioner's id
         String pracId = pracIdText.getText();
         // test if id a number
         try { 
@@ -64,6 +69,8 @@ public class Controller {
         }
         if (this.dR.populateDataByPractitionerId(pracId))
         {
+            Practitioner prac = this.dR.getPractitioner();
+            this.view.getPracNameText().setText("Practitioner: " + prac.getFamilyName() + " " + prac.getGivenName());
             HashMap<String, Patient> patientMap = this.dR.getPatientMap();
             ///// Reset the Model for list to show the value
             patientPane.setViewportView(selectedPatientList);
@@ -74,7 +81,11 @@ public class Controller {
 
             selectedPatientList.setModel(listModel);   
             ///// Make the list become Checkbox
-            selectedPatientList.setCellRenderer(this.view.getNewCheckBoxListCellRenderer());
+            selectedPatientList.setCellRenderer(this.view.getCheckBoxListCellRenderer());
+        }
+        else
+        {
+            display.setText("Error finding Practitioner!");
         }
     }
     
@@ -94,6 +105,11 @@ public class Controller {
                 this.view.getSelectedOb().add(result);
             }
         }
+        this.updateDetailTable();
+    }
+    
+    private void updateDetailTable()
+    {
         JTable tab = this.view.getDetailTable();
         this.view.getDetailPane().setViewportView(tab);
         TableModel tableModel = new TableModel(this.view.getSelectedPatient(), this.view.getSelectedOb());
@@ -102,6 +118,6 @@ public class Controller {
     /////Try to update value every 1 hours here
     
     public void updateCholesterol(HashMap <String,Observation> newchoObsMap){
-        this.view.updateView(newchoObsMap);
+        //this.view.updateView(newchoObsMap);
     }
 }

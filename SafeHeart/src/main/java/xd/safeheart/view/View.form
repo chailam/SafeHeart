@@ -31,11 +31,11 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Component id="pracNameText" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="displayText" min="-2" pref="200" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="183" max="-2" attributes="0"/>
-              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <Component id="pracLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="pracIdText" min="-2" pref="54" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -49,10 +49,10 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="pracNameText" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="pracIdText" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="initButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="pracLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="displayText" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -119,22 +119,19 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="pracNameText">
       <Properties>
         <Property name="text" type="java.lang.String" value="Practitioner:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="pracIdText">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ID"/>
-      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="initButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="Initialise"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="pracLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Practitioner ID:"/>
       </Properties>
