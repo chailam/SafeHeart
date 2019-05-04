@@ -11,15 +11,10 @@ import xd.safeheart.controller.Controller;
 
 public class Client {
     public static void main(String args[]){
-        String serverBaseUrl = "http://hapi-fhir.erc.monash.edu:8080/baseDstu3/";
-        String id = "1";
-        //Retrieve data from server
-        DataRetrieval dR = new DataRetrieval(serverBaseUrl);
-        dR.populateDataByPractitionerId(id);
 
         Controller c;
-        c = new Controller(dR.getPersonList(),dR.getObList(),dR.getPractitioner());
-        c.startView();
+        c = new Controller();
+        c.initView();
         
         InterfaceMonitor m;
         m = new CholesterolMonitor();

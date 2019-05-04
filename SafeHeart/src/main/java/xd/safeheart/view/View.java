@@ -14,8 +14,8 @@ import javax.swing.DefaultListModel;
 public class View extends javax.swing.JFrame {
 
     ///// My declaration of variable
-    private javax.swing.JList<Patient> jList1 = new javax.swing.JList<>();
-    private javax.swing.JTable jTable1 = new javax.swing.JTable();
+    private javax.swing.JList<Patient> selectedPatientList = new javax.swing.JList<>();
+    private javax.swing.JTable detailTable = new javax.swing.JTable();
     private HashMap <String,Patient> patientMap;
     private HashMap <String,Observation> choObsMap;
     private ArrayList <Patient> selectedPatient = new ArrayList<>(); /// The selected person and its data in checkbox
@@ -24,15 +24,13 @@ public class View extends javax.swing.JFrame {
     /**
      * Creates new form simpleGUI
      */
-    public View(HashMap<String,Patient> p, HashMap<String,Observation> o, Practitioner prac) {
-        this.choObsMap = o;
-        this.patientMap = p;
+    public View() {
+        this.choObsMap = new HashMap<>();
         initComponents();  
         /////Set the text for clinician name
-        jLabel2.setText(prac.getFamilyName() + " " + prac.getGivenName());
         ///// Insert the manual code
-        jListInitialize();
-        start();
+        //jListInitialize();
+        jTableInitialize();
     }
 
     /**
@@ -45,27 +43,30 @@ public class View extends javax.swing.JFrame {
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jButton1 = new javax.swing.JButton();
+        patientPane = new javax.swing.JScrollPane();
+        detailPane = new javax.swing.JScrollPane();
+        showButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        pracIdText = new javax.swing.JTextField();
+        initButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        displayText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FIT3077  Assignment 2");
 
-        jScrollPane2.setAutoscrolls(true);
+        detailPane.setAutoscrolls(true);
 
-        jButton1.setText("Start");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        showButton.setText("Show");
+        showButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                showButtonActionPerformed(evt);
             }
         });
 
-        jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(patientPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(detailPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(showButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -74,10 +75,10 @@ public class View extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(showButton)
+                    .addComponent(patientPane, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(detailPane, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
@@ -85,57 +86,71 @@ public class View extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(detailPane, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                        .addComponent(patientPane)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(showButton)))
                 .addContainerGap())
         );
 
-        jLabel1.setText("Hi !");
+        jLabel1.setText("Practitioner:");
 
-        jLabel2.setText("jLabel2");
+        pracIdText.setText("ID");
+
+        initButton.setText("Initialise");
+
+        jLabel2.setText("Practitioner ID:");
+
+        displayText.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24)
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(displayText, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(183, 183, 183)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(pracIdText, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(initButton)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
+                .addGap(13, 13, 13)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(pracIdText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(initButton)
+                    .addComponent(jLabel2)
+                    .addComponent(displayText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     ///// Action for the button "start"
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        getSelected();
-        jTableInitialize();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void showButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showButtonActionPerformed
+//        getSelected();
+//        jTableInitialize();
+    }//GEN-LAST:event_showButtonActionPerformed
     
     private void getSelected(){
-        List<Patient> patientList = jList1.getSelectedValuesList();
+        List<Patient> patientList = selectedPatientList.getSelectedValuesList();
 //        System.out.println("clicked");
 //        for (Patient p : patientList){
 //            int pID = p.getId();
@@ -172,26 +187,80 @@ public class View extends javax.swing.JFrame {
     }
     
     
-    ///// Reset the Model for list to show the value
+    // Reset the Model for list to show the value
     private void jListInitialize(){
-        jScrollPane1.setViewportView(jList1);
+        patientPane.setViewportView(selectedPatientList);
         DefaultListModel<Patient> listModel = new DefaultListModel<>();
         for (HashMap.Entry<String, Patient> entry : patientMap.entrySet()) {
             listModel.addElement(entry.getValue());
         }
 
-        jList1.setModel(listModel);   
+        selectedPatientList.setModel(listModel);   
         ///// Make the list become Checkbox
-        jList1.setCellRenderer(new CheckBoxListCellRenderer());
+        selectedPatientList.setCellRenderer(new CheckBoxListCellRenderer());
     }
     
     ///// Reset the Model for table to show the value
     private void jTableInitialize(){
-        jScrollPane2.setViewportView(jTable1);
+        detailPane.setViewportView(detailTable);
         TableModel tableModel = new TableModel(selectedPatient, selectedObs);
-        jTable1.setModel(tableModel);
+        detailTable.setModel(tableModel);
+    }
+    
+    public CheckBoxListCellRenderer getNewCheckBoxListCellRenderer()
+    {
+        return new CheckBoxListCellRenderer();
     }
 
+    public javax.swing.JTextField getPracIdText()
+    {
+        return this.pracIdText;
+    }
+    
+    public javax.swing.JLabel getDisplayText()
+    {
+        return this.displayText;
+    }
+    
+    public javax.swing.JScrollPane getPatientPane()
+    {
+        return this.patientPane;
+    }
+    
+    public javax.swing.JScrollPane getDetailPane()
+    {
+        return this.detailPane;
+    }
+    
+    public javax.swing.JTable getDetailTable()
+    {
+        return this.detailTable;
+    }
+    
+    public javax.swing.JButton getShowButton()
+    {
+        return this.showButton;
+    }
+    
+    public javax.swing.JButton getInitButton()
+    {
+        return this.initButton;
+    }
+    
+    public javax.swing.JList<Patient> getSelectedPatientList()
+    {
+        return this.selectedPatientList;
+    }
+    
+    public ArrayList<Patient> getSelectedPatient()
+    {
+        return this.selectedPatient;
+    }
+    
+    public ArrayList<Observation> getSelectedOb()
+    {
+        return this.selectedObs;
+    }
     
     /**
      * @param args the command line arguments
@@ -237,12 +306,15 @@ public class View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane detailPane;
+    private javax.swing.JLabel displayText;
+    private javax.swing.JButton initButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane patientPane;
+    private javax.swing.JTextField pracIdText;
+    private javax.swing.JButton showButton;
     // End of variables declaration//GEN-END:variables
    
 }

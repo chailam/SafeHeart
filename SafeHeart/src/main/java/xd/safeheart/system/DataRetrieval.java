@@ -7,6 +7,7 @@ package xd.safeheart.system;
 import xd.safeheart.model.*;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.client.IGenericClient;
+import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.hl7.fhir.dstu3.model.*;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.exceptions.FHIRException;
 
 public class DataRetrieval extends AbstractDataRetrieval{
@@ -27,9 +29,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
     private final IGenericClient client;
     private xd.safeheart.model.Practitioner practitioner;
     private final HashMap<String, xd.safeheart.model.Encounter> encounterMap;
-    //private final HashMap<String, xd.safeheart.model.Patient> patientMap;
+    private final HashMap<String, xd.safeheart.model.Patient> patientMap;
     private final HashMap<String, xd.safeheart.model.DiagnosticReport> diagMap;
-    //private final HashMap<String, xd.safeheart.model.Observation> choObsMap;
+    private final HashMap<String, xd.safeheart.model.Observation> choObsMap;
     
     
     public DataRetrieval(String inputUrl) {
@@ -92,8 +94,8 @@ public class DataRetrieval extends AbstractDataRetrieval{
                 });
             }
             
-            System.out.println("Querying for all DiagnosticReport");
-            this.queryDiagReport();
+//            System.out.println("Querying for all DiagnosticReport");
+//            this.queryDiagReport();
             
             // maybe use url $everything http://build.fhir.org/patient-operation-everything.html
             
@@ -381,8 +383,58 @@ public class DataRetrieval extends AbstractDataRetrieval{
         return Period.between(dobLocalDate, now).getYears();
     }
     
-    
     public xd.safeheart.model.Practitioner getPractitioner(){
         return this.practitioner;
+    }
+    
+    public HashMap<String, xd.safeheart.model.Patient> getPatientMap()
+    {
+        return this.patientMap;
+    }
+    
+    public xd.safeheart.model.Observation getChoObsByPat(xd.safeheart.model.Patient p)
+    {
+        xd.safeheart.model.Observation output = null;
+        Bundle obsBundle = this.client.search()
+                    .forResource(org.hl7.fhir.dstu3.model.Observation.class)
+                    .where(org.hl7.fhir.dstu3.model.Observation.SUBJECT.hasId(Integer.toString(p.getId())))
+                    .and(new TokenClientParam("code").exactly().code("2093-3"))
+                    .sort().descending(org.hl7.fhir.dstu3.model.Observation.DATE)
+                    .returnBundle(Bundle.class)
+                    .execute();
+
+        boolean firstPage = true;
+        do {
+            // found
+            if(output != null)
+            {
+                break;
+            }
+            if(!firstPage)
+            {
+                // load next page
+                obsBundle = client.loadPage().next(obsBundle).execute();
+            }
+            for (BundleEntryComponent entry : obsBundle.getEntry())
+            {
+                // within each entry is a resource
+                org.hl7.fhir.dstu3.model.Observation o;
+                // get diagreport by id
+                o = this.searchObservationById(entry.getResource().getIdElement().getIdPart());
+                try {
+                        output = new xd.safeheart.model.Observation(
+                                Integer.parseInt(o.getIdElement().getIdPart()),
+                                o.getCode().getText(),
+                                o.getValueQuantity().getUnit(),
+                                p,
+                                o.getValueQuantity().getValue().toString()
+                        );
+                    } catch (FHIRException ex) {
+                    Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        // keep going to next page    
+        } while (obsBundle.getLink(Bundle.LINK_NEXT) != null);
+        return output;
     }
 }
