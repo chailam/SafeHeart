@@ -5,12 +5,10 @@
  */
 package xd.safeheart.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import xd.safeheart.view.*;
 import xd.safeheart.model.*;
 
-import javax.swing.JFrame;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -98,11 +96,27 @@ public class Controller {
         this.view.getSelectedOb().clear();
         for (Patient p : selPat)
         {
-            Observation result = this.dR.getChoObsByPat(p);
-            if (result != null)
+            Observation result;
+            // search for data in our program
+            boolean foundInMap = false;
+            for (Observation o : this.dR.getChoObsMap().values()) {
+                if (o.getPatient().equals(p))
+                {
+                    result = o;
+                    this.view.getSelectedPatient().add(p);
+                    this.view.getSelectedOb().add(result);
+                    foundInMap = true;
+                }
+            }
+            // not found in program, get from server
+            if(!foundInMap)
             {
-                this.view.getSelectedPatient().add(p);
-                this.view.getSelectedOb().add(result);
+                result = this.dR.getChoObsByPat(p);
+                if (result != null)
+                {
+                    this.view.getSelectedPatient().add(p);
+                    this.view.getSelectedOb().add(result);
+                }
             }
         }
         this.updateDetailTable();

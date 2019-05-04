@@ -20,11 +20,11 @@ public abstract class AbstractDataRetrieval {
         choObsMap = new HashMap<>();
 }
     
-    public HashMap <String,Patient> getPersonList(){
+    public HashMap <String,Patient> getPatientMap(){
         return this.patientMap;
     }
     
-    public HashMap <String, Observation> getObList(){
+    public HashMap <String, Observation> getChoObsMap(){
         return this.choObsMap;
     }
 

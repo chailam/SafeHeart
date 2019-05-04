@@ -29,12 +29,11 @@ public class DataRetrieval extends AbstractDataRetrieval{
     private final IGenericClient client;
     private xd.safeheart.model.Practitioner practitioner;
     private final HashMap<String, xd.safeheart.model.Encounter> encounterMap;
-    private final HashMap<String, xd.safeheart.model.Patient> patientMap;
-    private final HashMap<String, xd.safeheart.model.DiagnosticReport> diagMap;
-    private final HashMap<String, xd.safeheart.model.Observation> choObsMap;
+    //private final HashMap<String, xd.safeheart.model.DiagnosticReport> diagMap;
     
     
     public DataRetrieval(String inputUrl) {
+        super();
         serverBaseUrl = inputUrl;
         
         // context - create this once, as it's an expensive operation
@@ -53,9 +52,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
         //practitioner = null;
         
         encounterMap = new HashMap<>();
-        patientMap = new HashMap<>();
-        diagMap = new HashMap<>();
-        choObsMap = new HashMap<>(); 
+        //diagMap = new HashMap<>();
     }
     
     public boolean populateDataByPractitionerId(String id) {
@@ -135,111 +132,111 @@ public class DataRetrieval extends AbstractDataRetrieval{
         );
     }
     
-    private void queryDiagReport()
-    {
-        // https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
-        // iterate encountermap
-        Iterator it = this.encounterMap.entrySet().iterator();
-        while (it.hasNext()) {
-            HashMap.Entry pair = (HashMap.Entry)it.next();
-            // code here
-            // get all diagReport for an Encounter
-            Bundle diagBundle = this.client.search()
-                    .forResource(org.hl7.fhir.dstu3.model.DiagnosticReport.class)
-                    .where(org.hl7.fhir.dstu3.model.DiagnosticReport.CONTEXT.hasId((String)pair.getKey()))
-                    .returnBundle(Bundle.class)
-                    .execute();
-            
-            diagBundle.getEntry().forEach((entry) -> {
-                // within each entry is a resource
-                this.insertDiagAndObserver(entry, (xd.safeheart.model.Encounter) pair.getValue());
-            });
-            
-            // keep going to next page
-            while (diagBundle.getLink(Bundle.LINK_NEXT) != null) {
-                // load next page
-                diagBundle = client.loadPage().next(diagBundle).execute();
-                diagBundle.getEntry().forEach((entry) -> {
-                // within each entry is a resource
-                    this.insertDiagAndObserver(entry, (xd.safeheart.model.Encounter) pair.getValue());
-                });
-            }
-            
-            // code end
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-            
-    }
+//    private void queryDiagReport()
+//    {
+//        // https://stackoverflow.com/questions/1066589/iterate-through-a-hashmap
+//        // iterate encountermap
+//        Iterator it = this.encounterMap.entrySet().iterator();
+//        while (it.hasNext()) {
+//            HashMap.Entry pair = (HashMap.Entry)it.next();
+//            // code here
+//            // get all diagReport for an Encounter
+//            Bundle diagBundle = this.client.search()
+//                    .forResource(org.hl7.fhir.dstu3.model.DiagnosticReport.class)
+//                    .where(org.hl7.fhir.dstu3.model.DiagnosticReport.CONTEXT.hasId((String)pair.getKey()))
+//                    .returnBundle(Bundle.class)
+//                    .execute();
+//            
+//            diagBundle.getEntry().forEach((entry) -> {
+//                // within each entry is a resource
+//                this.insertDiagAndObserver(entry, (xd.safeheart.model.Encounter) pair.getValue());
+//            });
+//            
+//            // keep going to next page
+//            while (diagBundle.getLink(Bundle.LINK_NEXT) != null) {
+//                // load next page
+//                diagBundle = client.loadPage().next(diagBundle).execute();
+//                diagBundle.getEntry().forEach((entry) -> {
+//                // within each entry is a resource
+//                    this.insertDiagAndObserver(entry, (xd.safeheart.model.Encounter) pair.getValue());
+//                });
+//            }
+//            
+//            // code end
+//            it.remove(); // avoids a ConcurrentModificationException
+//        }
+//            
+//    }
+//    
+//    private void insertDiagAndObserver(Bundle.BundleEntryComponent entry, xd.safeheart.model.Encounter enc)
+//    {
+//        String entryId;
+//        // get id of entry
+//        entryId = entry.getResource().getIdElement().getIdPart();
+//        org.hl7.fhir.dstu3.model.DiagnosticReport targetDiag;
+//        // get diagreport by id
+//        targetDiag = this.searchDiagReportById(entry.getResource().getIdElement().getIdPart());
+//        // insert into diag map
+//        this.diagMap.put(entryId, new xd.safeheart.model.DiagnosticReport(Integer.parseInt(entryId), enc));
+//        List<Reference> lResult = targetDiag.getResult();
+//        // for every obs in diagreport
+//        for (Reference r : lResult)
+//        {
+//            org.hl7.fhir.dstu3.model.Observation targetObs;
+//            // get obs by url
+//            targetObs = client.read()
+//                    .resource(org.hl7.fhir.dstu3.model.Observation.class)
+//                    .withUrl(serverBaseUrl + r.getReference())
+//                    .execute(); 
+//            String targetObsType = targetObs.getCode().getText();
+//            if(targetObsType.equals("Total Cholesterol"))
+//            {
+//                org.hl7.fhir.dstu3.model.Patient obsPatient;
+//                // get patient by url
+//                obsPatient = client.read()
+//                        .resource(org.hl7.fhir.dstu3.model.Patient.class)
+//                        .withUrl(serverBaseUrl + targetObs.getSubject().getReference())
+//                        .execute(); 
+//                try {
+//                    // create observer, then insert to the map
+//                    choObsMap.put(targetObs.getIdBase(), new xd.safeheart.model.Observation(
+//                            Integer.parseInt(targetObs.getIdElement().getIdPart()),
+//                            targetObsType,
+//                            targetObs.getValueQuantity().getUnit(),
+//                            this.createModelPatient(obsPatient),
+//                            targetObs.getValueQuantity().getValue().toString()
+//                    ));
+//                            } catch (FHIRException ex) {
+//                    Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        }
+//    }
     
-    private void insertDiagAndObserver(Bundle.BundleEntryComponent entry, xd.safeheart.model.Encounter enc)
-    {
-        String entryId;
-        // get id of entry
-        entryId = entry.getResource().getIdElement().getIdPart();
-        org.hl7.fhir.dstu3.model.DiagnosticReport targetDiag;
-        // get diagreport by id
-        targetDiag = this.searchDiagReportById(entry.getResource().getIdElement().getIdPart());
-        // insert into diag map
-        this.diagMap.put(entryId, new xd.safeheart.model.DiagnosticReport(Integer.parseInt(entryId), enc));
-        List<Reference> lResult = targetDiag.getResult();
-        // for every obs in diagreport
-        for (Reference r : lResult)
-        {
-            org.hl7.fhir.dstu3.model.Observation targetObs;
-            // get obs by url
-            targetObs = client.read()
-                    .resource(org.hl7.fhir.dstu3.model.Observation.class)
-                    .withUrl(serverBaseUrl + r.getReference())
-                    .execute(); 
-            String targetObsType = targetObs.getCode().getText();
-            if(targetObsType.equals("Total Cholesterol"))
-            {
-                org.hl7.fhir.dstu3.model.Patient obsPatient;
-                // get patient by url
-                obsPatient = client.read()
-                        .resource(org.hl7.fhir.dstu3.model.Patient.class)
-                        .withUrl(serverBaseUrl + targetObs.getSubject().getReference())
-                        .execute(); 
-                try {
-                    // create observer, then insert to the map
-                    choObsMap.put(targetObs.getIdBase(), new xd.safeheart.model.Observation(
-                            Integer.parseInt(targetObs.getIdElement().getIdPart()),
-                            targetObsType,
-                            targetObs.getValueQuantity().getUnit(),
-                            this.createModelPatient(obsPatient),
-                            targetObs.getValueQuantity().getValue().toString()
-                    ));
-                            } catch (FHIRException ex) {
-                    Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-    
-    private org.hl7.fhir.dstu3.model.Resource searchResourceByUrl(String url) {
-        return client.search()
-                .byUrl(url)
-                .returnBundle(Bundle.class)
-                .execute();
-    }
-    
-    private org.hl7.fhir.dstu3.model.Patient searchPatientById(String id) {
-        try {
-            /* Not bundle because it's unique response
-             * src: https://nhsconnect.github.io/gpconnect/foundations_use_case_read_a_patient.html
-            */
-            // problem as name might collide with our patient
-            return this.client.read()
-                    .resource(org.hl7.fhir.dstu3.model.Patient.class)
-                    .withId(id)
-                    .execute();
-            // PROBLEM: how to get all enounters that has patient?
-        } catch (Exception e) {
-            System.out.println("An error occurred trying to search:");
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    private org.hl7.fhir.dstu3.model.Resource searchResourceByUrl(String url) {
+//        return client.search()
+//                .byUrl(url)
+//                .returnBundle(Bundle.class)
+//                .execute();
+//    }
+//    
+//    private org.hl7.fhir.dstu3.model.Patient searchPatientById(String id) {
+//        try {
+//            /* Not bundle because it's unique response
+//             * src: https://nhsconnect.github.io/gpconnect/foundations_use_case_read_a_patient.html
+//            */
+//            // problem as name might collide with our patient
+//            return this.client.read()
+//                    .resource(org.hl7.fhir.dstu3.model.Patient.class)
+//                    .withId(id)
+//                    .execute();
+//            // PROBLEM: how to get all enounters that has patient?
+//        } catch (Exception e) {
+//            System.out.println("An error occurred trying to search:");
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
         
     private org.hl7.fhir.dstu3.model.Practitioner searchPractitionerById(String id) {
         try {
@@ -288,27 +285,27 @@ public class DataRetrieval extends AbstractDataRetrieval{
         }
     }
     
-    private org.hl7.fhir.dstu3.model.DiagnosticReport searchDiagReportById(String id) {
-        try {
-            /* Not bundle because it's unique response
-             * src: https://nhsconnect.github.io/gpconnect/foundations_use_case_read_a_patient.html
-            */
-            return this.client.read()
-                    .resource(org.hl7.fhir.dstu3.model.DiagnosticReport.class)
-                    .withId(id)
-                    .execute();
-            
-//            System.out.println("Diagreport patient reference: " + responseDiagReport.getSubject().getReference());
-//            System.out.println("Diagreport encounter reference: " + responseDiagReport.getContext().getReference());
-//            String display = String.format("Diagreport observer '%s' reference: ", responseDiagReport.getResult().get(0).getDisplay());
-//            // getresult returns list of references to all observers
-//            System.out.println(display + responseDiagReport.getResult().get(0).getReference());
-        } catch (Exception e) {
-            System.out.println("An error occurred trying to search:");
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    private org.hl7.fhir.dstu3.model.DiagnosticReport searchDiagReportById(String id) {
+//        try {
+//            /* Not bundle because it's unique response
+//             * src: https://nhsconnect.github.io/gpconnect/foundations_use_case_read_a_patient.html
+//            */
+//            return this.client.read()
+//                    .resource(org.hl7.fhir.dstu3.model.DiagnosticReport.class)
+//                    .withId(id)
+//                    .execute();
+//            
+////            System.out.println("Diagreport patient reference: " + responseDiagReport.getSubject().getReference());
+////            System.out.println("Diagreport encounter reference: " + responseDiagReport.getContext().getReference());
+////            String display = String.format("Diagreport observer '%s' reference: ", responseDiagReport.getResult().get(0).getDisplay());
+////            // getresult returns list of references to all observers
+////            System.out.println(display + responseDiagReport.getResult().get(0).getReference());
+//        } catch (Exception e) {
+//            System.out.println("An error occurred trying to search:");
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
     
     private org.hl7.fhir.dstu3.model.Observation searchObservationById(String id) {
         try {
@@ -387,17 +384,13 @@ public class DataRetrieval extends AbstractDataRetrieval{
         return this.practitioner;
     }
     
-    public HashMap<String, xd.safeheart.model.Patient> getPatientMap()
-    {
-        return this.patientMap;
-    }
-    
     public xd.safeheart.model.Observation getChoObsByPat(xd.safeheart.model.Patient p)
     {
         xd.safeheart.model.Observation output = null;
         Bundle obsBundle = this.client.search()
                     .forResource(org.hl7.fhir.dstu3.model.Observation.class)
                     .where(org.hl7.fhir.dstu3.model.Observation.SUBJECT.hasId(Integer.toString(p.getId())))
+                    // search for total cholesterol code
                     .and(new TokenClientParam("code").exactly().code("2093-3"))
                     .sort().descending(org.hl7.fhir.dstu3.model.Observation.DATE)
                     .returnBundle(Bundle.class)
@@ -435,6 +428,13 @@ public class DataRetrieval extends AbstractDataRetrieval{
             }
         // keep going to next page    
         } while (obsBundle.getLink(Bundle.LINK_NEXT) != null);
+        
+        if(output != null)
+        {
+            // store in data
+            this.choObsMap.put(Integer.toString(output.getID()), output);
+        }
+        
         return output;
     }
 }
