@@ -3,9 +3,9 @@ package xd.safeheart.model;
  * Modified Date: 25-4-2019
  */
 
-
+/* Observation class records the Patient's Cholesterol level */
 public class Observation {
-	/* Observation class records the Patient's Cholesterol level */
+	
 	private int id;
 	private String type;
 	private String unit;

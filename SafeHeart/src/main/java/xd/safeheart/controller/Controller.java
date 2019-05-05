@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * FIT3077 Assignment 2 SafeHeart
+ * Made by:
+ *	 Aik Han Ng (28947991)
+ *	 Chai Lam Loi (28136179)
  */
 package xd.safeheart.controller;
 
@@ -19,13 +20,16 @@ import javax.swing.JTextField;
 import xd.safeheart.system.DataRetrieval;
 
 /**
- *
- * @author caila
+ * Controller notifies the DataRetrieval (model) and updates the view
+ * It also listens to any user interaction on the view
+ * @author Chai Lam
+ * @author Aik Han
  */
 public class Controller {
     private final View view;  //the view
     private final DataRetrieval dR;
   
+    // Constructor
     public Controller(){
         this.view = new View();
         
@@ -34,11 +38,13 @@ public class Controller {
         dR = new DataRetrieval(serverBaseUrl);
     }
     
+    // Getter
     public DataRetrieval getDR()
     {
         return this.dR;
     }
     
+    // initialise view
     public void initView(){
         this.view.setVisible(true);
         this.view.getInitButton().addActionListener(e -> getPatientbyPracId());
@@ -46,6 +52,9 @@ public class Controller {
         this.view.start();
     }
     
+    /**
+     * Gets all Patients of a Practitioner by its id, then updates the View
+     */
     private void getPatientbyPracId()
     {
         JTextField pracIdText = this.view.getPracIdText();
@@ -69,12 +78,14 @@ public class Controller {
             display.setText("Id is empty!");
             return;
         }
+        // if data retrieval is successful
         if (this.dR.populateDataByPractitionerId(pracId))
         {
             Practitioner prac = this.dR.getPractitioner();
+            // change PracNameText to display name of practitioner
             this.view.getPracNameText().setText("Practitioner: " + prac.getFamilyName() + " " + prac.getGivenName());
             HashMap<String, Patient> patientMap = this.dR.getPatientMap();
-            ///// Reset the Model for list to show the value
+            // Reset the Model for list to show the value
             patientPane.setViewportView(selectedPatientList);
             DefaultListModel<Patient> listModel = new DefaultListModel<>();
             for (HashMap.Entry<String, Patient> entry : patientMap.entrySet()) {
@@ -82,7 +93,7 @@ public class Controller {
             }
 
             selectedPatientList.setModel(listModel);   
-            ///// Make the list become Checkbox
+            // Make the list become Checkbox
             selectedPatientList.setCellRenderer(this.view.getCheckBoxListCellRenderer());
         }
         else
@@ -91,6 +102,9 @@ public class Controller {
         }
     }
     
+    /**
+     * Gets all Observers by a patient or a set of patients selected.
+     */
     private void getObsByPatient()
     {
         System.out.println("Getting all selected Patients cholesterol");
@@ -98,6 +112,7 @@ public class Controller {
         // Clear all the data in list
         this.view.getSelectedPatient().clear();
         this.view.getSelectedOb().clear();
+        // for every selected patient
         for (Patient p : selPat)
         {
             Observation result;
@@ -123,9 +138,13 @@ public class Controller {
                 }
             }
         }
+        // update table
         this.updateDetailTable();
     }
     
+    /**
+     * Update the table by the data stored
+     */
     private void updateDetailTable()
     {
         JTable tab = this.view.getDetailTable();
@@ -134,7 +153,10 @@ public class Controller {
         tab.setModel(tableModel);
     }
     
-    public void updateCholesterol(){
+    /**
+     * Constantly updates Observations
+     */
+    public void updateObservations(){
         this.getObsByPatient();
     }
 }

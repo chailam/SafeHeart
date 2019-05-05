@@ -5,9 +5,8 @@ import java.util.ArrayList;
  * Modified Date: 25-4-2019
  */
 
-
+/* DiagnosticReport class records the Patient's Observation class */
 public class DiagnosticReport {
-	/* DiagnosticReport class records the Patient's Observation class */
 
 	private Encounter refEncounter; 
 	private int id;

@@ -3,9 +3,8 @@ package xd.safeheart.model;
  * Modified Date: 25-4-2019
  */
 
-
+/* Encounter class records the appointment for Patient and Clinician */
 public class Encounter {
-	/* Encounter class records the appointment for Patient and Clinician */
 
 	private int id;
 	private Patient patient;

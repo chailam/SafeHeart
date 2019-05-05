@@ -1,13 +1,19 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * FIT3077 Assignment 2 SafeHeart
+ * Made by:
+ *	 Aik Han Ng (28947991)
+ *	 Chai Lam Loi (28136179)
  */
 package xd.safeheart.view;
 
 import xd.safeheart.model.*;
 import java.util.ArrayList;
 
+/**
+ * User Interface of the program, by using JFrame
+ * @author Chai Lam
+ * @author Aik Han
+ */
 public class View extends javax.swing.JFrame {
 
     ///// My declaration of variable
@@ -201,6 +207,8 @@ public class View extends javax.swing.JFrame {
         TableModel tableModel = new TableModel(selectedPatient, selectedObs);
         detailTable.setModel(tableModel);
     }
+    
+    // getters of UI element
     
     public CheckBoxListCellRenderer getCheckBoxListCellRenderer()
     {

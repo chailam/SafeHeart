@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * FIT3077 Assignment 2 SafeHeart
+ * Made by:
+ *	 Aik Han Ng (28947991)
+ *	 Chai Lam Loi (28136179)
  */
 package xd.safeheart.system;
 
@@ -9,16 +10,20 @@ import java.util.HashMap;
 import xd.safeheart.model.*;
 
 
-
+/**
+ * Abstract Data Retrieval
+ * @author Chai Lam
+ * @author Aik Han
+ */
 public abstract class AbstractDataRetrieval {
-    //Interface or Abstract???
     protected HashMap <String, Patient> patientMap;
     protected HashMap <String, Observation> choObsMap;
 
     public AbstractDataRetrieval(){
         patientMap = new HashMap<>();
         choObsMap = new HashMap<>();
-}
+    }
+    // getters
     
     public HashMap <String,Patient> getPatientMap(){
         return this.patientMap;
@@ -27,7 +32,5 @@ public abstract class AbstractDataRetrieval {
     public HashMap <String, Observation> getChoObsMap(){
         return this.choObsMap;
     }
-
-   /* TODO: all the setter and getter*/
 
 }

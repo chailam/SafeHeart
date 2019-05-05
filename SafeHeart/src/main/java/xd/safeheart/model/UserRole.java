@@ -3,9 +3,9 @@ package xd.safeheart.model;
  * Modified Date: 25-4-2019
  */
 
+/* UserRole class is the parent class of Clinician and Patient. 
+ * It defines as a Role so that the Clinician also can be a Patient. */
 public class UserRole {
-	/* UserRole class is the parent class of Clinician and Patient. 
-	 * It defines as a Role so that the Clinician also can be a Patient. */
 
 	private int id;
 	private String familyName;

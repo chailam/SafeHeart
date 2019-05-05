@@ -4,9 +4,8 @@ package xd.safeheart.model;
  * Modified Date: 25-4-2019
  */
 
-
+/* Clinician class is the parent class of Practitioner */
 public class Clinician extends UserRole {
-	/* Clinician class is the parent class of Practitioner */
 
 	// Constructor
 	public Clinician(int id) {

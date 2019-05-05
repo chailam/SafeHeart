@@ -3,9 +3,10 @@ package xd.safeheart.model;
  * Modified Date: 25-4-2019
  */
 
+/* Patient class is the sub-class of UserRole. 
+ * It records the details of Patient */
 public class Patient extends UserRole {
-	/* Patient class is the sub-class of UserRole. 
-	 * It records the details of Patient */
+	
 
 	//Constructor
 		public Patient(int id) {

@@ -3,9 +3,9 @@ package xd.safeheart.model;
  * Modified Date: 25-4-2019
  */
 
+/* Practitioner class is the sub-class of Clinician. 
+ * It records the details of Practitioner */
 public class Practitioner extends Clinician {
-	/* Practitioner class is the sub-class of Clinician. 
-	 * It records the details of Practitioner */
 
 	//Constructor
 	public Practitioner(int id) {

@@ -1,28 +1,32 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * FIT3077 Assignment 2 SafeHeart
+ * Made by:
+ *	 Aik Han Ng (28947991)
+ *	 Chai Lam Loi (28136179)
  */
 package xd.safeheart.system;
 
 import xd.safeheart.controller.*;
-import java.util.ArrayList;
-import xd.safeheart.model.*;
 
 /**
- *
- * @author caila
+ * It notifies the data to update and the view to update
+ * @author Chai Lam
+ * @author Aik Han
  */
 public class CholesterolMonitor implements InterfaceMonitor {
     
     public CholesterolMonitor(){ 
     }
     
+    /**
+     * Updates all cholesterol
+     * @param c
+     */
     @Override
      public void monitorUpdate(Controller c){
          //retrieve cholesterol in DataRetrieval retrieve cholesterol function
          c.getDR().reGetObs();
-         c.updateCholesterol();
+         c.updateObservations();
      }
     
 }

@@ -1,7 +1,9 @@
 /*
-TODO: 1. You should add your FHIRManager code into here!!!!! (retrieve data from server & put it into class)
-the list of the patient is lPatient and observation is lOb
-*/
+ * FIT3077 Assignment 2 SafeHeart
+ * Made by:
+ *	 Aik Han Ng (28947991)
+ *	 Chai Lam Loi (28136179)
+ */
 package xd.safeheart.system;
 
 import xd.safeheart.model.*;
@@ -11,19 +13,22 @@ import ca.uhn.fhir.rest.gclient.TokenClientParam;
 import org.hl7.fhir.dstu3.model.*;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
 import java.util.List;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
 import org.hl7.fhir.exceptions.FHIRException;
 
+
+/**
+ * It retrieves data from the FHIR server, and stores it here in the form of model (package).
+ * @author Chai Lam
+ * @author Aik Han
+ */
 public class DataRetrieval extends AbstractDataRetrieval{
     private final String serverBaseUrl;
     private final FhirContext ctx;
@@ -56,6 +61,11 @@ public class DataRetrieval extends AbstractDataRetrieval{
         //diagMap = new HashMap<>();
     }
     
+    /**
+     * Gets all Patients of a Practitioner by its id, then store all the data
+     * @param id
+     * @return boolean to denote it has successfully retrieve data or not
+     */
     public boolean populateDataByPractitionerId(String id) {
         System.out.println("Searching for Practitioner");
         org.hl7.fhir.dstu3.model.Practitioner targetPractitioner = this.searchPractitionerById(id);
@@ -103,6 +113,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
         }
     }
     
+    /**
+     * Function done for every entry to get the encounter and the patient related, and store them
+     */
     private void insertPatientAndEncounter(Bundle.BundleEntryComponent entry)
     {
         String entryId;
@@ -238,7 +251,10 @@ public class DataRetrieval extends AbstractDataRetrieval{
 //            return null;
 //        }
 //    }
-        
+       
+    /**
+     * Simply read the Practitioner by id
+     */
     private org.hl7.fhir.dstu3.model.Practitioner searchPractitionerById(String id) {
         try {
             /* Not bundle because it's unique response
@@ -258,6 +274,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
         }
     }
     
+    /**
+     * Simply read the Encounter by id
+     */
     private org.hl7.fhir.dstu3.model.Encounter searchEncounterById(String id) {
         try {
             /* Not bundle because it's unique response
@@ -308,6 +327,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
 //        }
 //    }
     
+    /**
+     * Simply read the Observation by id
+     */
     private org.hl7.fhir.dstu3.model.Observation searchObservationById(String id) {
         try {
             /* Not bundle because it's unique response
@@ -328,6 +350,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
         }
     }
     
+    /**
+     * Creates a Practitioner based from our model, from the fhir hapi's model
+     */
     private xd.safeheart.model.Practitioner createModelPractitoner(org.hl7.fhir.dstu3.model.Practitioner prac)
     {
         // practitioner has only one name
@@ -342,6 +367,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
             );
     }
     
+    /**
+     * Creates a Patient based from our model, from the fhir hapi's model
+     */
     private xd.safeheart.model.Patient createModelPatient(org.hl7.fhir.dstu3.model.Patient pat)
     {
         org.hl7.fhir.dstu3.model.HumanName name = pat.hasName() ? this.getOfficialName(pat.getName()) : null;
@@ -355,6 +383,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
         );
     }
     
+    /**
+     * Gets the official(NameUse.OFFICIAL) HumanName out of the list
+     */
     private org.hl7.fhir.dstu3.model.HumanName getOfficialName (List<org.hl7.fhir.dstu3.model.HumanName> lname)
     {
         for (HumanName h : lname)
@@ -367,10 +398,11 @@ public class DataRetrieval extends AbstractDataRetrieval{
         return null;
     }
     
-    /*
-    Calculate age from Date
-    https://stackoverflow.com/questions/1116123/how-do-i-calculate-someones-age-in-java
-    https://stackoverflow.com/questions/21242110/convert-java-util-date-to-java-time-localdate
+    /**
+     * Calculate age from Date
+     * Sources:
+     * https://stackoverflow.com/questions/1116123/how-do-i-calculate-someones-age-in-java
+     * https://stackoverflow.com/questions/21242110/convert-java-util-date-to-java-time-localdate
     */
     private int calculateAgeFromDate(Date dobDate)
     {
@@ -381,10 +413,15 @@ public class DataRetrieval extends AbstractDataRetrieval{
         return Period.between(dobLocalDate, now).getYears();
     }
     
+    // getters
+    
     public xd.safeheart.model.Practitioner getPractitioner(){
         return this.practitioner;
     }
     
+    /**
+     * Gets only the latest "Total Cholesterol"(2093-3) Observation by Patient model
+     */
     public xd.safeheart.model.Observation getChoObsByPat(xd.safeheart.model.Patient p)
     {
         xd.safeheart.model.Observation output = null;
@@ -439,6 +476,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
         return output;
     }
 
+    /**
+     * Updates all the Observation in the hashmap
+     */
     public void reGetObs() {
         // update all observation in the hashmap
         for (HashMap.Entry<String, xd.safeheart.model.Observation> entry : this.choObsMap.entrySet()) {

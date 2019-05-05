@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * FIT3077 Assignment 2 SafeHeart
+ * Made by:
+ *	 Aik Han Ng (28947991)
+ *	 Chai Lam Loi (28136179)
  */
 package xd.safeheart.view;
 
@@ -9,6 +10,11 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 import xd.safeheart.model.*;
 
+/**
+ * It renders the Table model which determines its style, and columns
+ * @author Chai Lam
+ * @author Aik Han
+ */
 public class TableModel extends AbstractTableModel {
 
     private ArrayList <Patient> selectedP;

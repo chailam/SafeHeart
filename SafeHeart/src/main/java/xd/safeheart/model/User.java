@@ -5,9 +5,9 @@ import java.util.HashSet;
  * Modified Date: 25-4-2019
  */
 
+/* User class contains a set of User Role. 
+ * So that each User can have many roles */
 public class User {
-	/* User class contains a set of User Role. 
-	 * So that each User can have many roles */
 	
 	private HashSet <UserRole> roles = new HashSet<>(); 
 
