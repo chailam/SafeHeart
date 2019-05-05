@@ -13,6 +13,6 @@ import xd.safeheart.controller.Controller;
  */
 public interface InterfaceMonitor {
     
-    public void monitorUpdate(DataRetrieval dR, Controller c);
+    public void monitorUpdate(Controller c);
     
 }

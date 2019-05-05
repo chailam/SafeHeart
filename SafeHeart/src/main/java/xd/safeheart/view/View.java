@@ -176,9 +176,8 @@ public class View extends javax.swing.JFrame {
 //    }
     
     
-//    public void updateView(HashMap<String, Observation> o){
-//        this.choObsMap = o;
-//        getSelected();
+//    public void updateView(ArrayList <Observation> o){
+//        this.selectedObs = o;
 //        jTableInitialize();
 //    }
     

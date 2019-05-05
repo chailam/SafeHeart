@@ -18,6 +18,7 @@ import java.util.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -436,5 +437,23 @@ public class DataRetrieval extends AbstractDataRetrieval{
         }
         
         return output;
+    }
+
+    public void reGetObs() {
+        // update all observation in the hashmap
+        for (HashMap.Entry<String, xd.safeheart.model.Observation> entry : this.choObsMap.entrySet()) {
+            org.hl7.fhir.dstu3.model.Observation o = this.searchObservationById(entry.getKey());
+            try {
+                this.choObsMap.put(entry.getKey(), new xd.safeheart.model.Observation(
+                        Integer.parseInt(o.getIdElement().getIdPart()),
+                        o.getCode().getText(),
+                        o.getValueQuantity().getUnit(),
+                        entry.getValue().getPatient(),
+                        o.getValueQuantity().getValue().toString()
+                ));
+            } catch (FHIRException ex) {
+                Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 }

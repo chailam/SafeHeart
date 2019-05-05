@@ -30,9 +30,13 @@ public class Controller {
         this.view = new View();
         
         String serverBaseUrl = "http://hapi-fhir.erc.monash.edu:8080/baseDstu3/";
-        String id = "1";
         //Retrieve data from server
         dR = new DataRetrieval(serverBaseUrl);
+    }
+    
+    public DataRetrieval getDR()
+    {
+        return this.dR;
     }
     
     public void initView(){
@@ -129,9 +133,8 @@ public class Controller {
         TableModel tableModel = new TableModel(this.view.getSelectedPatient(), this.view.getSelectedOb());
         tab.setModel(tableModel);
     }
-    /////Try to update value every 1 hours here
     
-    public void updateCholesterol(HashMap <String,Observation> newchoObsMap){
-        //this.view.updateView(newchoObsMap);
+    public void updateCholesterol(){
+        this.getObsByPatient();
     }
 }

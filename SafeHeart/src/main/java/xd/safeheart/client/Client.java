@@ -5,6 +5,9 @@
  */
 package xd.safeheart.client;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import xd.safeheart.system.*;
 import xd.safeheart.controller.Controller;
 
@@ -19,7 +22,13 @@ public class Client {
         InterfaceMonitor m;
         m = new CholesterolMonitor();
         
-        /*TODO: set time loop to execute this every 1 hours*/
-        //m.monitorUpdate(dR, c);
+        //set time loop to execute this every 1 hours
+        ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
+        ses.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                 m.monitorUpdate(c);
+            }
+        }, 0, 1, TimeUnit.HOURS);
      }
 }
