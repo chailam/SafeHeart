@@ -17,8 +17,8 @@ import java.util.ArrayList;
 public class View extends javax.swing.JFrame {
 
     ///// My declaration of variable
-    private final javax.swing.JList<Patient> selectedPatientList = new javax.swing.JList<>();
-    private final javax.swing.JTable detailTable = new javax.swing.JTable();
+    private final javax.swing.JList<Patient> selectedPatientJList = new javax.swing.JList<>();
+    private final javax.swing.JTable detailJTable = new javax.swing.JTable();
     private final ArrayList <Patient> selectedPatient;
     private final ArrayList <Observation> selectedObs; 
     private final CheckBoxListCellRenderer chkBoxRenderer;
@@ -152,7 +152,7 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_showButtonActionPerformed
     
 //    private void getSelected(){
-//        List<Patient> patientList = selectedPatientList.getSelectedValuesList();
+//        List<Patient> patientList = selectedPatientJList.getSelectedValuesList();
 //        System.out.println("clicked");
 //        for (Patient p : patientList){
 //            int pID = p.getId();
@@ -190,27 +190,27 @@ public class View extends javax.swing.JFrame {
     
     // Reset the Model for list to show the value
 //    private void jListInitialize(){
-//        patientPane.setViewportView(selectedPatientList);
+//        patientPane.setViewportView(selectedPatientJList);
 //        DefaultListModel<Patient> listModel = new DefaultListModel<>();
 //        for (HashMap.Entry<String, Patient> entry : patientMap.entrySet()) {
 //            listModel.addElement(entry.getValue());
 //        }
 //
-//        selectedPatientList.setModel(listModel);   
+//        selectedPatientJList.setModel(listModel);   
 //        ///// Make the list become Checkbox
-//        selectedPatientList.setCellRenderer(new CheckBoxListCellRenderer());
+//        selectedPatientJList.setCellRenderer(new CheckBoxListCellRenderer());
 //    }
     
     ///// Reset the Model for table to show the value
     private void jTableInitialize(){
-        detailPane.setViewportView(detailTable);
+        detailPane.setViewportView(detailJTable);
         TableModel tableModel = new TableModel(selectedPatient, selectedObs);
-        detailTable.setModel(tableModel);
+        detailJTable.setModel(tableModel);
     }
     
     // getters of UI element
     
-    public CheckBoxListCellRenderer getCheckBoxListCellRenderer()
+    public CheckBoxListCellRenderer getChkBoxRenderer()
     {
         return this.chkBoxRenderer;
     }
@@ -240,9 +240,9 @@ public class View extends javax.swing.JFrame {
         return this.detailPane;
     }
     
-    public javax.swing.JTable getDetailTable()
+    public javax.swing.JTable getDetailJTable()
     {
-        return this.detailTable;
+        return this.detailJTable;
     }
     
     public javax.swing.JButton getShowButton()
@@ -255,9 +255,9 @@ public class View extends javax.swing.JFrame {
         return this.initButton;
     }
     
-    public javax.swing.JList<Patient> getSelectedPatientList()
+    public javax.swing.JList<Patient> getSelectedPatientJList()
     {
-        return this.selectedPatientList;
+        return this.selectedPatientJList;
     }
     
     public ArrayList<Patient> getSelectedPatient()
@@ -265,7 +265,7 @@ public class View extends javax.swing.JFrame {
         return this.selectedPatient;
     }
     
-    public ArrayList<Observation> getSelectedOb()
+    public ArrayList<Observation> getSelectedObs()
     {
         return this.selectedObs;
     }

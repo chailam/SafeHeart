@@ -47,7 +47,7 @@ public class Controller {
     // initialise view
     public void initView(){
         this.view.setVisible(true);
-        this.view.getInitButton().addActionListener(e -> getPatientbyPracId());
+        this.view.getInitButton().addActionListener(e -> getPatientByPracId());
         this.view.getShowButton().addActionListener(e -> getObsByPatient());
         this.view.start();
     }
@@ -55,16 +55,16 @@ public class Controller {
     /**
      * Gets all Patients of a Practitioner by its id, then updates the View
      */
-    private void getPatientbyPracId()
+    private void getPatientByPracId()
     {
         JTextField pracIdText = this.view.getPracIdText();
         JScrollPane patientPane = this.view.getPatientPane();
         JLabel display = this.view.getDisplayText();
-        JList<Patient> selectedPatientList = this.view.getSelectedPatientList();
+        JList<Patient> selectedPatientList = this.view.getSelectedPatientJList();
         display.setText("");
         // clean view
         this.view.getSelectedPatient().clear();
-        this.view.getSelectedOb().clear();
+        this.view.getSelectedObs().clear();
         this.updateDetailTable();
         // practitioner's id
         String pracId = pracIdText.getText();
@@ -94,7 +94,7 @@ public class Controller {
 
             selectedPatientList.setModel(listModel);   
             // Make the list become Checkbox
-            selectedPatientList.setCellRenderer(this.view.getCheckBoxListCellRenderer());
+            selectedPatientList.setCellRenderer(this.view.getChkBoxRenderer());
         }
         else
         {
@@ -108,10 +108,10 @@ public class Controller {
     private void getObsByPatient()
     {
         System.out.println("Getting all selected Patients cholesterol");
-        List<Patient> selPat = this.view.getSelectedPatientList().getSelectedValuesList();
+        List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
         // Clear all the data in list
         this.view.getSelectedPatient().clear();
-        this.view.getSelectedOb().clear();
+        this.view.getSelectedObs().clear();
         // for every selected patient
         for (Patient p : selPat)
         {
@@ -123,7 +123,7 @@ public class Controller {
                 {
                     result = o;
                     this.view.getSelectedPatient().add(p);
-                    this.view.getSelectedOb().add(result);
+                    this.view.getSelectedObs().add(result);
                     foundInMap = true;
                 }
             }
@@ -134,7 +134,7 @@ public class Controller {
                 if (result != null)
                 {
                     this.view.getSelectedPatient().add(p);
-                    this.view.getSelectedOb().add(result);
+                    this.view.getSelectedObs().add(result);
                 }
             }
         }
@@ -147,9 +147,9 @@ public class Controller {
      */
     private void updateDetailTable()
     {
-        JTable tab = this.view.getDetailTable();
+        JTable tab = this.view.getDetailJTable();
         this.view.getDetailPane().setViewportView(tab);
-        TableModel tableModel = new TableModel(this.view.getSelectedPatient(), this.view.getSelectedOb());
+        TableModel tableModel = new TableModel(this.view.getSelectedPatient(), this.view.getSelectedObs());
         tab.setModel(tableModel);
     }
     
