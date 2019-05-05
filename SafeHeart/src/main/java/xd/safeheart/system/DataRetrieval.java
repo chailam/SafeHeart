@@ -34,7 +34,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
     private final FhirContext ctx;
     private final IGenericClient client;
     private xd.safeheart.model.Practitioner practitioner;
-    private final HashMap<String, xd.safeheart.model.Encounter> encounterMap;
+//    private final HashMap<String, xd.safeheart.model.Encounter> encounterMap;
     //private final HashMap<String, xd.safeheart.model.DiagnosticReport> diagMap;
     
     
@@ -57,7 +57,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
         
         //practitioner = null;
         
-        encounterMap = new HashMap<>();
+        //encounterMap = new HashMap<>();
         //diagMap = new HashMap<>();
     }
     
