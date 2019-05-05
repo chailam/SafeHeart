@@ -63,8 +63,7 @@ public class Controller {
         JList<Patient> selectedPatientList = this.view.getSelectedPatientJList();
         display.setText("");
         // clean view
-        this.view.getSelectedPatient().clear();
-        this.view.getSelectedObs().clear();
+        this.view.clearSelected();
         this.updateDetailTable();
         // practitioner's id
         String pracId = pracIdText.getText();
@@ -110,8 +109,7 @@ public class Controller {
         System.out.println("Getting all selected Patients cholesterol");
         List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
         // Clear all the data in list
-        this.view.getSelectedPatient().clear();
-        this.view.getSelectedObs().clear();
+        this.view.clearSelected();
         // for every selected patient
         for (Patient p : selPat)
         {

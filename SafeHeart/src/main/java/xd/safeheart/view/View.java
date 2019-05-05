@@ -208,6 +208,13 @@ public class View extends javax.swing.JFrame {
         detailJTable.setModel(tableModel);
     }
     
+    // Clears selected patients and observations
+    public void clearSelected()
+    {
+        this.selectedPatient.clear();
+        this.selectedObs.clear();
+    }
+    
     // getters of UI element
     
     public CheckBoxListCellRenderer getChkBoxRenderer()
