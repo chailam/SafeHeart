@@ -16,8 +16,8 @@ public class LineChart extends ApplicationFrame {
    private ChartPanel chartPanel;
    private ArrayList<Ob> sysObs;
    private ArrayList<Ob> diasObs;
-   public LineChart( String chartTitle, ArrayList<Ob> sysObs, ArrayList<Ob> diasObs ) {
-      super(chartTitle);
+   public LineChart( String chartTitle, ArrayList<Ob> diasObs, ArrayList<Ob> sysObs ) {
+     super(chartTitle);
      this.sysObs = sysObs;
      this.diasObs = diasObs;
       JFreeChart lineChart = ChartFactory.createTimeSeriesChart(
@@ -28,6 +28,7 @@ public class LineChart extends ApplicationFrame {
          
       chartPanel = new ChartPanel( lineChart );
       chartPanel.setPreferredSize( new java.awt.Dimension( 100 , 100 ) );
+      setContentPane(chartPanel);
    }
    
    public ChartPanel returnchartPanel(){
@@ -51,7 +52,7 @@ public class LineChart extends ApplicationFrame {
       TimeSeries dataset2 = new TimeSeries("Diastolic");
       for (Ob o : diasObs){
       
-          dataset1.add(new Day(o.getDay(),o.getMonth(),o.getYear()),Integer.parseInt(o.getValue()));
+          dataset2.add(new Day(o.getDay(),o.getMonth(),o.getYear()),Integer.parseInt(o.getValue()));
       }
 //      dataset2.add( new Day(1, 1, 1970), 300 );
 //      dataset2.add(  new Day(1, 1, 1980), 240 );

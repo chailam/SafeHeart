@@ -7,6 +7,7 @@ package my.view;
 
 import my.model.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
 
@@ -15,17 +16,27 @@ public class simpleGUI extends javax.swing.JFrame {
     ///// My declaration of variable
     private javax.swing.JList<Person> jList1 = new javax.swing.JList<>();
     private javax.swing.JTable jTable1 = new javax.swing.JTable();
+    private javax.swing.JTable jTable2 = new javax.swing.JTable();
     private ArrayList <Person> lUser;
     private ArrayList <Ob> lOb;
+    private ArrayList <Ob> tobacOb;
+    private ArrayList <ArrayList<Ob>> diasBlood;
+    private ArrayList <ArrayList<Ob>> sysBlood;
     private ArrayList <Person> selectedPerson = new ArrayList<>(); /// The selected person and its data in checkbox
     private ArrayList <Ob> selectedObs = new ArrayList<>(); /// The selected person and its data in checkbox
+    private ArrayList <ArrayList<Ob>> selectedDiasBlood = new ArrayList<>(); /// The selected person and its data in checkbox
+    private ArrayList <ArrayList<Ob>> selectedSysBlood = new ArrayList<>(); /// The selected person and its data in checkbox
+    private ArrayList <Ob> selectedTobacOb = new ArrayList<>(); /// The selected person and its data in checkbox
     
     /**
      * Creates new form simpleGUI
      */
-    public simpleGUI(ArrayList<Person> p, ArrayList<Ob> o) {
+    public simpleGUI(ArrayList<Person> p, ArrayList<Ob> o, ArrayList <ArrayList<Ob>> diasBlood,ArrayList <ArrayList<Ob>> sysBlood,ArrayList <Ob> tobacOb) {
         this.lOb = o;
         this.lUser = p;
+        this.diasBlood = diasBlood;
+        this.sysBlood = sysBlood;
+        this.tobacOb = tobacOb;
         initComponents();  
         /////Set the text for clinician name
         jLabel2.setText("Clinician name");
@@ -139,6 +150,7 @@ public class simpleGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         getSelected();
         jTableInitialize();
+        jTable2Initialize();
     }//GEN-LAST:event_jButton1ActionPerformed
     
     private void getSelected(){
@@ -147,6 +159,11 @@ public class simpleGUI extends javax.swing.JFrame {
         ///// Clear all the data in list
         selectedPerson.clear();
         selectedObs.clear();
+        selectedDiasBlood.clear();
+        selectedSysBlood.clear();
+        selectedTobacOb.clear();
+        
+        
         
         System.out.println("Selected; ");
 
@@ -158,6 +175,31 @@ public class simpleGUI extends javax.swing.JFrame {
                     selectedObs.add(o);
                     System.out.println("Cho: "+ o.getValue() + " id: " + p.getId());
                 }     
+            }
+            
+            for (Ob o : tobacOb){
+                if(o.getPatient().getId() == pID){
+                    selectedTobacOb.add(o);
+                    System.out.println("Tobac: "+ o.getValue() + " id: " + p.getId());
+                }     
+            }
+
+            for (ArrayList<Ob> o : diasBlood){
+                if (o.size() > 0) {
+                    if(o.get(0).getPatient().getId() == pID){
+                        selectedDiasBlood.add(o);
+                        System.out.println("Dias: ");
+                    }    
+                }
+            }
+            
+             for (ArrayList<Ob> o : sysBlood){
+                 if (o.size() > 0) {
+                    if(o.get(0).getPatient().getId() == pID){
+                        selectedSysBlood.add(o);
+                        System.out.println("Sys: ");
+                    }     
+                 }
             }
         } 
     }
@@ -187,20 +229,29 @@ public class simpleGUI extends javax.swing.JFrame {
     private void jTableInitialize(){
         jScrollPane2.setViewportView(jTable1);
         //System.out.println(jTable1.getRowCount());
-        System.out.println(selectedPerson.size());
-        TableModel1 tableModel = new TableModel1(selectedPerson, selectedObs);
-        jTable1.setModel(tableModel);
+        System.out.println("selectedPerson:" + selectedPerson.size());
+        TableModel1 tableModel1 = new TableModel1(selectedPerson, selectedObs);
+        jTable1.setModel(tableModel1);
     }
 
+    private void jTable2Initialize(){
+        jScrollPane3.setViewportView(jTable2);
+        //System.out.println(jTable2.getRowCount());
+        System.out.println("selectedDiasBlood:" + selectedDiasBlood.size());
+        System.out.println("selectedSysBlood:" + selectedSysBlood.size());
+        System.out.println("selectedTobacOb:" + selectedTobacOb.size());
+        TableModel2 tableModel2 = new TableModel2(selectedDiasBlood, selectedSysBlood,selectedTobacOb);
+        jTable2.setModel(tableModel2);
+    }
+    
     private void jGraphInitialize(){
-        LineChart chart = new LineChart(
-         "Numer of Schools vs years");
+//        LineChart chart = new LineChart("",this.diasBlood,this.sysBlood);
     
 
       //chart.pack( );
       //RefineryUtilities.centerFrameOnScreen( chart );
       //chart.setVisible( true );
-      jScrollPane3.setViewportView(chart);
+//      jScrollPane3.setViewportView(chart);
     }
     
     /**

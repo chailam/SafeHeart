@@ -6,6 +6,7 @@
 package controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import my.view.simpleGUI;
 import my.model.*;
 
@@ -16,12 +17,18 @@ import my.model.*;
 public class Controller {
     private ArrayList <Person> lPerson;
     private ArrayList <Ob> lOb;
+    private ArrayList <ArrayList<Ob>> diasBlood;
+    private ArrayList <ArrayList<Ob>> sysBlood;
+    private ArrayList <Ob> tobacOb;
     private simpleGUI view;  //the view
   
-    public Controller(ArrayList <Person> lPerson, ArrayList <Ob> lOb){
+    public Controller(ArrayList <Person> lPerson, ArrayList <Ob> lOb, ArrayList <ArrayList<Ob>> diasBlood,ArrayList <ArrayList<Ob>> sysBlood, ArrayList<Ob> tobacOb){
         this.lPerson = lPerson;
         this.lOb = lOb;
-        this.view = new simpleGUI(this.lPerson,this.lOb);
+        this.diasBlood = diasBlood;
+        this.sysBlood = sysBlood;
+        this.tobacOb = tobacOb;
+        this.view = new simpleGUI(this.lPerson,this.lOb,this.diasBlood,this.sysBlood,this.tobacOb);
     }
     
     public void startView(){

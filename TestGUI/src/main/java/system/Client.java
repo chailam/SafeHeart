@@ -9,6 +9,8 @@ import client.CholesterolMonitor;
 import client.DataRetrieval;
 import client.InterfaceMonitor;
 import controller.Controller;
+import java.util.ArrayList;
+import my.model.Ob;
 
 
 public class Client {
@@ -17,8 +19,8 @@ public class Client {
         DataRetrieval dR = new DataRetrieval();
         dR.startRetrieve();
 
-        Controller c;
-        c = new Controller(dR.getPersonList(),dR.getObList());
+        Controller c;        
+        c = new Controller(dR.getPersonList(),dR.getObList(),dR.getDiasBloodObList(),dR.getSysBloodObList(),dR.getTobacObList());
         c.startView();
         
         InterfaceMonitor m;

@@ -17,17 +17,19 @@ import my.model.Person;
 
 public class TableModel2 extends AbstractTableModel {
 
-    private ArrayList <Person> selectedP;
-    private ArrayList <Ob> selectedO;
-    private String[] columnNames = { "FamilyName", "GivenName", "Age",
-                "Gender", "Cholesterol", "Unit"};
+    private ArrayList <ArrayList<Ob>> diasBlood;
+    private ArrayList <ArrayList<Ob>> sysBlood;
+    private ArrayList <Ob> tobacOb;
+    private String[] columnNames = { "FamilyName", "GivenName", "Graph",
+                "Tobacco", "Unit","Alert"};
     private int columnLength = 6;
     private int rowLength;
 
-    public TableModel2(ArrayList<Person> selectedP, ArrayList<Ob> selectedO){
-         this.selectedO = selectedO;
-         this.selectedP = selectedP;
-         this.rowLength = selectedP.size();
+    public TableModel2(ArrayList <ArrayList<Ob>> diasBlood, ArrayList <ArrayList<Ob>> sysBlood, ArrayList <Ob> tobacOb){
+         this.sysBlood = sysBlood;
+         this.diasBlood = diasBlood;
+         this.tobacOb = tobacOb;
+         this.rowLength = diasBlood.size();
     }
 
     @Override
@@ -44,24 +46,44 @@ public class TableModel2 extends AbstractTableModel {
     public int getColumnCount() {
         return columnLength; 
     }
+   
+    
+    private boolean testAlert(ArrayList<Ob>sysBlood,  ArrayList<Ob>diasBlood){
+        boolean alert = false;
+        for (Ob o : sysBlood){
+            if (Integer.parseInt(o.getValue()) > 180){
+                alert = true;
+            }
+        }
+        for (Ob o : diasBlood){
+            if (Integer.parseInt(o.getValue()) > 120){
+                alert = true;
+            }
+        }
+        return alert;
+    }
 
     @Override
     public Object getValueAt(int rowId, int columnId) {
-        Person p = selectedP.get(rowId);
-        Ob o = selectedO.get(rowId);
+        ArrayList<Ob> sysBL = sysBlood.get(rowId);
+        ArrayList<Ob> diaBL = diasBlood.get(rowId);
+        Ob o = this.tobacOb.get(rowId);
+        Person p = o.getPatient();
         switch (columnId) {
             case 0: 
                 return p.getFamilyName();
             case 1:
                 return p.getGivenName();
             case 2:
-                return p.getAge();
+                LineChart chart = new LineChart("",diaBL,sysBL);
+                chart.setVisible(true);
+                return chart;
             case 3:
-                return p.getGender();
-            case 4:
                 return o.getValue();
-            case 5:
+            case 4:
                 return o.getUnit();
+            case 5:
+                return testAlert(sysBL,diaBL);
            }
            return null;
    }
@@ -74,13 +96,13 @@ public class TableModel2 extends AbstractTableModel {
              case 1:
                return String.class;
              case 2:
-               return Integer.class;
+               return LineChart.class;
              case 3:
                return String.class;
              case 4:
                return String.class;
              case 5:
-               return String.class;
+               return Boolean.class;
              }
              return null;
       }
