@@ -286,16 +286,16 @@ public class DataRetrieval extends AbstractDataRetrieval{
     }
     
     /**
-     * Gets only the latest "Total Cholesterol"(2093-3) Observation by Patient model
+     * "2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
      */
-    public xd.safeheart.model.Observation getChoObsByPat(xd.safeheart.model.Patient p)
+    public xd.safeheart.model.Observation getObsByPat(xd.safeheart.model.Patient p, String codeStr)
     {
         xd.safeheart.model.Observation output = null;
         Bundle obsBundle = this.client.search()
                     .forResource(org.hl7.fhir.dstu3.model.Observation.class)
                     .where(org.hl7.fhir.dstu3.model.Observation.SUBJECT.hasId(Integer.toString(p.getId())))
                     // search for total cholesterol code
-                    .and(new TokenClientParam("code").exactly().code("2093-3"))
+                    .and(new TokenClientParam("code").exactly().code(codeStr))   
                     .sort().descending(org.hl7.fhir.dstu3.model.Observation.DATE)
                     .returnBundle(Bundle.class)
                     .execute();
@@ -336,45 +336,21 @@ public class DataRetrieval extends AbstractDataRetrieval{
         if(output != null)
         {
             // store in data
-            this.choObsMap.put(Integer.toString(output.getID()), output);
+            this.obsMap.put(Integer.toString(output.getID()), output);
         }
         
         return output;
     }
-
-     /**
-      * TODOOOOOOOOO
-     * Gets only the latest "Tobacco smoking status NHIS"(????) Observation by Patient model
-     */
-    public xd.safeheart.model.Observation getTobacObsByPat(xd.safeheart.model.Patient p){
-            return null;
-    }
-    
-    /**
-      * TODOOOOOOOOO
-     * Gets only the latest "Systolic Blood Pressure"(????) Observation by Patient model
-     */
-    public xd.safeheart.model.Observation getBloodSysObsByPat(xd.safeheart.model.Patient p){
-            return null;
-    }   
-    
-     /**
-      * TODOOOOOOOOO
-     * Gets only the latest "Diastolic Blood Pressure"(????) Observation by Patient model
-     */
-    public xd.safeheart.model.Observation getBloodDiasObsByPat(xd.safeheart.model.Patient p){
-            return null;
-    } 
             
     /**
      * Updates all the Observation in the hashmap
      */
     public void reGetObs() {
         // update all observation in the hashmap
-        for (HashMap.Entry<String, xd.safeheart.model.Observation> entry : this.choObsMap.entrySet()) {
+        for (HashMap.Entry<String, xd.safeheart.model.Observation> entry : this.obsMap.entrySet()) {
             org.hl7.fhir.dstu3.model.Observation o = this.searchObservationById(entry.getKey());
             try {
-                this.choObsMap.put(entry.getKey(), new xd.safeheart.model.Observation(
+                this.obsMap.put(entry.getKey(), new xd.safeheart.model.Observation(
                         Integer.parseInt(o.getIdElement().getIdPart()),
                         o.getCode().getText(),
                         o.getValueQuantity().getUnit(),

@@ -17,19 +17,13 @@ import xd.safeheart.model.*;
  */
 public abstract class AbstractDataRetrieval {
     protected HashMap <String, Patient> patientMap;
-    protected HashMap <String, Observation> choObsMap;
-    protected HashMap <String, Observation> bloodDiasMap;
-    protected HashMap <String, Observation> bloodSysMap;
-    protected HashMap <String, Observation> tobacMap;
+    protected HashMap <String, Observation> obsMap;
     protected HashMap <String, Encounter> encounterMap;
     
 
     public AbstractDataRetrieval(){
         patientMap = new HashMap<>();
-        choObsMap = new HashMap<>();
-        bloodDiasMap = new HashMap<>();
-        bloodSysMap = new HashMap<>();
-        tobacMap = new HashMap<>();
+        obsMap = new HashMap<>();
         encounterMap = new HashMap<>();
     }
     // getters
@@ -38,20 +32,7 @@ public abstract class AbstractDataRetrieval {
         return this.patientMap;
     }
     
-    public HashMap <String, Observation> getChoObsMap(){
-        return this.choObsMap;
+    public HashMap <String, Observation> getObsMap(){
+        return this.obsMap;
     }
-    
-    public HashMap <String, Observation> getBloodDiasMap(){
-        return this.bloodDiasMap;
-    }
-    
-    public HashMap <String, Observation> getBloodSysMap(){
-        return this.bloodSysMap;
-    }
-    
-    public HashMap <String, Observation> getTobacMap(){
-        return this.tobacMap;
-    }
-
 }

@@ -106,56 +106,67 @@ public class Controller {
      */
     private void getObsByPatient()
     {
+        //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
         System.out.println("Getting all Observations for selected Patients");
         List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
         // Clear all the data in list
         this.view.clearSelected();
-        // for every selected patient
         for (Patient p : selPat)
         {
-            Observation result;
-            // search for Cholesterol Data in our program
             boolean foundInMap = false;
-            for (Observation o : this.dR.getChoObsMap().values()) {
-                if (o.getPatient().equals(p))
+            Observation result;
+            
+            for (Observation o : this.dR.getObsMap().values()) {
+                result = o;
+                // search for Cholesterol Data in our program
+                if (o.getPatient().equals(p) && o.getType().equals("Total Cholesterol"))
                 {
-                    result = o;
                     this.view.getSelectedChoObs().add(result);
+                    foundInMap = true;
+                } else if (o.getPatient().equals(p) && o.getType().equals("Diastolic Blood Pressure"))  // search for Diastolic Blood Pressure Data in our program
+                {
+                    this.view.getSelectedBloodDiasObs().add(result);
+                    foundInMap = true;
+                } else if (o.getPatient().equals(p) && o.getType().equals("Systolic Blood Pressure")) // search for Systolic Blood Pressure Data in our program
+                {
+                    this.view.getSelectedBloodSysObs().add(result);
+                    foundInMap = true;
+                } else if (o.getPatient().equals(p) && o.getType().equals("Tobacco smoking status NHIS")) // search for Tobacco smoking status NHIS Data in our program
+                {
+                    this.view.getSelectedTobacObs().add(result);
                     foundInMap = true;
                 }
             }
             // not found in program, get from server
+            //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
             if(!foundInMap)
             {
-                result = this.dR.getChoObsByPat(p);
+                result = this.dR.getObsByPat(p,"2093-3");
                 if (result != null)
                 {
                     this.view.getSelectedChoObs().add(result);
-                }
-            }
-            // search for Tobacco Data in our program
-            foundInMap = false;
-            for (Observation o : this.dR.getTobacObsMap().values()) {
-                if (o.getPatient().equals(p))
-                {
-                    result = o;
-                    this.view.getSelectedChoObs().add(result);
-                    foundInMap = true;
-                }
-            }
-            // not found in program, get from server
-            if(!foundInMap)
-            {
-                result = this.dR.getChoObsByPat(p);
-                if (result != null)
-                {
-                    this.view.getSelectedChoObs().add(result);
-                }
+                } 
+//                result = this.dR.getObsByPat(p,"8462-4");
+//                if (result != null)
+//                {
+//                    this.view.getSelectedBloodDiasObs().add(result);
+//                }
+//                result = this.dR.getObsByPat(p,"8480-6");
+//                if (result != null)
+//                {
+//                    this.view.getSelectedBloodSysObs().add(result);
+//                }
+//                result = this.dR.getObsByPat(p,"72166-2");
+//                if (result != null)
+//                {
+//                    this.view.getSelectedTobacObs().add(result);
+//                }
             }
         }
         // update table
         this.updateDetailTable();
     }
+
     
     /**
      * Update the table by the data stored

@@ -1,4 +1,7 @@
 package xd.safeheart.model;
+
+import java.time.LocalDate;
+
 /* Created by: Loi Chai Lam
  * Modified Date: 25-4-2019
  */
@@ -11,6 +14,7 @@ public class Observation {
 	private String unit;
 	private Patient patient; // the observation of Patient
 	private String value;
+        private LocalDate date;
 	
 	//Constructor
 	public Observation(int id){
@@ -23,6 +27,15 @@ public class Observation {
                 this.unit = unit;
                 this.value = value;
                 this.type = type;
+	}
+        
+        public Observation(int id, String type, String unit, Patient patient, String value, LocalDate date){
+		this.id = id;
+                this.patient = patient;
+                this.unit = unit;
+                this.value = value;
+                this.type = type;
+                this.date = date;
 	}
 	
 	
@@ -47,6 +60,19 @@ public class Observation {
 		return this.value;
 	}
 	
+                public LocalDate getDate() {
+		return this.date;
+	}
+        public int getDay() {
+		return this.date.getDayOfMonth();
+	}
+        public int getMonth() {
+		return this.date.getMonthValue();
+	}
+        
+        public int getYear() {
+		return this.date.getYear();
+	}
 	
 	/* The setter method for private variable: type, unit, patient, value */
 	public void setType(String type) {
@@ -65,4 +91,7 @@ public class Observation {
 		this.unit = unit;
 	}
 	
+         public void setDDate(LocalDate date) {
+		this.date = date;
+	}
 }

@@ -5,13 +5,17 @@
  */
 package client;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import my.model.*;
 
 public class DataRetrieval extends AbstractDataRetrieval{
 
     private Person person;
     private Ob ob;
+    private ArrayList <Ob> diasBloodMap = new ArrayList<>();
+    private ArrayList <Ob> sysBloodMap= new ArrayList<>();
     
     public DataRetrieval(){
     //Constructor
@@ -30,6 +34,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
         this.lOb.add(this.ob);
         this.ob = new Ob(101,"Tobacco smoking status NHIS", "mg/L", this.person, "1Tob");
         this.lOb.add(this.ob);
+        
         
         this.person = new Person(2, "familyName2", "GivenName2", 2, "M" );
         this.lPerson.add(this.person);
@@ -65,6 +70,53 @@ public class DataRetrieval extends AbstractDataRetrieval{
         this.lOb.add(this.ob);
         this.ob = new Ob(106,"Tobacco smoking status NHIS", "mg/L", this.person, "6Tob");
         this.lOb.add(this.ob);
+        
+        
+        // List of BloodPressure for same patient
+        this.ob = new Ob(101,"Diastolic Blood Pressure", "mg/L", this.person, "100",LocalDate.of(2014, 2, 14));
+         diasBloodMap.add(this.ob);
+        this.ob = new Ob(101,"Diastolic Blood Pressure", "mg/L", this.person, "110",LocalDate.of(2014, 3, 14));
+         diasBloodMap.add(this.ob);
+        this.ob = new Ob(101,"Diastolic Blood Pressure", "mg/L", this.person, "150",LocalDate.of(2014, 4, 14));
+         diasBloodMap.add(this.ob);
+        this.ob = new Ob(101,"Diastolic Blood Pressure", "mg/L", this.person, "90",LocalDate.of(2014, 5, 14));
+         diasBloodMap.add(this.ob);
+        this.ob = new Ob(101,"Diastolic Blood Pressure", "mg/L", this.person, "80",LocalDate.of(2014, 6, 14));
+        diasBloodMap.add(this.ob);
+        
+        this.ob = new Ob(101,"Systolic Blood Pressure", "mg/L", this.person, "100",LocalDate.of(2014, 2, 14));
+         sysBloodMap.add(this.ob);
+        this.ob = new Ob(101,"Systolic Blood Pressure", "mg/L", this.person, "110",LocalDate.of(2014, 3, 14));
+         sysBloodMap.add(this.ob);
+        this.ob = new Ob(101,"Systolic Blood Pressure", "mg/L", this.person, "150",LocalDate.of(2014, 4, 14));
+        sysBloodMap.add(this.ob);
+        this.ob = new Ob(101,"Systolic Blood Pressure", "mg/L", this.person, "90", LocalDate.of(2014, 5, 14));
+         sysBloodMap.add(this.ob);
+        this.ob = new Ob(101,"Systolic Blood Pressure", "mg/L", this.person, "80",LocalDate.of(2014, 6, 14));
+        sysBloodMap.add(this.ob);
+        
+        // List of BloodPressure for same patient
+        this.ob = new Ob(103,"Diastolic Blood Pressure", "mg/L", this.person, "100",LocalDate.of(2014, 2, 14));
+         diasBloodMap.add(this.ob);
+        this.ob = new Ob(103,"Diastolic Blood Pressure", "mg/L", this.person, "110",LocalDate.of(2014, 3, 14));
+         diasBloodMap.add(this.ob);
+        this.ob = new Ob(103,"Diastolic Blood Pressure", "mg/L", this.person, "150",LocalDate.of(2014, 4, 14));
+         diasBloodMap.add(this.ob);
+        this.ob = new Ob(103,"Diastolic Blood Pressure", "mg/L", this.person, "90",LocalDate.of(2014, 5, 14));
+         diasBloodMap.add(this.ob);
+        this.ob = new Ob(103,"Diastolic Blood Pressure", "mg/L", this.person, "80",LocalDate.of(2014, 6, 14));
+        diasBloodMap.add(this.ob);
+        
+        this.ob = new Ob(103,"Systolic Blood Pressure", "mg/L", this.person, "100",LocalDate.of(2014, 2, 14));
+         sysBloodMap.add(this.ob);
+        this.ob = new Ob(103,"Systolic Blood Pressure", "mg/L", this.person, "110",LocalDate.of(2014, 3, 14));
+         sysBloodMap.add(this.ob);
+        this.ob = new Ob(103,"Systolic Blood Pressure", "mg/L", this.person, "150",LocalDate.of(2014, 4, 14));
+        sysBloodMap.add(this.ob);
+        this.ob = new Ob(103,"Systolic Blood Pressure", "mg/L", this.person, "90", LocalDate.of(2014, 5, 14));
+         sysBloodMap.add(this.ob);
+        this.ob = new Ob(103,"Systolic Blood Pressure", "mg/L", this.person, "80",LocalDate.of(2014, 6, 14));
+        sysBloodMap.add(this.ob);
     }
  
     public ArrayList <Ob> reGetObs(){

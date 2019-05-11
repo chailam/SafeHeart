@@ -9,7 +9,6 @@ import my.model.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import org.jfree.ui.RefineryUtilities;
 
 public class simpleGUI extends javax.swing.JFrame {
 
@@ -194,14 +193,14 @@ public class simpleGUI extends javax.swing.JFrame {
     }
 
     private void jGraphInitialize(){
-        LineChart_AWT chart = new LineChart_AWT(
+        LineChart chart = new LineChart(
          "Numer of Schools vs years");
     
 
       //chart.pack( );
       //RefineryUtilities.centerFrameOnScreen( chart );
       //chart.setVisible( true );
-      jScrollPane3.setViewportView(chart.returnchartPanel());
+      jScrollPane3.setViewportView(chart);
     }
     
     /**
