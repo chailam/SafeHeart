@@ -86,10 +86,10 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="detailPane" min="-2" pref="464" max="-2" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="patientPane" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="detailPane" min="-2" pref="207" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="patientPane" min="-2" pref="421" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="showButton" min="-2" max="-2" attributes="0"/>
                       </Group>
