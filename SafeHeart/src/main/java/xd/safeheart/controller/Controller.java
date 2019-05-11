@@ -106,7 +106,7 @@ public class Controller {
      */
     private void getObsByPatient()
     {
-        System.out.println("Getting all selected Patients cholesterol");
+        System.out.println("Getting all Observations for selected Patients");
         List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
         // Clear all the data in list
         this.view.clearSelected();
@@ -114,14 +114,13 @@ public class Controller {
         for (Patient p : selPat)
         {
             Observation result;
-            // search for data in our program
+            // search for Cholesterol Data in our program
             boolean foundInMap = false;
             for (Observation o : this.dR.getChoObsMap().values()) {
                 if (o.getPatient().equals(p))
                 {
                     result = o;
-                    this.view.getSelectedPatient().add(p);
-                    this.view.getSelectedObs().add(result);
+                    this.view.getSelectedChoObs().add(result);
                     foundInMap = true;
                 }
             }
@@ -131,8 +130,7 @@ public class Controller {
                 result = this.dR.getChoObsByPat(p);
                 if (result != null)
                 {
-                    this.view.getSelectedPatient().add(p);
-                    this.view.getSelectedObs().add(result);
+                    this.view.getSelectedChoObs().add(result);
                 }
             }
         }
@@ -147,7 +145,7 @@ public class Controller {
     {
         JTable tab = this.view.getDetailJTable();
         this.view.getDetailPane().setViewportView(tab);
-        TableModel tableModel = new TableModel(this.view.getSelectedPatient(), this.view.getSelectedObs());
+        TableModel tableModel = new TableModel(this.view.getSelectedChoObs());
         tab.setModel(tableModel);
     }
     

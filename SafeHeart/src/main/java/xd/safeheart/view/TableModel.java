@@ -17,17 +17,15 @@ import xd.safeheart.model.*;
  */
 public class TableModel extends AbstractTableModel {
 
-    private ArrayList <Patient> selectedP;
     private ArrayList <Observation> selectedO;
     private String[] columnNames = { "FamilyName", "GivenName", "Age",
                 "Gender", "Cholesterol", "Unit"};
     private int columnLength = 6;
     private int rowLength;
 
-    public TableModel(ArrayList<Patient> selectedP, ArrayList<Observation> selectedO){
+    public TableModel(ArrayList<Observation> selectedO){
          this.selectedO = selectedO;
-         this.selectedP = selectedP;
-         this.rowLength = selectedP.size();
+         this.rowLength = selectedO.size();
     }
 
     @Override
@@ -47,17 +45,17 @@ public class TableModel extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowId, int columnId) {
-        Patient p = selectedP.get(rowId);
+        //Patient p = selectedP.get(rowId);
         Observation o = selectedO.get(rowId);
         switch (columnId) {
             case 0: 
-                return p.getFamilyName();
+                return o.getPatient().getFamilyName();
             case 1:
-                return p.getGivenName();
+                return o.getPatient().getGivenName();
             case 2:
-                return p.getAge();
+                return o.getPatient().getAge();
             case 3:
-                return p.getGender();
+                return o.getPatient().getGender();
             case 4:
                 return o.getValue();
             case 5:

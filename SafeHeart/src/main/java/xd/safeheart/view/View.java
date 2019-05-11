@@ -19,16 +19,20 @@ public class View extends javax.swing.JFrame {
     ///// My declaration of variable
     private final javax.swing.JList<Patient> selectedPatientJList = new javax.swing.JList<>();
     private final javax.swing.JTable detailJTable = new javax.swing.JTable();
-    private final ArrayList <Patient> selectedPatient;
-    private final ArrayList <Observation> selectedObs; 
+    private final ArrayList <Observation> selectedChoObs;  //Cholesterol 
+    private final ArrayList <Observation> selectedBloodSysObs; //Systolic Blood Pressure
+    private final ArrayList <Observation> selectedBloodDiasObs;  //Diastolic Blood Pressure
+    private final ArrayList <Observation> selectedTobacObs; //Tobacco
     private final CheckBoxListCellRenderer chkBoxRenderer;
     
     /**
      * Creates new form simpleGUI
      */
     public View() {
-        this.selectedObs = new ArrayList<>();
-        this.selectedPatient = new ArrayList<>();
+        this.selectedChoObs = new ArrayList<>();
+        this.selectedBloodSysObs = new ArrayList<>();
+        this.selectedBloodDiasObs = new ArrayList<>();
+        this.selectedTobacObs = new ArrayList<>();
         this.chkBoxRenderer = new CheckBoxListCellRenderer();
         initComponents();  
         /////Set the text for clinician name
@@ -167,7 +171,7 @@ public class View extends javax.swing.JFrame {
 //
 //        ///// Clear all the data in list
 //        selectedPatient.clear();
-//        selectedObs.clear();
+//        selectedChoObs.clear();
 //
 //        for (Patient p : patientList){
 //            int pID = p.getId();
@@ -176,7 +180,7 @@ public class View extends javax.swing.JFrame {
 //                        System.out.println(entry.getValue());
 //                        System.out.println(pID);
 //                        selectedPatient.add(p);
-//                        selectedObs.add(entry.getValue());
+//                        selectedChoObs.add(entry.getValue());
 //                    }
 //                }
 //        } 
@@ -184,7 +188,7 @@ public class View extends javax.swing.JFrame {
     
     
 //    public void updateView(ArrayList <Observation> o){
-//        this.selectedObs = o;
+//        this.selectedChoObs = o;
 //        jTableInitialize();
 //    }
     
@@ -205,15 +209,14 @@ public class View extends javax.swing.JFrame {
     ///// Reset the Model for table to show the value
     private void jTableInitialize(){
         detailPane.setViewportView(detailJTable);
-        TableModel tableModel = new TableModel(selectedPatient, selectedObs);
+        TableModel tableModel = new TableModel( selectedChoObs);
         detailJTable.setModel(tableModel);
     }
     
     // Clears selected patients and observations
     public void clearSelected()
     {
-        this.selectedPatient.clear();
-        this.selectedObs.clear();
+        this.selectedChoObs.clear();
     }
     
     // getters of UI element
@@ -268,14 +271,24 @@ public class View extends javax.swing.JFrame {
         return this.selectedPatientJList;
     }
     
-    public ArrayList<Patient> getSelectedPatient()
+    public ArrayList<Observation> getSelectedChoObs()
     {
-        return this.selectedPatient;
+        return this.selectedChoObs;
     }
     
-    public ArrayList<Observation> getSelectedObs()
+    public ArrayList<Observation> getSelectedBloodSysObs()
     {
-        return this.selectedObs;
+        return this.selectedBloodSysObs;
+    }
+    
+    public ArrayList<Observation> getSelectedBloodDiasObs()
+    {
+        return this.selectedBloodDiasObs;
+    }
+    
+    public ArrayList<Observation> getSelectedTobacObs()
+    {
+        return this.selectedTobacObs;
     }
     
     /**
