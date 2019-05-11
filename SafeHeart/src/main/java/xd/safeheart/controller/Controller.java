@@ -133,6 +133,25 @@ public class Controller {
                     this.view.getSelectedChoObs().add(result);
                 }
             }
+            // search for Tobacco Data in our program
+            foundInMap = false;
+            for (Observation o : this.dR.getTobacObsMap().values()) {
+                if (o.getPatient().equals(p))
+                {
+                    result = o;
+                    this.view.getSelectedChoObs().add(result);
+                    foundInMap = true;
+                }
+            }
+            // not found in program, get from server
+            if(!foundInMap)
+            {
+                result = this.dR.getChoObsByPat(p);
+                if (result != null)
+                {
+                    this.view.getSelectedChoObs().add(result);
+                }
+            }
         }
         // update table
         this.updateDetailTable();
