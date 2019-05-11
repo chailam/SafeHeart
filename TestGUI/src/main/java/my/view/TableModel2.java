@@ -69,15 +69,18 @@ public class TableModel2 extends AbstractTableModel {
         ArrayList<Ob> diaBL = diasBlood.get(rowId);
         Ob o = this.tobacOb.get(rowId);
         Person p = o.getPatient();
+        LineChart chart = new LineChart(p.getId()+p.getFamilyName()+p.getGivenName(),diaBL,sysBL);
+        chart.setSize(800, 400);
+        chart.setVisible(true);
         switch (columnId) {
             case 0: 
                 return p.getFamilyName();
             case 1:
                 return p.getGivenName();
             case 2:
-                LineChart chart = new LineChart("",diaBL,sysBL);
-                chart.setVisible(true);
-                return chart;
+//                LineChart chart = new LineChart(p.getId()+p.getFamilyName()+p.getGivenName(),diaBL,sysBL);
+//                chart.setVisible(true);
+                return "aa";
             case 3:
                 return o.getValue();
             case 4:

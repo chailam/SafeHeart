@@ -16,6 +16,7 @@ public class LineChart extends ApplicationFrame {
    private ChartPanel chartPanel;
    private ArrayList<Ob> sysObs;
    private ArrayList<Ob> diasObs;
+   
    public LineChart( String chartTitle, ArrayList<Ob> diasObs, ArrayList<Ob> sysObs ) {
      super(chartTitle);
      this.sysObs = sysObs;
@@ -27,7 +28,7 @@ public class LineChart extends ApplicationFrame {
          true,true,false);
          
       chartPanel = new ChartPanel( lineChart );
-      chartPanel.setPreferredSize( new java.awt.Dimension( 100 , 100 ) );
+      chartPanel.setPreferredSize( new java.awt.Dimension( 500 , 500 ) );
       setContentPane(chartPanel);
    }
    
