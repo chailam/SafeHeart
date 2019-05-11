@@ -4,20 +4,20 @@ import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.XYDataset;
 
 public class LineChart_AWT extends ApplicationFrame {
 
     private ChartPanel chartPanel;
    public LineChart_AWT( String chartTitle ) {
       super(chartTitle);
-      JFreeChart lineChart = ChartFactory.createLineChart(
+      JFreeChart lineChart = ChartFactory.createTimeSeriesChart(
          chartTitle,
          "Years","Number of Schools",
          createDataset(),
-         PlotOrientation.VERTICAL,
          true,true,false);
          
       chartPanel = new ChartPanel( lineChart );
@@ -29,14 +29,26 @@ public class LineChart_AWT extends ApplicationFrame {
        return this.chartPanel;
    }
 
-   private DefaultCategoryDataset createDataset( ) {
-      DefaultCategoryDataset dataset = new DefaultCategoryDataset( );
-      dataset.addValue( 15 , "schools" , "1970" );
-      dataset.addValue( 30 , "schools" , "1980" );
-      dataset.addValue( 60 , "schools" ,  "1990" );
-      dataset.addValue( 120 , "schools" , "2000" );
-      dataset.addValue( 240 , "schools" , "2010" );
-      dataset.addValue( 300 , "schools" , "2014" );
+   private XYDataset createDataset( ) {
+      TimeSeriesCollection dataset = new TimeSeriesCollection();
+      TimeSeries dataset1 = new TimeSeries("Systolic");
+      dataset1.add( new Day(1, 1, 1970), 15 );
+      dataset1.add( new Day(1, 1, 1980), 30 );
+      dataset1.add( new Day(1, 1, 1990), 60  );
+      dataset1.add( new Day(1, 1, 2000),120  );
+      dataset1.add( new Day(1, 1, 2010),240);
+      dataset1.add( new Day(1, 1, 2020),300 );
+      
+      TimeSeries dataset2 = new TimeSeries("Diastolic");
+      dataset2.add( new Day(1, 1, 1970), 300 );
+      dataset2.add(  new Day(1, 1, 1980), 240 );
+      dataset2.add( new Day(1, 1, 1990), 120  );
+      dataset2.add( new Day(1, 1, 2000),60  );
+      dataset2.add( new Day(1, 1, 2010),30);
+      dataset2.add( new Day(1, 1, 2020),15 );
+      
+      dataset.addSeries(dataset2);
+      dataset.addSeries(dataset1);
       return dataset;
    }
    
