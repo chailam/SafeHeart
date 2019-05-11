@@ -4,7 +4,7 @@ apply plugin: 'application'
 
     group = 'xd'
 
-mainClassName = 'xd.safeheart.client.Client'
+mainClassName = 'system.Client'
 
 repositories {
 	jcenter()

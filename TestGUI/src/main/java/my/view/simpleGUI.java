@@ -9,6 +9,7 @@ import my.model.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import org.jfree.ui.RefineryUtilities;
 
 public class simpleGUI extends javax.swing.JFrame {
 
@@ -31,6 +32,7 @@ public class simpleGUI extends javax.swing.JFrame {
         jLabel2.setText("Clinician name");
         ///// Insert the manual code
         jListInitialize();
+        jGraphInitialize();
         start();
     }
 
@@ -47,6 +49,7 @@ public class simpleGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -65,6 +68,7 @@ public class simpleGUI extends javax.swing.JFrame {
         jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jScrollPane3, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -76,7 +80,9 @@ public class simpleGUI extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3))
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
@@ -84,11 +90,14 @@ public class simpleGUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane3)))
                 .addContainerGap())
         );
 
@@ -180,10 +189,20 @@ public class simpleGUI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
         //System.out.println(jTable1.getRowCount());
         System.out.println(selectedPerson.size());
-        TableModel tableModel = new TableModel(selectedPerson, selectedObs);
+        TableModel1 tableModel = new TableModel1(selectedPerson, selectedObs);
         jTable1.setModel(tableModel);
     }
 
+    private void jGraphInitialize(){
+        LineChart_AWT chart = new LineChart_AWT(
+         "Numer of Schools vs years");
+    
+
+      //chart.pack( );
+      //RefineryUtilities.centerFrameOnScreen( chart );
+      //chart.setVisible( true );
+      jScrollPane3.setViewportView(chart.returnchartPanel());
+    }
     
     /**
      * @param args the command line arguments
@@ -227,6 +246,7 @@ public class simpleGUI extends javax.swing.JFrame {
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
    
 }

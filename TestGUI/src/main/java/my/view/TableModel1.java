@@ -10,7 +10,7 @@ import javax.swing.table.AbstractTableModel;
 import my.model.Ob;
 import my.model.Person;
 
-public class TableModel extends AbstractTableModel {
+public class TableModel1 extends AbstractTableModel {
 
     private ArrayList <Person> selectedP;
     private ArrayList <Ob> selectedO;
@@ -19,7 +19,7 @@ public class TableModel extends AbstractTableModel {
     private int columnLength = 6;
     private int rowLength;
 
-    public TableModel(ArrayList<Person> selectedP, ArrayList<Ob> selectedO){
+    public TableModel1(ArrayList<Person> selectedP, ArrayList<Ob> selectedO){
          this.selectedO = selectedO;
          this.selectedP = selectedP;
          this.rowLength = selectedP.size();
