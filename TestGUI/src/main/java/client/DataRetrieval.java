@@ -118,7 +118,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
         
         // List of BloodPressure for same patient
         diasBlood = new ArrayList<>();
-        this.ob = new Ob(103,"Diastolic Blood Pressure", "mg/L", this.person, "100",LocalDate.of(2014, 2, 14));
+        this.ob = new Ob(103,"Diastolic Blood Pressure", "mg/L", this.person, "300",LocalDate.of(2014, 2, 14));
          diasBlood.add(this.ob);
         this.ob = new Ob(103,"Diastolic Blood Pressure", "mg/L", this.person, "110",LocalDate.of(2014, 3, 14));
          diasBlood.add(this.ob);

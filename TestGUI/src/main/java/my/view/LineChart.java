@@ -1,17 +1,17 @@
 package my.view;
 
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import my.model.Ob;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-import org.jfree.ui.ApplicationFrame;
 import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 
-public class LineChart extends ApplicationFrame {
+public class LineChart extends JFrame {
 
    private ChartPanel chartPanel;
    private ArrayList<Ob> sysObs;

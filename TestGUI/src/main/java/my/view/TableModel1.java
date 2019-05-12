@@ -12,17 +12,15 @@ import my.model.Person;
 
 public class TableModel1 extends AbstractTableModel {
 
-    private ArrayList <Person> selectedP;
     private ArrayList <Ob> selectedO;
     private String[] columnNames = { "FamilyName", "GivenName", "Age",
                 "Gender", "Cholesterol", "Unit"};
     private int columnLength = 6;
     private int rowLength;
 
-    public TableModel1(ArrayList<Person> selectedP, ArrayList<Ob> selectedO){
+    public TableModel1(ArrayList<Ob> selectedO){
          this.selectedO = selectedO;
-         this.selectedP = selectedP;
-         this.rowLength = selectedP.size();
+         this.rowLength = selectedO.size();
     }
 
     @Override
@@ -42,7 +40,7 @@ public class TableModel1 extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowId, int columnId) {
-        Person p = selectedP.get(rowId);
+        Person p = selectedO.get(rowId).getPatient();
         Ob o = selectedO.get(rowId);
         switch (columnId) {
             case 0: 

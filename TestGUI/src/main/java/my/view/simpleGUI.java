@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import javax.swing.table.TableColumn;
+import org.jfree.chart.title.TextTitle;
 
 public class simpleGUI extends javax.swing.JFrame {
 
@@ -22,11 +24,11 @@ public class simpleGUI extends javax.swing.JFrame {
     private ArrayList <Ob> tobacOb;
     private ArrayList <ArrayList<Ob>> diasBlood;
     private ArrayList <ArrayList<Ob>> sysBlood;
-    private ArrayList <Person> selectedPerson = new ArrayList<>(); /// The selected person and its data in checkbox
     private ArrayList <Ob> selectedObs = new ArrayList<>(); /// The selected person and its data in checkbox
     private ArrayList <ArrayList<Ob>> selectedDiasBlood = new ArrayList<>(); /// The selected person and its data in checkbox
     private ArrayList <ArrayList<Ob>> selectedSysBlood = new ArrayList<>(); /// The selected person and its data in checkbox
     private ArrayList <Ob> selectedTobacOb = new ArrayList<>(); /// The selected person and its data in checkbox
+    private String alert = "";
     
     /**
      * Creates new form simpleGUI
@@ -60,6 +62,8 @@ public class simpleGUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jButton1 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -75,10 +79,14 @@ public class simpleGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setText("Alert for Selected Patient (systolic > 180 and diastolic > 120 ): ");
+
         jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jScrollPane3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -90,25 +98,31 @@ public class simpleGUI extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3))
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel3)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2))
+                    .addComponent(jLabel4))
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1))
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane3)))
-                .addContainerGap())
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(26, 26, 26))
         );
 
         jLabel1.setText("Hi !");
@@ -151,13 +165,14 @@ public class simpleGUI extends javax.swing.JFrame {
         getSelected();
         jTableInitialize();
         jTable2Initialize();
+        jGraphInitialize();
+        bloodPressureAlert();
     }//GEN-LAST:event_jButton1ActionPerformed
     
     private void getSelected(){
         int[] indices = jList1.getSelectedIndices();
         List<Person> personList = jList1.getSelectedValuesList();
         ///// Clear all the data in list
-        selectedPerson.clear();
         selectedObs.clear();
         selectedDiasBlood.clear();
         selectedSysBlood.clear();
@@ -171,7 +186,6 @@ public class simpleGUI extends javax.swing.JFrame {
             int pID = p.getId();
             for (Ob o : lOb){
                 if(o.getPatient().getId() == pID){
-                    selectedPerson.add(p);
                     selectedObs.add(o);
                     System.out.println("Cho: "+ o.getValue() + " id: " + p.getId());
                 }     
@@ -188,7 +202,7 @@ public class simpleGUI extends javax.swing.JFrame {
                 if (o.size() > 0) {
                     if(o.get(0).getPatient().getId() == pID){
                         selectedDiasBlood.add(o);
-                        System.out.println("Dias: ");
+                        System.out.println("Dias: "+o.get(0).getPatient().getId());
                     }    
                 }
             }
@@ -197,7 +211,7 @@ public class simpleGUI extends javax.swing.JFrame {
                  if (o.size() > 0) {
                     if(o.get(0).getPatient().getId() == pID){
                         selectedSysBlood.add(o);
-                        System.out.println("Sys: ");
+                        System.out.println("Sys: "+o.get(0).getPatient().getId());
                     }     
                  }
             }
@@ -229,29 +243,41 @@ public class simpleGUI extends javax.swing.JFrame {
     private void jTableInitialize(){
         jScrollPane2.setViewportView(jTable1);
         //System.out.println(jTable1.getRowCount());
-        System.out.println("selectedPerson:" + selectedPerson.size());
-        TableModel1 tableModel1 = new TableModel1(selectedPerson, selectedObs);
+        TableModel1 tableModel1 = new TableModel1(selectedObs);
         jTable1.setModel(tableModel1);
     }
 
     private void jTable2Initialize(){
         jScrollPane3.setViewportView(jTable2);
-        //System.out.println(jTable2.getRowCount());
-        System.out.println("selectedDiasBlood:" + selectedDiasBlood.size());
-        System.out.println("selectedSysBlood:" + selectedSysBlood.size());
-        System.out.println("selectedTobacOb:" + selectedTobacOb.size());
-        TableModel2 tableModel2 = new TableModel2(selectedDiasBlood, selectedSysBlood,selectedTobacOb);
+        TableModel2 tableModel2 = new TableModel2(selectedTobacOb);
         jTable2.setModel(tableModel2);
+
     }
     
     private void jGraphInitialize(){
-//        LineChart chart = new LineChart("",this.diasBlood,this.sysBlood);
+        for (int i = 0; i < this.selectedDiasBlood.size(); i++){
+            ArrayList<Ob> sysBL = selectedSysBlood.get(i);
+            ArrayList<Ob> diaBL = selectedDiasBlood.get(i);
+            Person p = sysBL.get(0).getPatient();
+            LineChart chart = new LineChart(p.getId()+p.getFamilyName()+p.getGivenName(),diaBL,sysBL);
+            chart.setSize(800, 400);
+            chart.setVisible(true);
+        }
+    }
     
-
-      //chart.pack( );
-      //RefineryUtilities.centerFrameOnScreen( chart );
-      //chart.setVisible( true );
-//      jScrollPane3.setViewportView(chart);
+    private void bloodPressureAlert(){
+        alert = "";
+        for (int i = 0; i < this.selectedDiasBlood.size(); i++){
+            ArrayList<Ob> sysBL = selectedSysBlood.get(i);
+            ArrayList<Ob> diaBL = selectedDiasBlood.get(i);
+            for (int j = 0; j < sysBL.size();j++){
+                if (Integer.parseInt(sysBL.get(j).getValue()) > 180 || Integer.parseInt(diaBL.get(j).getValue()) > 120){
+                    alert = alert + Integer.toString(sysBL.get(j).getPatient().getId()) + sysBL.get(j).getPatient().getFamilyName() + sysBL.get(j).getPatient().getGivenName() + ", ";
+                    jLabel4.setText(alert);
+                    break;
+                }
+            }
+        }
     }
     
     /**
@@ -293,6 +319,8 @@ public class simpleGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
