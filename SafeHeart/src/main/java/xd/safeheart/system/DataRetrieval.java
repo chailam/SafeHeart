@@ -345,7 +345,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
     }
     
     /**
-     * Gets only the all instance of that Observation by Patient model, sorted by date
+     * Gets all instance of that Observation by Patient model, sorted by date
      * "8462-4" for "Diastolic Blood Pressure", "8480-6"for "Systolic Blood Pressure"
      */
     public ArrayList<xd.safeheart.model.Observation> getAllHistoricObsByPat(xd.safeheart.model.Patient p, String codeStr)

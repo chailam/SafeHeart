@@ -6,6 +6,7 @@
  */
 package xd.safeheart.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import xd.safeheart.view.*;
 import xd.safeheart.model.*;
@@ -114,26 +115,27 @@ public class Controller {
         for (Patient p : selPat)
         {
             boolean foundInMap = false;
-            Observation result;
+            Observation obsResult;
+            ArrayList<Observation> obsResultList;
             
             for (Observation o : this.dR.getObsMap().values()) {
-                result = o;
+                obsResult = o;
                 // search for Cholesterol Data in our program
                 if (o.getPatient().equals(p) && o.getType().equals("Total Cholesterol"))
                 {
-                    this.view.getSelectedChoObs().add(result);
+                    this.view.getSelectedChoObs().add(obsResult);
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Diastolic Blood Pressure"))  // search for Diastolic Blood Pressure Data in our program
                 {
-                    this.view.getSelectedBloodDiasObs().add(result);
+                    this.view.getSelectedBloodDiasObs().add(obsResult);
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Systolic Blood Pressure")) // search for Systolic Blood Pressure Data in our program
                 {
-                    this.view.getSelectedBloodSysObs().add(result);
+                    this.view.getSelectedBloodSysObs().add(obsResult);
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Tobacco smoking status NHIS")) // search for Tobacco smoking status NHIS Data in our program
                 {
-                    this.view.getSelectedTobacObs().add(result);
+                    this.view.getSelectedTobacObs().add(obsResult);
                     foundInMap = true;
                 }
             }
@@ -141,26 +143,26 @@ public class Controller {
             //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
             if(!foundInMap)
             {
-                result = this.dR.getRecentObsByPat(p,"2093-3");
-                if (result != null)
+                obsResult = this.dR.getRecentObsByPat(p,"2093-3");
+                if (obsResult != null)
                 {
-                    this.view.getSelectedChoObs().add(result);
+                    this.view.getSelectedChoObs().add(obsResult);
                 } 
-//                result = this.dR.getObsByPat(p,"8462-4");
-//                if (result != null)
-//                {
-//                    this.view.getSelectedBloodDiasObs().add(result);
-//                }
-//                result = this.dR.getObsByPat(p,"8480-6");
-//                if (result != null)
-//                {
-//                    this.view.getSelectedBloodSysObs().add(result);
-//                }
-//                result = this.dR.getObsByPat(p,"72166-2");
-//                if (result != null)
-//                {
-//                    this.view.getSelectedTobacObs().add(result);
-//                }
+                obsResult = this.dR.getRecentObsByPat(p,"72166-2");
+                if (obsResult != null)
+                {
+                    this.view.getSelectedTobacObs().add(obsResult);
+                }
+                obsResultList = this.dR.getAllHistoricObsByPat(p,"8462-4");
+                if (obsResult != null)
+                {
+                    this.view.getSelectedBloodDiasObs().add(obsResult);
+                }
+                obsResultList = this.dR.getAllHistoricObsByPat(p,"8480-6");
+                if (obsResult != null)
+                {
+                    this.view.getSelectedBloodSysObs().add(obsResult);
+                }
             }
         }
         // update table
