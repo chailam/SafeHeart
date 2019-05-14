@@ -8,6 +8,7 @@ package xd.safeheart.view;
 
 import xd.safeheart.model.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * User Interface of the program, by using JFrame
@@ -20,8 +21,8 @@ public class View extends javax.swing.JFrame {
     private final javax.swing.JList<Patient> selectedPatientJList = new javax.swing.JList<>();
     private final javax.swing.JTable detailJTable = new javax.swing.JTable();
     private final ArrayList <Observation> selectedChoObs;  //Cholesterol 
-    private final ArrayList<ArrayList<Observation>> selectedBloodSysObs; //Systolic Blood Pressure
-    private final ArrayList<ArrayList<Observation>> selectedBloodDiasObs;  //Diastolic Blood Pressure
+    private final HashMap<String, ArrayList<Observation>> selectedBloodSysObs; //Systolic Blood Pressure
+    private final HashMap<String, ArrayList<Observation>> selectedBloodDiasObs;  //Diastolic Blood Pressure
     private final ArrayList <Observation> selectedTobacObs; //Tobacco
     private final CheckBoxListCellRenderer chkBoxRenderer;
     
@@ -30,8 +31,8 @@ public class View extends javax.swing.JFrame {
      */
     public View() {
         this.selectedChoObs = new ArrayList<>();
-        this.selectedBloodSysObs = new ArrayList<>();
-        this.selectedBloodDiasObs = new ArrayList<>();
+        this.selectedBloodSysObs = new HashMap<>();
+        this.selectedBloodDiasObs = new HashMap<>();
         this.selectedTobacObs = new ArrayList<>();
         this.chkBoxRenderer = new CheckBoxListCellRenderer();
         initComponents();  
@@ -276,12 +277,12 @@ public class View extends javax.swing.JFrame {
         return this.selectedChoObs;
     }
     
-    public ArrayList<ArrayList<Observation>> getSelectedBloodSysObs()
+    public HashMap<String, ArrayList<Observation>> getSelectedBloodSysObs()
     {
         return this.selectedBloodSysObs;
     }
     
-    public ArrayList<ArrayList<Observation>> getSelectedBloodDiasObs()
+    public HashMap<String, ArrayList<Observation>> getSelectedBloodDiasObs()
     {
         return this.selectedBloodDiasObs;
     }

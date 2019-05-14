@@ -127,11 +127,11 @@ public class Controller {
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Diastolic Blood Pressure"))  // search for Diastolic Blood Pressure Data in our program
                 {
-                    this.view.getSelectedBloodDiasObs().add(obsResult);
+                    this.view.getSelectedBloodDiasObs().get(Integer.toString(p.getId())).add(o);
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Systolic Blood Pressure")) // search for Systolic Blood Pressure Data in our program
                 {
-                    this.view.getSelectedBloodSysObs().add(obsResult);
+                    this.view.getSelectedBloodDiasObs().get(Integer.toString(p.getId())).add(o);
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Tobacco smoking status NHIS")) // search for Tobacco smoking status NHIS Data in our program
                 {
@@ -156,12 +156,12 @@ public class Controller {
                 obsResultList = this.dR.getAllHistoricObsByPat(p,"8462-4");
                 if (obsResult != null)
                 {
-                    this.view.getSelectedBloodDiasObs().add(obsResultList);
+                    this.view.getSelectedBloodDiasObs().put(Integer.toString(p.getId()), obsResultList);
                 }
                 obsResultList = this.dR.getAllHistoricObsByPat(p,"8480-6");
                 if (obsResult != null)
                 {
-                    this.view.getSelectedBloodSysObs().add(obsResultList);
+                    this.view.getSelectedBloodSysObs().put(Integer.toString(p.getId()), obsResultList);
                 }
             }
         }
