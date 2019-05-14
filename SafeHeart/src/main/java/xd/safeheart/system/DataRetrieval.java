@@ -18,6 +18,7 @@ import java.util.Date;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hl7.fhir.dstu3.model.Bundle.BundleEntryComponent;
@@ -286,9 +287,10 @@ public class DataRetrieval extends AbstractDataRetrieval{
     }
     
     /**
-     * "2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
+     * Gets only the latest Observation by Patient model
+     * "2093-3" for "Total Cholesterol", "72166-2" for "Tobacco smoking status NHIS"
      */
-    public xd.safeheart.model.Observation getObsByPat(xd.safeheart.model.Patient p, String codeStr)
+    public xd.safeheart.model.Observation getRecentObsByPat(xd.safeheart.model.Patient p, String codeStr)
     {
         xd.safeheart.model.Observation output = null;
         Bundle obsBundle = this.client.search()
@@ -338,6 +340,60 @@ public class DataRetrieval extends AbstractDataRetrieval{
             // store in data
             this.obsMap.put(Integer.toString(output.getID()), output);
         }
+        
+        return output;
+    }
+    
+    /**
+     * Gets only the all instance of that Observation by Patient model, sorted by date
+     * "8462-4" for "Diastolic Blood Pressure", "8480-6"for "Systolic Blood Pressure"
+     */
+    public ArrayList<xd.safeheart.model.Observation> getAllHistoricObsByPat(xd.safeheart.model.Patient p, String codeStr)
+    {
+        ArrayList<xd.safeheart.model.Observation> output = null;
+        Bundle obsBundle = this.client.search()
+                    .forResource(org.hl7.fhir.dstu3.model.Observation.class)
+                    .where(org.hl7.fhir.dstu3.model.Observation.SUBJECT.hasId(Integer.toString(p.getId())))
+                    // search for total cholesterol code
+                    .and(new TokenClientParam("code").exactly().code(codeStr))   
+                    .sort().ascending(org.hl7.fhir.dstu3.model.Observation.DATE)
+                    .returnBundle(Bundle.class)
+                    .execute();
+
+        boolean firstPage = true;
+        do {
+            if(!firstPage)
+            {
+                // load next page
+                obsBundle = client.loadPage().next(obsBundle).execute();
+            }
+            for (BundleEntryComponent entry : obsBundle.getEntry())
+            {
+                // within each entry is a resource
+                org.hl7.fhir.dstu3.model.Observation o;
+                // get diagreport by id
+                o = this.searchObservationById(entry.getResource().getIdElement().getIdPart());
+                xd.safeheart.model.Observation model;
+                try {
+                        model = new xd.safeheart.model.Observation(
+                                Integer.parseInt(o.getIdElement().getIdPart()),
+                                o.getCode().getText(),
+                                o.getValueQuantity().getUnit(),
+                                p,
+                                o.getValueQuantity().getValue().toString(),
+                                // date to localdate
+                                o.getIssued().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                        );
+                        // add to output arraylist
+                        output.add(model);
+                        // store in data
+                        this.obsMap.put(Integer.toString(model.getID()), model);
+                    } catch (FHIRException ex) {
+                    Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        // keep going to next page    
+        } while (obsBundle.getLink(Bundle.LINK_NEXT) != null);
         
         return output;
     }

@@ -141,7 +141,7 @@ public class Controller {
             //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
             if(!foundInMap)
             {
-                result = this.dR.getObsByPat(p,"2093-3");
+                result = this.dR.getRecentObsByPat(p,"2093-3");
                 if (result != null)
                 {
                     this.view.getSelectedChoObs().add(result);
