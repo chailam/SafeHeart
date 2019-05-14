@@ -20,8 +20,8 @@ public class View extends javax.swing.JFrame {
     private final javax.swing.JList<Patient> selectedPatientJList = new javax.swing.JList<>();
     private final javax.swing.JTable detailJTable = new javax.swing.JTable();
     private final ArrayList <Observation> selectedChoObs;  //Cholesterol 
-    private final ArrayList <Observation> selectedBloodSysObs; //Systolic Blood Pressure
-    private final ArrayList <Observation> selectedBloodDiasObs;  //Diastolic Blood Pressure
+    private final ArrayList<ArrayList<Observation>> selectedBloodSysObs; //Systolic Blood Pressure
+    private final ArrayList<ArrayList<Observation>> selectedBloodDiasObs;  //Diastolic Blood Pressure
     private final ArrayList <Observation> selectedTobacObs; //Tobacco
     private final CheckBoxListCellRenderer chkBoxRenderer;
     
@@ -276,12 +276,12 @@ public class View extends javax.swing.JFrame {
         return this.selectedChoObs;
     }
     
-    public ArrayList<Observation> getSelectedBloodSysObs()
+    public ArrayList<ArrayList<Observation>> getSelectedBloodSysObs()
     {
         return this.selectedBloodSysObs;
     }
     
-    public ArrayList<Observation> getSelectedBloodDiasObs()
+    public ArrayList<ArrayList<Observation>> getSelectedBloodDiasObs()
     {
         return this.selectedBloodDiasObs;
     }

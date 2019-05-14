@@ -156,12 +156,12 @@ public class Controller {
                 obsResultList = this.dR.getAllHistoricObsByPat(p,"8462-4");
                 if (obsResult != null)
                 {
-                    this.view.getSelectedBloodDiasObs().add(obsResult);
+                    this.view.getSelectedBloodDiasObs().add(obsResultList);
                 }
                 obsResultList = this.dR.getAllHistoricObsByPat(p,"8480-6");
                 if (obsResult != null)
                 {
-                    this.view.getSelectedBloodSysObs().add(obsResult);
+                    this.view.getSelectedBloodSysObs().add(obsResultList);
                 }
             }
         }
