@@ -55,12 +55,7 @@ public class LineChart extends JFrame {
       
           dataset2.add(new Day(o.getDay(),o.getMonth(),o.getYear()),Integer.parseInt(o.getValue()));
       }
-//      dataset2.add( new Day(1, 1, 1970), 300 );
-//      dataset2.add(  new Day(1, 1, 1980), 240 );
-//      dataset2.add( new Day(1, 1, 1990), 120  );
-//      dataset2.add( new Day(1, 1, 2000),60  );
-//      dataset2.add( new Day(1, 1, 2010),30);
-//      dataset2.add( new Day(1, 1, 2020),15 );
+
       
       dataset.addSeries(dataset2);
       dataset.addSeries(dataset1);

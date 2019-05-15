@@ -67,7 +67,7 @@ public class Observation {
 		return this.value;
 	}
 	
-                public LocalDate getDate() {
+        public LocalDate getDate() {
 		return this.date;
 	}
         public int getDay() {

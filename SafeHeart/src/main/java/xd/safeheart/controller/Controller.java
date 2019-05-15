@@ -29,6 +29,7 @@ import xd.safeheart.system.DataRetrieval;
 public class Controller {
     private final View view;  //the view
     private final DataRetrieval dR;
+    private String alert;  //the alert label
   
     // Constructor
     public Controller(){
@@ -201,27 +202,18 @@ public class Controller {
     {
         System.out.println("this.view.getSelectedBloodSysObs() size" + this.view.getSelectedBloodSysObs().size());
         System.out.println("this.view.getSelectedBloodDiasObs() size" + this.view.getSelectedBloodDiasObs().size());
-        
-        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) {
-            System.out.println("Syskey"+entry.getKey());
-            System.out.println("Sysvalue"+entry.getValue());
+
+        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
+        {
+            LineChart chart = new LineChart(this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getId() + 
+                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getFamilyName() + 
+                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getGivenName(),
+                    this.view.getSelectedBloodDiasObs().get(entry.getKey()),
+                    this.view.getSelectedBloodSysObs().get(entry.getKey()));
+
+            chart.setSize(800, 400);
+            chart.setVisible(true);
         }
-         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodDiasObs().entrySet()) {
-            System.out.println("Diaskey"+entry.getKey());
-            System.out.println("Diasvalue"+entry.getValue());
-        }
-//        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
-//        {
-//            System.out.println("Key = " + entry.getKey() +  ", Value = " + entry.getValue());
-////            LineChart chart = new LineChart(this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getId() + 
-////                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getFamilyName() + 
-////                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getGivenName(),
-////                    this.view.getSelectedBloodDiasObs().get(entry.getKey()),
-////                    this.view.getSelectedBloodSysObs().get(entry.getKey()));
-//            LineChart chart = new LineChart("1",this.view.getSelectedBloodDiasObs().get(entry.getKey()),this.view.getSelectedBloodSysObs().get(entry.getKey()));
-//            chart.setSize(800, 400);
-//            chart.setVisible(true);
-//        }
     }
     
     /**
@@ -229,5 +221,20 @@ public class Controller {
      */
     public void updateObservations(){
         this.getObsByPatient();
+    }
+    
+    private void bloodPressureAlert(){
+        alert = "";
+        for (int i = 0; i < this.selectedDiasBlood.size(); i++){
+            ArrayList<Ob> sysBL = selectedSysBlood.get(i);
+            ArrayList<Ob> diaBL = selectedDiasBlood.get(i);
+            for (int j = 0; j < sysBL.size();j++){
+                if (Integer.parseInt(sysBL.get(j).getValue()) > 180 || Integer.parseInt(diaBL.get(j).getValue()) > 120){
+                    alert = alert + Integer.toString(sysBL.get(j).getPatient().getId()) + sysBL.get(j).getPatient().getFamilyName() + sysBL.get(j).getPatient().getGivenName() + ", ";
+                    jLabel4.setText(alert);
+                    break;
+                }
+            }
+        }
     }
 }
