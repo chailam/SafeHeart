@@ -297,8 +297,8 @@ public class DataRetrieval extends AbstractDataRetrieval{
                     .forResource(org.hl7.fhir.dstu3.model.Observation.class)
                     .where(org.hl7.fhir.dstu3.model.Observation.SUBJECT.hasId(Integer.toString(p.getId())))
                     // search for code
-                    .and(new TokenClientParam("code").exactly().code(codeStr))   
-                    .sort().descending(org.hl7.fhir.dstu3.model.Observation.DATE)
+                    .and(new TokenClientParam("code").exactly().code(codeStr))
+                    .sort().ascending(org.hl7.fhir.dstu3.model.Observation.DATE)
                     .returnBundle(Bundle.class)
                     .execute();
 
