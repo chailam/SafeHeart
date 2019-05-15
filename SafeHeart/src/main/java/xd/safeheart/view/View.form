@@ -25,11 +25,6 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-              <Component id="jLayeredPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
               <Component id="pracNameText" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
@@ -42,6 +37,11 @@
               <Component id="initButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLayeredPane1" min="-2" pref="1011" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -49,7 +49,7 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="displayText" alignment="0" max="32767" attributes="0"/>
+                  <Component id="displayText" alignment="0" pref="69" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="pracNameText" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="pracIdText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -71,45 +71,70 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="showButton" min="-2" max="-2" attributes="0"/>
-                      <Component id="patientPane" min="-2" pref="294" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace pref="38" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+                  <Component id="patientPane" min="-2" pref="306" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="choPane" pref="583" max="32767" attributes="0"/>
-                          <Component id="tobPane" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="tobPane" pref="595" max="32767" attributes="0"/>
+                              <Component id="choPane" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
-                      <Component id="showHyperBlood" min="-2" max="-2" attributes="0"/>
-                      <Component id="showBloodPressureID" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="showDiasBloodPressureID" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="showHyperBlood2" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                      <Component id="showSysBloodPressureID" min="-2" pref="46" max="-2" attributes="0"/>
+                                      <Component id="showHyperBlood" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
                   </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="showChoButton" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="showTobBloodButton" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="949" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+              <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Component id="choPane" min="-2" pref="195" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="tobPane" min="-2" pref="179" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="choPane" min="-2" pref="212" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="tobPane" min="-2" pref="176" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="showHyperBlood" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="showBloodPressureID" min="-2" max="-2" attributes="0"/>
+                          <Component id="showSysBloodPressureID" min="-2" pref="23" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="showHyperBlood2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="patientPane" min="-2" pref="421" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="showButton" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="patientPane" min="-2" pref="512" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="showChoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="showTobBloodButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="showDiasBloodPressureID" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -129,12 +154,12 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
         </Container>
-        <Component class="javax.swing.JButton" name="showButton">
+        <Component class="javax.swing.JButton" name="showChoButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Show"/>
+            <Property name="text" type="java.lang.String" value="Show Cholesterol"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showChoButtonActionPerformed"/>
           </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="tobPane">
@@ -143,10 +168,22 @@
         </Container>
         <Component class="javax.swing.JLabel" name="showHyperBlood">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Alert for Selected Patient (systolic &gt; 180 and diastolic &gt; 120 ): "/>
+            <Property name="text" type="java.lang.String" value="Alert for Selected Patient (systolic &gt; 180): "/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="showBloodPressureID">
+        <Component class="javax.swing.JLabel" name="showSysBloodPressureID">
+        </Component>
+        <Component class="javax.swing.JLabel" name="showHyperBlood2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Alert for Selected Patient (diastolic &gt; 120): "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="showDiasBloodPressureID">
+        </Component>
+        <Component class="javax.swing.JButton" name="showTobBloodButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Show Tobacco&amp;Blood Pressure"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

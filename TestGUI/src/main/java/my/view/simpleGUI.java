@@ -28,7 +28,8 @@ public class simpleGUI extends javax.swing.JFrame {
     private ArrayList <ArrayList<Ob>> selectedDiasBlood = new ArrayList<>(); /// The selected person and its data in checkbox
     private ArrayList <ArrayList<Ob>> selectedSysBlood = new ArrayList<>(); /// The selected person and its data in checkbox
     private ArrayList <Ob> selectedTobacOb = new ArrayList<>(); /// The selected person and its data in checkbox
-    private String alert = "";
+    private String sysAlert = "";
+    private String diasAlert = "";
     
     /**
      * Creates new form simpleGUI
@@ -64,6 +65,8 @@ public class simpleGUI extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -79,7 +82,9 @@ public class simpleGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Alert for Selected Patient (systolic > 180 and diastolic > 120 ): ");
+        jLabel3.setText("Alert for Selected Patient (systolic > 180 ): ");
+
+        jLabel5.setText("Alert for Selected Patient (diastolic > 120 ): ");
 
         jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -87,6 +92,8 @@ public class simpleGUI extends javax.swing.JFrame {
         jLayeredPane1.setLayer(jScrollPane3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -103,7 +110,9 @@ public class simpleGUI extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
                         .addComponent(jScrollPane2))
-                    .addComponent(jLabel4))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
@@ -112,16 +121,21 @@ public class simpleGUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                        .addComponent(jLabel4)
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6)))
                 .addGap(26, 26, 26))
         );
 
@@ -267,16 +281,22 @@ public class simpleGUI extends javax.swing.JFrame {
     }
     
     private void bloodPressureAlert(){
-        alert = "";
+        sysAlert = "";
+        diasAlert = "";
         for (int i = 0; i < this.selectedDiasBlood.size(); i++){
             ArrayList<Ob> sysBL = selectedSysBlood.get(i);
             ArrayList<Ob> diaBL = selectedDiasBlood.get(i);
             for (int j = 0; j < sysBL.size();j++){
-                if (Integer.parseInt(sysBL.get(j).getValue()) > 180 || Integer.parseInt(diaBL.get(j).getValue()) > 120){
-                    alert = alert + Integer.toString(sysBL.get(j).getPatient().getId()) + sysBL.get(j).getPatient().getFamilyName() + sysBL.get(j).getPatient().getGivenName() + ", ";
-                    jLabel4.setText(alert);
-                    break;
+                if (Integer.parseInt(sysBL.get(j).getValue()) > 180 ){
+                    sysAlert = sysAlert + Integer.toString(sysBL.get(j).getPatient().getId()) + sysBL.get(j).getPatient().getFamilyName() + sysBL.get(j).getPatient().getGivenName() + ", ";
+                    jLabel4.setText(sysAlert);
+                 }
+                if( Integer.parseInt(diaBL.get(j).getValue()) > 120){
+                    diasAlert = diasAlert + Integer.toString(sysBL.get(j).getPatient().getId()) + sysBL.get(j).getPatient().getFamilyName() + sysBL.get(j).getPatient().getGivenName() + ", ";
+                    jLabel6.setText(diasAlert);
                 }
+                break;
+                
             }
         }
     }
@@ -322,6 +342,8 @@ public class simpleGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

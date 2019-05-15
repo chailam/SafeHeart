@@ -29,7 +29,8 @@ import xd.safeheart.system.DataRetrieval;
 public class Controller {
     private final View view;  //the view
     private final DataRetrieval dR;
-    private String alert;  //the alert label
+    private String sysAlert;  //the alert label for systolic blood pressure
+    private String diasAlert;  //the alert label for diastolic blood pressure
   
     // Constructor
     public Controller(){
@@ -50,7 +51,7 @@ public class Controller {
     public void initView(){
         this.view.setVisible(true);
         this.view.getInitButton().addActionListener(e -> getPatientByPracId());
-        this.view.getShowButton().addActionListener(e -> getObsByPatient());
+        this.view.getShowChoButton().addActionListener(e -> getChoObsByPatient());
         this.view.start();
     }
     
@@ -104,9 +105,9 @@ public class Controller {
     }
     
     /**
-     * Gets all Observers by a patient or a set of patients selected.
+     * Gets all Cholesterol Observation by a patient or a set of patients selected.
      */
-    private void getObsByPatient()
+    private void getChoObsByPatient()
     {
         //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
         System.out.println("Getting all Observations for selected Patients");
@@ -177,6 +178,9 @@ public class Controller {
         // Show graph
         this.showGraph();
         
+        // Show alert message
+        this.bloodPressureAlert();
+        
     }
 
     
@@ -208,8 +212,8 @@ public class Controller {
             LineChart chart = new LineChart(this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getId() + 
                     this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getFamilyName() + 
                     this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getGivenName(),
-                    this.view.getSelectedBloodDiasObs().get(entry.getKey()),
-                    this.view.getSelectedBloodSysObs().get(entry.getKey()));
+                    this.view.getSelectedBloodSysObs().get(entry.getKey()),
+                    this.view.getSelectedBloodDiasObs().get(entry.getKey()));
 
             chart.setSize(800, 400);
             chart.setVisible(true);
@@ -220,18 +224,35 @@ public class Controller {
      * Constantly updates Observations
      */
     public void updateObservations(){
-        this.getObsByPatient();
+        this.getChoObsByPatient();
     }
     
     private void bloodPressureAlert(){
-        alert = "";
-        for (int i = 0; i < this.selectedDiasBlood.size(); i++){
-            ArrayList<Ob> sysBL = selectedSysBlood.get(i);
-            ArrayList<Ob> diaBL = selectedDiasBlood.get(i);
-            for (int j = 0; j < sysBL.size();j++){
-                if (Integer.parseInt(sysBL.get(j).getValue()) > 180 || Integer.parseInt(diaBL.get(j).getValue()) > 120){
-                    alert = alert + Integer.toString(sysBL.get(j).getPatient().getId()) + sysBL.get(j).getPatient().getFamilyName() + sysBL.get(j).getPatient().getGivenName() + ", ";
-                    jLabel4.setText(alert);
+        sysAlert = "";
+        diasAlert = "";
+
+        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
+        {
+            ArrayList<Observation> sysList = entry.getValue();
+            this.view.getSysBloodPressureIDText().setText("bbb");
+            for (int j = 0; j < sysList.size();j++){
+                if (Float.parseFloat(sysList.get(j).getValue()) > 180){
+                    sysAlert = sysAlert + Integer.toString(sysList.get(j).getPatient().getId()) + sysList.get(j).getPatient().getFamilyName() + sysList.get(j).getPatient().getGivenName() + ", ";
+                    this.view.getSysBloodPressureIDText().setText(sysAlert);
+                    break;
+                }
+            }
+        }
+        
+        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodDiasObs().entrySet()) 
+        {
+            ArrayList<Observation> diasList = entry.getValue();
+            this.view.getDiasBloodPressureIDText().setText("aaa");
+            for (int j = 0; j < diasList.size();j++){
+                System.out.println(diasList.get(j).getValue());
+                if (Float.parseFloat(diasList.get(j).getValue()) > 180){
+                    diasAlert = diasAlert + Integer.toString(diasList.get(j).getPatient().getId()) + diasList.get(j).getPatient().getFamilyName() + diasList.get(j).getPatient().getGivenName() + ", ";
+                    this.view.getDiasBloodPressureIDText().setText(diasAlert);
                     break;
                 }
             }
