@@ -18,9 +18,9 @@ import xd.safeheart.model.*;
 public class TableModel1 extends AbstractTableModel {
 
     private ArrayList <Observation> selectedO;
-    private String[] columnNames = { "FamilyName", "GivenName", "Age",
+    private String[] columnNames = { "ObsId", "FamilyName", "GivenName", "Age",
                 "Gender", "Cholesterol", "Unit"};
-    private int columnLength = 6;
+    private int columnLength = 7;
     private int rowLength;
 
     public TableModel1(ArrayList<Observation> selectedO){
@@ -48,17 +48,19 @@ public class TableModel1 extends AbstractTableModel {
         //Patient p = selectedP.get(rowId);
         Observation o = selectedO.get(rowId);
         switch (columnId) {
-            case 0: 
+            case 0:
+                return o.getID();
+            case 1: 
                 return o.getPatient().getFamilyName();
-            case 1:
-                return o.getPatient().getGivenName();
             case 2:
-                return o.getPatient().getAge();
+                return o.getPatient().getGivenName();
             case 3:
-                return o.getPatient().getGender();
+                return o.getPatient().getAge();
             case 4:
-                return o.getValue();
+                return o.getPatient().getGender();
             case 5:
+                return o.getValue();
+            case 6:
                 return o.getUnit();
            }
            return null;
@@ -68,16 +70,18 @@ public class TableModel1 extends AbstractTableModel {
    public Class<?> getColumnClass(int columnId){
           switch (columnId){
              case 0:
-               return String.class;
+               return Integer.class;
              case 1:
                return String.class;
              case 2:
-               return Integer.class;
-             case 3:
                return String.class;
+             case 3:
+               return Integer.class;
              case 4:
                return String.class;
              case 5:
+               return String.class;
+             case 6:
                return String.class;
              }
              return null;

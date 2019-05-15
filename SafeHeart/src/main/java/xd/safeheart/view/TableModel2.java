@@ -20,9 +20,9 @@ import xd.safeheart.model.Patient;
 public class TableModel2 extends AbstractTableModel {
 
     private ArrayList <Observation> tobacOb;
-    private String[] columnNames = { "FamilyName", "GivenName", "Age",
+    private String[] columnNames = { "ObsId", "FamilyName", "GivenName", "Age",
                 "Gender", "Tobacco"};
-    private int columnLength = 5;
+    private int columnLength = 6;
     private int rowLength;
 
     public TableModel2(ArrayList <Observation> tobacOb){
@@ -51,15 +51,17 @@ public class TableModel2 extends AbstractTableModel {
         Observation o = this.tobacOb.get(rowId);
         Patient p = o.getPatient();
         switch (columnId) {
-            case 0: 
+            case 0:
+                return o.getID();
+            case 1: 
                 return p.getFamilyName();
-            case 1:
-                return p.getGivenName();
             case 2:
-                return p.getAge();
+                return p.getGivenName();
             case 3:
-                return p.getGender();
+                return p.getAge();
             case 4:
+                return p.getGender();
+            case 5:
                 return o.getValue();
            }
            return null;
@@ -69,14 +71,16 @@ public class TableModel2 extends AbstractTableModel {
    public Class<?> getColumnClass(int columnId){
           switch (columnId){
              case 0:
-               return String.class;
+               return Integer.class;
              case 1:
                return String.class;
              case 2:
-               return Integer.class;
-             case 3:
                return String.class;
+             case 3:
+               return Integer.class;
              case 4:
+               return String.class;
+             case 5:
                return String.class;
              }
              return null;
