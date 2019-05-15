@@ -21,6 +21,13 @@ public class Observation {
 		this.id = id;
 	}
         
+         public Observation(int id, String type, Patient patient, String value){
+		this.id = id;
+                this.patient = patient;
+                this.value = value;
+                this.type = type;
+	}
+        
         public Observation(int id, String type, String unit, Patient patient, String value){
 		this.id = id;
                 this.patient = patient;

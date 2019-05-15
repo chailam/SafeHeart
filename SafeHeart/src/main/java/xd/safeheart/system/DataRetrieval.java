@@ -296,7 +296,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
         Bundle obsBundle = this.client.search()
                     .forResource(org.hl7.fhir.dstu3.model.Observation.class)
                     .where(org.hl7.fhir.dstu3.model.Observation.SUBJECT.hasId(Integer.toString(p.getId())))
-                    // search for total cholesterol code
+                    // search for code
                     .and(new TokenClientParam("code").exactly().code(codeStr))   
                     .sort().descending(org.hl7.fhir.dstu3.model.Observation.DATE)
                     .returnBundle(Bundle.class)
@@ -321,13 +321,26 @@ public class DataRetrieval extends AbstractDataRetrieval{
                 // get diagreport by id
                 o = this.searchObservationById(entry.getResource().getIdElement().getIdPart());
                 try {
-                        output = new xd.safeheart.model.Observation(
+                    switch (codeStr)
+                    {
+                        case "2093-3":
+                            output = new xd.safeheart.model.Observation(
                                 Integer.parseInt(o.getIdElement().getIdPart()),
                                 o.getCode().getText(),
                                 o.getValueQuantity().getUnit(),
                                 p,
                                 o.getValueQuantity().getValue().toString()
-                        );
+                            );
+                            break;
+                        case "72166-2":
+                            output = new xd.safeheart.model.Observation(
+                                Integer.parseInt(o.getIdElement().getIdPart()),
+                                o.getCode().getText(),
+                                p,
+                                o.getValueCodeableConcept().getText()
+                            );
+                            break;
+                    }
                     } catch (FHIRException ex) {
                     Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -354,7 +367,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
         Bundle obsBundle = this.client.search()
                     .forResource(org.hl7.fhir.dstu3.model.Observation.class)
                     .where(org.hl7.fhir.dstu3.model.Observation.SUBJECT.hasId(Integer.toString(p.getId())))
-                    // search for total cholesterol code
+                    // search for code
                     .and(new TokenClientParam("code").exactly().code(codeStr))   
                     .sort().ascending(org.hl7.fhir.dstu3.model.Observation.DATE)
                     .returnBundle(Bundle.class)
