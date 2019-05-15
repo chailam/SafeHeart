@@ -116,7 +116,7 @@ public class Controller {
         {
             boolean foundInMap = false;
             Observation obsResult;
-            ArrayList<Observation> obsResultList;
+            ArrayList<ArrayList<Observation>> bloodPressureResultList;
             
             for (Observation o : this.dR.getObsMap().values()) {
                 obsResult = o;
@@ -153,15 +153,20 @@ public class Controller {
                 {
                     this.view.getSelectedTobacObs().add(obsResult);
                 }
-                obsResultList = this.dR.getAllHistoricObsByPat(p,"8462-4");
-                if (obsResult != null)
+                bloodPressureResultList = this.dR.getAllHistoricObsByPat(p, "55284-4");
+                if (bloodPressureResultList != null)
                 {
-                    this.view.getSelectedBloodDiasObs().put(Integer.toString(p.getId()), obsResultList);
-                }
-                obsResultList = this.dR.getAllHistoricObsByPat(p,"8480-6");
-                if (obsResult != null)
-                {
-                    this.view.getSelectedBloodSysObs().put(Integer.toString(p.getId()), obsResultList);
+                    // diastolic
+                    if (bloodPressureResultList.get(0) != null)
+                    {
+                        this.view.getSelectedBloodDiasObs().put(Integer.toString(p.getId()), bloodPressureResultList.get(0));
+                    }
+                    
+                    // systolic
+                    if (bloodPressureResultList.get(1) != null)
+                    {
+                        this.view.getSelectedBloodSysObs().put(Integer.toString(p.getId()), bloodPressureResultList.get(1));
+                    }
                 }
             }
         }

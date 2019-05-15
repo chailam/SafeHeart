@@ -340,6 +340,10 @@ public class DataRetrieval extends AbstractDataRetrieval{
                                 o.getValueCodeableConcept().getText()
                             );
                             break;
+                            
+                        default:
+                            output = null;
+                            break;
                     }
                     } catch (FHIRException ex) {
                     Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
@@ -359,11 +363,14 @@ public class DataRetrieval extends AbstractDataRetrieval{
     
     /**
      * Gets all instance of that Observation by Patient model, sorted by date
-     * "8462-4" for "Diastolic Blood Pressure", "8480-6"for "Systolic Blood Pressure"
+     * "55284-4" for "Blood Pressure":
+     * "8462-4" for "Diastolic Blood Pressure", "8480-6" for "Systolic Blood Pressure"
      */
-    public ArrayList<xd.safeheart.model.Observation> getAllHistoricObsByPat(xd.safeheart.model.Patient p, String codeStr)
+    public ArrayList<ArrayList<xd.safeheart.model.Observation>> getAllHistoricObsByPat(xd.safeheart.model.Patient p, String codeStr)
     {
-        ArrayList<xd.safeheart.model.Observation> output = null;
+        ArrayList<ArrayList<xd.safeheart.model.Observation>> output = new ArrayList<>();
+        output.add(new ArrayList<>());
+        output.add(new ArrayList<>());
         Bundle obsBundle = this.client.search()
                     .forResource(org.hl7.fhir.dstu3.model.Observation.class)
                     .where(org.hl7.fhir.dstu3.model.Observation.SUBJECT.hasId(Integer.toString(p.getId())))
@@ -388,19 +395,48 @@ public class DataRetrieval extends AbstractDataRetrieval{
                 o = this.searchObservationById(entry.getResource().getIdElement().getIdPart());
                 xd.safeheart.model.Observation model;
                 try {
-                        model = new xd.safeheart.model.Observation(
-                                Integer.parseInt(o.getIdElement().getIdPart()),
-                                o.getCode().getText(),
-                                o.getValueQuantity().getUnit(),
-                                p,
-                                o.getValueQuantity().getValue().toString(),
-                                // date to localdate
-                                o.getIssued().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                        );
-                        // add to output arraylist
-                        output.add(model);
-                        // store in data
-                        this.obsMap.put(Integer.toString(model.getID()), model);
+                        switch (codeStr)
+                        {
+                            case "55284-4":
+                                // loop through all component
+                                for(org.hl7.fhir.dstu3.model.Observation.ObservationComponentComponent c: o.getComponent())
+                                {
+                                    // if diastolic
+                                    if (c.getCode().getCodingFirstRep().getCode().equals("8462-4"))
+                                    {
+                                        model = new xd.safeheart.model.Observation(
+                                            Integer.parseInt(o.getIdElement().getIdPart()),
+                                            c.getCode().getText(),
+                                            c.getValueQuantity().getUnit(),
+                                            p,
+                                            c.getValueQuantity().getValue().toString()
+                                        );
+                                        // add to first list
+                                        output.get(0).add(model);
+                                        // store in data
+                                        this.obsMap.put(Integer.toString(model.getID()), model);
+                                    }
+                                    // if systolic
+                                    else if (c.getCode().getCodingFirstRep().getCode().equals("8480-6"))
+                                    {
+                                        model = new xd.safeheart.model.Observation(
+                                            Integer.parseInt(o.getIdElement().getIdPart()),
+                                            c.getCode().getText(),
+                                            c.getValueQuantity().getUnit(),
+                                            p,
+                                            c.getValueQuantity().getValue().toString()
+                                        );
+                                        // add to second list
+                                        output.get(1).add(model);
+                                        // store in data
+                                        this.obsMap.put(Integer.toString(model.getID()), model);
+                                    }
+                                }
+                                break;
+                            default:
+                                model = null;
+                                break;
+                        }
                     } catch (FHIRException ex) {
                     Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
                 }
