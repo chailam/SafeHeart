@@ -194,19 +194,26 @@ public class Controller {
     
     private void showGraph()
     {
-        
-        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
-        {
-            System.out.println("Key = " + entry.getKey() +  ", Value = " + entry.getValue());
-//            LineChart chart = new LineChart(this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getId() + 
-//                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getFamilyName() + 
-//                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getGivenName(),
-//                    this.view.getSelectedBloodDiasObs().get(entry.getKey()),
-//                    this.view.getSelectedBloodSysObs().get(entry.getKey()));
-            LineChart chart = new LineChart("1",this.view.getSelectedBloodDiasObs().get(entry.getKey()),this.view.getSelectedBloodSysObs().get(entry.getKey()));
-            chart.setSize(800, 400);
-            chart.setVisible(true);
+        System.out.println("this.view.getSelectedBloodSysObs() size" + this.view.getSelectedBloodSysObs().size());
+        System.out.println("this.view.getSelectedBloodDiasObs() size" + this.view.getSelectedBloodDiasObs().size());
+        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) {
+            System.out.println("Sys"+entry.getValue());
         }
+         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodDiasObs().entrySet()) {
+            System.out.println("Dias"+entry.getValue());
+        }
+//        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
+//        {
+//            System.out.println("Key = " + entry.getKey() +  ", Value = " + entry.getValue());
+////            LineChart chart = new LineChart(this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getId() + 
+////                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getFamilyName() + 
+////                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getGivenName(),
+////                    this.view.getSelectedBloodDiasObs().get(entry.getKey()),
+////                    this.view.getSelectedBloodSysObs().get(entry.getKey()));
+//            LineChart chart = new LineChart("1",this.view.getSelectedBloodDiasObs().get(entry.getKey()),this.view.getSelectedBloodSysObs().get(entry.getKey()));
+//            chart.setSize(800, 400);
+//            chart.setVisible(true);
+//        }
     }
     
     /**

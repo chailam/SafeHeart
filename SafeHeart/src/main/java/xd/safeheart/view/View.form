@@ -116,6 +116,9 @@
       </Layout>
       <SubComponents>
         <Container class="javax.swing.JScrollPane" name="patientPane">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="View_patientPane"/>
+          </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
         </Container>
