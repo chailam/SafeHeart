@@ -409,7 +409,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
                                             c.getCode().getText(),
                                             c.getValueQuantity().getUnit(),
                                             p,
-                                            c.getValueQuantity().getValue().toString()
+                                            c.getValueQuantity().getValue().toString(),
+                                            // date to localdate
+                                            o.getIssued().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                                         );
                                         // add to first list
                                         output.get(0).add(model);
@@ -424,7 +426,9 @@ public class DataRetrieval extends AbstractDataRetrieval{
                                             c.getCode().getText(),
                                             c.getValueQuantity().getUnit(),
                                             p,
-                                            c.getValueQuantity().getValue().toString()
+                                            c.getValueQuantity().getValue().toString(),
+                                            // date to localdate
+                                            o.getIssued().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                                         );
                                         // add to second list
                                         output.get(1).add(model);
