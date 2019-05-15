@@ -196,11 +196,14 @@ public class Controller {
     {
         System.out.println("this.view.getSelectedBloodSysObs() size" + this.view.getSelectedBloodSysObs().size());
         System.out.println("this.view.getSelectedBloodDiasObs() size" + this.view.getSelectedBloodDiasObs().size());
+        
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) {
-            System.out.println("Sys"+entry.getValue());
+            System.out.println("Syskey"+entry.getKey());
+            System.out.println("Sysvalue"+entry.getValue());
         }
          for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodDiasObs().entrySet()) {
-            System.out.println("Dias"+entry.getValue());
+            System.out.println("Diaskey"+entry.getKey());
+            System.out.println("Diasvalue"+entry.getValue());
         }
 //        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
 //        {
