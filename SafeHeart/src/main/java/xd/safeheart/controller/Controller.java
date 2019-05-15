@@ -18,6 +18,7 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
 import xd.safeheart.system.DataRetrieval;
 
 /**
@@ -182,14 +183,14 @@ public class Controller {
         //Update cholesterol table
         JTable tab = this.view.getchoJTable();
         this.view.getchoPane().setViewportView(tab);
-        TableModel1 tableModel = new TableModel1(this.view.getSelectedChoObs());
+        AbstractTableModel tableModel = new TableModel1(this.view.getSelectedChoObs());
         tab.setModel(tableModel);
         
         //Upddate tobacco table
         JTable tobac = this.view.gettobJTable();
         this.view.gettobPane().setViewportView(tobac);
-        TableModel2 tableModel2 = new TableModel2(this.view.getSelectedTobacObs());
-        tab.setModel(tableModel);
+        AbstractTableModel tableModel2 = new TableModel2(this.view.getSelectedTobacObs());
+        tobac.setModel(tableModel2);
     }
     
     private void showGraph()

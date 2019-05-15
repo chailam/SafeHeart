@@ -9,6 +9,7 @@ package xd.safeheart.view;
 import xd.safeheart.model.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.table.AbstractTableModel;
 
 /**
  * User Interface of the program, by using JFrame
@@ -183,8 +184,8 @@ public class View extends javax.swing.JFrame {
     private void jTableInitialize(){
         choPane.setViewportView(chojTable);
         tobPane.setViewportView(tobjTable);
-        TableModel1 choTableModel = new TableModel1( selectedChoObs);
-        TableModel2 tobTableModel = new TableModel2( selectedTobacObs);
+        AbstractTableModel choTableModel = new TableModel1(selectedChoObs);
+        AbstractTableModel tobTableModel = new TableModel2(selectedTobacObs);
         chojTable.setModel(choTableModel);
         tobjTable.setModel(tobTableModel);
     }
@@ -193,6 +194,9 @@ public class View extends javax.swing.JFrame {
     public void clearSelected()
     {
         this.selectedChoObs.clear();
+        this.selectedTobacObs.clear();
+        this.selectedBloodDiasObs.clear();
+        this.selectedBloodSysObs.clear();
     }
     
     // getters of UI element
