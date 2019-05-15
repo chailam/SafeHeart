@@ -131,7 +131,7 @@ public class Controller {
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Systolic Blood Pressure")) // search for Systolic Blood Pressure Data in our program
                 {
-                    this.view.getSelectedBloodDiasObs().get(Integer.toString(p.getId())).add(o);
+                    this.view.getSelectedBloodSysObs().get(Integer.toString(p.getId())).add(o);
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Tobacco smoking status NHIS")) // search for Tobacco smoking status NHIS Data in our program
                 {
@@ -167,6 +167,10 @@ public class Controller {
         }
         // update table
         this.updateDetailTable();
+        
+        // Show graph
+        this.showGraph();
+        
     }
 
     
@@ -175,10 +179,33 @@ public class Controller {
      */
     private void updateDetailTable()
     {
+        //Update cholesterol table
         JTable tab = this.view.getchoJTable();
         this.view.getchoPane().setViewportView(tab);
         TableModel1 tableModel = new TableModel1(this.view.getSelectedChoObs());
         tab.setModel(tableModel);
+        
+        //Upddate tobacco table
+        JTable tobac = this.view.gettobJTable();
+        this.view.gettobPane().setViewportView(tobac);
+        TableModel2 tableModel2 = new TableModel2(this.view.getSelectedTobacObs());
+        tab.setModel(tableModel);
+    }
+    
+    private void showGraph()
+    {
+        
+        for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
+        {
+            System.out.println("Key = " + entry.getKey() +  ", Value = " + entry.getValue());
+            LineChart chart = new LineChart(this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getId() + 
+                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getFamilyName() + 
+                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getGivenName(),
+                    this.view.getSelectedBloodDiasObs().get(entry.getKey()),
+                    this.view.getSelectedBloodSysObs().get(entry.getKey()));
+            chart.setSize(800, 400);
+            chart.setVisible(true);
+        }
     }
     
     /**
