@@ -38,8 +38,7 @@ public class View extends javax.swing.JFrame {
         this.selectedTobacObs = new ArrayList<>();
         this.chkBoxRenderer = new CheckBoxListCellRenderer();
         initComponents();  
-        /////Set the text for clinician name
-        ///// Insert the manual code
+
         //jListInitialize();
         jTableInitialize();
     }

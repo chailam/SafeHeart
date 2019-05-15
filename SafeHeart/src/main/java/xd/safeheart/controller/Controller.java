@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import xd.safeheart.view.*;
 import xd.safeheart.model.*;
-
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -199,11 +198,12 @@ public class Controller {
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
         {
             System.out.println("Key = " + entry.getKey() +  ", Value = " + entry.getValue());
-            LineChart chart = new LineChart(this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getId() + 
-                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getFamilyName() + 
-                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getGivenName(),
-                    this.view.getSelectedBloodDiasObs().get(entry.getKey()),
-                    this.view.getSelectedBloodSysObs().get(entry.getKey()));
+//            LineChart chart = new LineChart(this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getId() + 
+//                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getFamilyName() + 
+//                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getGivenName(),
+//                    this.view.getSelectedBloodDiasObs().get(entry.getKey()),
+//                    this.view.getSelectedBloodSysObs().get(entry.getKey()));
+            LineChart chart = new LineChart("1",this.view.getSelectedBloodDiasObs().get(entry.getKey()),this.view.getSelectedBloodSysObs().get(entry.getKey()));
             chart.setSize(800, 400);
             chart.setVisible(true);
         }

@@ -21,10 +21,9 @@ public class TableModel2 extends AbstractTableModel {
 
     private ArrayList <Observation> tobacOb;
     private String[] columnNames = { "FamilyName", "GivenName", "Age",
-                "Gender", "Tobacco", "Unit"};
-    private int columnLength = 6;
+                "Gender", "Tobacco"};
+    private int columnLength = 5;
     private int rowLength;
-    private boolean first = true;
 
     public TableModel2(ArrayList <Observation> tobacOb){
          this.tobacOb = tobacOb;
@@ -62,8 +61,6 @@ public class TableModel2 extends AbstractTableModel {
                 return p.getGender();
             case 4:
                 return o.getValue();
-            case 5:
-                return o.getUnit();
            }
            return null;
    }
@@ -80,8 +77,6 @@ public class TableModel2 extends AbstractTableModel {
              case 3:
                return String.class;
              case 4:
-               return String.class;
-             case 5:
                return String.class;
              }
              return null;
