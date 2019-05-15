@@ -19,7 +19,8 @@ public class View extends javax.swing.JFrame {
 
     ///// My declaration of variable
     private final javax.swing.JList<Patient> selectedPatientJList = new javax.swing.JList<>();
-    private final javax.swing.JTable detailJTable = new javax.swing.JTable();
+    private final javax.swing.JTable chojTable = new javax.swing.JTable();
+    private final javax.swing.JTable tobjTable = new javax.swing.JTable();
     private final ArrayList <Observation> selectedChoObs;  //Cholesterol 
     private final HashMap<String, ArrayList<Observation>> selectedBloodSysObs; //Systolic Blood Pressure
     private final HashMap<String, ArrayList<Observation>> selectedBloodDiasObs;  //Diastolic Blood Pressure
@@ -53,8 +54,11 @@ public class View extends javax.swing.JFrame {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
         patientPane = new javax.swing.JScrollPane();
-        detailPane = new javax.swing.JScrollPane();
+        choPane = new javax.swing.JScrollPane();
         showButton = new javax.swing.JButton();
+        tobPane = new javax.swing.JScrollPane();
+        showHyperBlood = new javax.swing.JLabel();
+        showBloodPressureID = new javax.swing.JLabel();
         pracNameText = new javax.swing.JLabel();
         pracIdText = new javax.swing.JTextField();
         initButton = new javax.swing.JButton();
@@ -64,7 +68,7 @@ public class View extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FIT3077  Assignment 2");
 
-        detailPane.setAutoscrolls(true);
+        choPane.setAutoscrolls(true);
 
         showButton.setText("Show");
         showButton.addActionListener(new java.awt.event.ActionListener() {
@@ -73,9 +77,14 @@ public class View extends javax.swing.JFrame {
             }
         });
 
+        showHyperBlood.setText("Alert for Selected Patient (systolic > 180 and diastolic > 120 ): ");
+
         jLayeredPane1.setLayer(patientPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(detailPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(choPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(showButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(tobPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(showHyperBlood, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(showBloodPressureID, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -87,7 +96,12 @@ public class View extends javax.swing.JFrame {
                     .addComponent(showButton)
                     .addComponent(patientPane, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(detailPane, javax.swing.GroupLayout.PREFERRED_SIZE, 583, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(choPane, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)
+                        .addComponent(tobPane))
+                    .addComponent(showHyperBlood)
+                    .addComponent(showBloodPressureID))
                 .addContainerGap())
         );
         jLayeredPane1Layout.setVerticalGroup(
@@ -95,7 +109,14 @@ public class View extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(detailPane, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(choPane, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(tobPane, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(showHyperBlood)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(showBloodPressureID))
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addComponent(patientPane, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -157,61 +178,15 @@ public class View extends javax.swing.JFrame {
 //        jTableInitialize();
     }//GEN-LAST:event_showButtonActionPerformed
     
-//    private void getSelected(){
-//        List<Patient> patientList = selectedPatientJList.getSelectedValuesList();
-//        System.out.println("clicked");
-//        for (Patient p : patientList){
-//            int pID = p.getId();
-//            System.out.println(pID);
-//        }
-//        
-//        System.out.println(this.choObsMap.size());
-//        for (HashMap.Entry<String, Observation> entry : choObsMap.entrySet()) {
-//             System.out.println(entry.getValue());
-//        }
-//
-//        ///// Clear all the data in list
-//        selectedPatient.clear();
-//        selectedChoObs.clear();
-//
-//        for (Patient p : patientList){
-//            int pID = p.getId();
-//             for (HashMap.Entry<String, Observation> entry : choObsMap.entrySet()) {
-//                    if(entry.getValue().getPatient().getId() == pID){
-//                        System.out.println(entry.getValue());
-//                        System.out.println(pID);
-//                        selectedPatient.add(p);
-//                        selectedChoObs.add(entry.getValue());
-//                    }
-//                }
-//        } 
-//    }
-    
-    
-//    public void updateView(ArrayList <Observation> o){
-//        this.selectedChoObs = o;
-//        jTableInitialize();
-//    }
-    
-    
-    // Reset the Model for list to show the value
-//    private void jListInitialize(){
-//        patientPane.setViewportView(selectedPatientJList);
-//        DefaultListModel<Patient> listModel = new DefaultListModel<>();
-//        for (HashMap.Entry<String, Patient> entry : patientMap.entrySet()) {
-//            listModel.addElement(entry.getValue());
-//        }
-//
-//        selectedPatientJList.setModel(listModel);   
-//        ///// Make the list become Checkbox
-//        selectedPatientJList.setCellRenderer(new CheckBoxListCellRenderer());
-//    }
     
     ///// Reset the Model for table to show the value
     private void jTableInitialize(){
-        detailPane.setViewportView(detailJTable);
-        TableModel tableModel = new TableModel( selectedChoObs);
-        detailJTable.setModel(tableModel);
+        choPane.setViewportView(chojTable);
+        tobPane.setViewportView(tobjTable);
+        TableModel1 choTableModel = new TableModel1( selectedChoObs);
+        TableModel2 tobTableModel = new TableModel2( selectedTobacObs);
+        chojTable.setModel(choTableModel);
+        tobjTable.setModel(tobTableModel);
     }
     
     // Clears selected patients and observations
@@ -242,19 +217,34 @@ public class View extends javax.swing.JFrame {
         return this.displayText;
     }
     
+    public javax.swing.JLabel getBloodPressureIDText()
+    {
+        return this.showBloodPressureID;
+    }
+    
     public javax.swing.JScrollPane getPatientPane()
     {
         return this.patientPane;
     }
     
-    public javax.swing.JScrollPane getDetailPane()
+    public javax.swing.JScrollPane getchoPane()
     {
-        return this.detailPane;
+        return this.choPane;
     }
     
-    public javax.swing.JTable getDetailJTable()
+    public javax.swing.JScrollPane gettobPane()
     {
-        return this.detailJTable;
+        return this.tobPane;
+    }
+    
+    public javax.swing.JTable getchoJTable()
+    {
+        return this.chojTable;
+    }
+    
+    public javax.swing.JTable gettobJTable()
+    {
+        return this.tobjTable;
     }
     
     public javax.swing.JButton getShowButton()
@@ -336,7 +326,7 @@ public class View extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane detailPane;
+    private javax.swing.JScrollPane choPane;
     private javax.swing.JLabel displayText;
     private javax.swing.JButton initButton;
     private javax.swing.JLayeredPane jLayeredPane1;
@@ -344,7 +334,10 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JTextField pracIdText;
     private javax.swing.JLabel pracLabel;
     private javax.swing.JLabel pracNameText;
+    private javax.swing.JLabel showBloodPressureID;
     private javax.swing.JButton showButton;
+    private javax.swing.JLabel showHyperBlood;
+    private javax.swing.JScrollPane tobPane;
     // End of variables declaration//GEN-END:variables
    
 }

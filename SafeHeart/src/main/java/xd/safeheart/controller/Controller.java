@@ -175,9 +175,9 @@ public class Controller {
      */
     private void updateDetailTable()
     {
-        JTable tab = this.view.getDetailJTable();
-        this.view.getDetailPane().setViewportView(tab);
-        TableModel tableModel = new TableModel(this.view.getSelectedChoObs());
+        JTable tab = this.view.getchoJTable();
+        this.view.getchoPane().setViewportView(tab);
+        TableModel1 tableModel = new TableModel1(this.view.getSelectedChoObs());
         tab.setModel(tableModel);
     }
     

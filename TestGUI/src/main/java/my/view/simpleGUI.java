@@ -262,6 +262,7 @@ public class simpleGUI extends javax.swing.JFrame {
             LineChart chart = new LineChart(p.getId()+p.getFamilyName()+p.getGivenName(),diaBL,sysBL);
             chart.setSize(800, 400);
             chart.setVisible(true);
+           
         }
     }
     

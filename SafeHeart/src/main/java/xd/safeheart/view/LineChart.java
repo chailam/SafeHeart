@@ -41,24 +41,12 @@ public class LineChart extends ApplicationFrame {
       
           dataset1.add(new Day(o.getDay(),o.getMonth(),o.getYear()),Integer.parseInt(o.getValue()));
       }
-//      dataset1.add( new Day(1, 1, 1970), 15 );
-//      dataset1.add( new Day(1, 1, 1980), 30 );
-//      dataset1.add( new Day(1, 1, 1990), 60  );
-//      dataset1.add( new Day(1, 1, 2000),120  );
-//      dataset1.add( new Day(1, 1, 2010),240);
-//      dataset1.add( new Day(1, 1, 2020),300 );
       
       TimeSeries dataset2 = new TimeSeries("Diastolic");
       for (Observation o : diasObs){
       
           dataset1.add(new Day(o.getDay(),o.getMonth(),o.getYear()),Integer.parseInt(o.getValue()));
       }
-//      dataset2.add( new Day(1, 1, 1970), 300 );
-//      dataset2.add(  new Day(1, 1, 1980), 240 );
-//      dataset2.add( new Day(1, 1, 1990), 120  );
-//      dataset2.add( new Day(1, 1, 2000),60  );
-//      dataset2.add( new Day(1, 1, 2010),30);
-//      dataset2.add( new Day(1, 1, 2020),15 );
       
       dataset.addSeries(dataset2);
       dataset.addSeries(dataset1);

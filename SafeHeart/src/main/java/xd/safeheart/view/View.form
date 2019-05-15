@@ -77,7 +77,14 @@
                       <Component id="patientPane" min="-2" pref="294" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="38" max="32767" attributes="0"/>
-                  <Component id="detailPane" min="-2" pref="583" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="choPane" pref="583" max="32767" attributes="0"/>
+                          <Component id="tobPane" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="showHyperBlood" min="-2" max="-2" attributes="0"/>
+                      <Component id="showBloodPressureID" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -87,7 +94,15 @@
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="detailPane" min="-2" pref="207" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="choPane" min="-2" pref="195" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="tobPane" min="-2" pref="179" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="showHyperBlood" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="showBloodPressureID" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" attributes="0">
                           <Component id="patientPane" min="-2" pref="421" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -104,7 +119,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
         </Container>
-        <Container class="javax.swing.JScrollPane" name="detailPane">
+        <Container class="javax.swing.JScrollPane" name="choPane">
           <Properties>
             <Property name="autoscrolls" type="boolean" value="true"/>
           </Properties>
@@ -118,6 +133,17 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="showButtonActionPerformed"/>
           </Events>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="tobPane">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+        </Container>
+        <Component class="javax.swing.JLabel" name="showHyperBlood">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Alert for Selected Patient (systolic &gt; 180 and diastolic &gt; 120 ): "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="showBloodPressureID">
         </Component>
       </SubComponents>
     </Container>

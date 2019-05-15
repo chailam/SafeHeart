@@ -15,7 +15,7 @@ import xd.safeheart.model.*;
  * @author Chai Lam
  * @author Aik Han
  */
-public class TableModel extends AbstractTableModel {
+public class TableModel1 extends AbstractTableModel {
 
     private ArrayList <Observation> selectedO;
     private String[] columnNames = { "FamilyName", "GivenName", "Age",
@@ -23,7 +23,7 @@ public class TableModel extends AbstractTableModel {
     private int columnLength = 6;
     private int rowLength;
 
-    public TableModel(ArrayList<Observation> selectedO){
+    public TableModel1(ArrayList<Observation> selectedO){
          this.selectedO = selectedO;
          this.rowLength = selectedO.size();
     }
