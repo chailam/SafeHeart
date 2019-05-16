@@ -44,6 +44,8 @@ public class LineChart extends JFrame {
       }
       
       TimeSeries diasDataSet = new TimeSeries("Diastolic");
+      System.out.println(sysObs);
+      System.out.println(diasObs);
       for (Observation o : diasObs){
           diasDataSet.add(new Day(o.getDay(),o.getMonth(),o.getYear()),Float.parseFloat(o.getValue()));
       }

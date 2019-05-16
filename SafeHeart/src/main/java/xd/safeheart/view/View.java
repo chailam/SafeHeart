@@ -227,13 +227,15 @@ public class View extends javax.swing.JFrame {
     }
     
     // Clears selected patients and observations
-    public void clearSelected()
+    public void clearChoSelected()
     {
         this.selectedChoObs.clear();
         this.selectedTobacObs.clear();
         this.selectedBloodDiasObs.clear();
         this.selectedBloodSysObs.clear();
     }
+    
+    
     
     // getters of UI element
     

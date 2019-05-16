@@ -65,8 +65,7 @@ public class Controller {
         JLabel display = this.view.getDisplayText();
         JList<Patient> selectedPatientList = this.view.getSelectedPatientJList();
         display.setText("");
-        // clean view
-        this.view.clearSelected();
+
         this.updateDetailTable();
         // practitioner's id
         String pracId = pracIdText.getText();
@@ -113,7 +112,7 @@ public class Controller {
         System.out.println("Getting all Observations for selected Patients");
         List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
         // Clear all the data in list
-        this.view.clearSelected();
+        this.view.clearChoSelected();
         for (Patient p : selPat)
         {
             boolean foundInMap = false;
