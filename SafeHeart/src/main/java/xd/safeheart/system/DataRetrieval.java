@@ -314,6 +314,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
                 // load next page
                 obsBundle = client.loadPage().next(obsBundle).execute();
             }
+            // current page entries
             for (BundleEntryComponent entry : obsBundle.getEntry())
             {
                 // within each entry is a resource
@@ -352,9 +353,14 @@ public class DataRetrieval extends AbstractDataRetrieval{
                     } catch (FHIRException ex) {
                     Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                // found, break loop
+                if(output != null)
+                {
+                    break;
+                }
             }
-        // keep going to next page    
-        } while (obsBundle.getLink(Bundle.LINK_NEXT) != null);
+        // keep going to next page while output not found
+        } while (obsBundle.getLink(Bundle.LINK_NEXT) != null && output == null);
         
         return output;
     }
