@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.table.TableColumn;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.title.TextTitle;
 
 public class simpleGUI extends javax.swing.JFrame {
@@ -30,6 +31,8 @@ public class simpleGUI extends javax.swing.JFrame {
     private ArrayList <Ob> selectedTobacOb = new ArrayList<>(); /// The selected person and its data in checkbox
     private String sysAlert = "";
     private String diasAlert = "";
+    private LineChart chart;
+    private HashMap <String, LineChart> chartMap = new HashMap<>();
     
     /**
      * Creates new form simpleGUI
@@ -67,6 +70,7 @@ public class simpleGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
@@ -86,6 +90,13 @@ public class simpleGUI extends javax.swing.JFrame {
 
         jLabel5.setText("Alert for Selected Patient (diastolic > 120 ): ");
 
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         jLayeredPane1.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -94,6 +105,7 @@ public class simpleGUI extends javax.swing.JFrame {
         jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -102,7 +114,10 @@ public class simpleGUI extends javax.swing.JFrame {
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(40, 40, 40)
+                        .addComponent(jButton1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +138,9 @@ public class simpleGUI extends javax.swing.JFrame {
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2)))
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -182,6 +199,11 @@ public class simpleGUI extends javax.swing.JFrame {
         jGraphInitialize();
         bloodPressureAlert();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton2ActionPerformed
     
     private void getSelected(){
         int[] indices = jList1.getSelectedIndices();
@@ -191,7 +213,12 @@ public class simpleGUI extends javax.swing.JFrame {
         selectedDiasBlood.clear();
         selectedSysBlood.clear();
         selectedTobacOb.clear();
-        
+        if (chartMap.size() > 0){
+        for (HashMap.Entry<String, LineChart> entry : chartMap.entrySet()){
+            entry.getValue().setVisible(false);
+            entry.getValue().dispose();
+        }
+        }
         
         
         System.out.println("Selected; ");
@@ -269,14 +296,15 @@ public class simpleGUI extends javax.swing.JFrame {
     }
     
     private void jGraphInitialize(){
+        
         for (int i = 0; i < this.selectedDiasBlood.size(); i++){
             ArrayList<Ob> sysBL = selectedSysBlood.get(i);
             ArrayList<Ob> diaBL = selectedDiasBlood.get(i);
             Person p = sysBL.get(0).getPatient();
-            LineChart chart = new LineChart(p.getId()+p.getFamilyName()+p.getGivenName(),diaBL,sysBL);
+            chart = new LineChart(p.getId()+p.getFamilyName()+p.getGivenName(),diaBL,sysBL);
             chart.setSize(800, 400);
             chart.setVisible(true);
-           
+            chartMap.put(Integer.toString(p.getId()),chart);
         }
     }
     
@@ -338,6 +366,7 @@ public class simpleGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

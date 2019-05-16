@@ -31,6 +31,7 @@ public class Controller {
     private final DataRetrieval dR;
     private String sysAlert;  //the alert label for systolic blood pressure
     private String diasAlert;  //the alert label for diastolic blood pressure
+    private HashMap <String, LineChart> chartMap = new HashMap<>();
   
     // Constructor
     public Controller(){
@@ -113,6 +114,15 @@ public class Controller {
         List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
         // Clear all the data in list
         this.view.clearChoSelected();
+        // Clear the graph
+        if (chartMap.size() > 0){
+            for (HashMap.Entry<String, LineChart> entry : chartMap.entrySet()){
+                entry.getValue().setVisible(false);
+                entry.getValue().dispose();
+            }
+        }
+        
+        // Search for selected observation
         for (Patient p : selPat)
         {
             boolean foundInMap = false;
@@ -227,14 +237,14 @@ public class Controller {
 
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
         {
-            LineChart chart = new LineChart(this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getId() + 
-                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getFamilyName() + 
-                    this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient().getGivenName(),
+            Patient p = this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient();
+            LineChart chart = new LineChart(p.getId() + p.getFamilyName() + p.getGivenName(),
                     this.view.getSelectedBloodSysObs().get(entry.getKey()),
                     this.view.getSelectedBloodDiasObs().get(entry.getKey()));
 
             chart.setSize(800, 400);
             chart.setVisible(true);
+            chartMap.put(Integer.toString(p.getId()),chart);
         }
     }
     
