@@ -331,6 +331,8 @@ public class DataRetrieval extends AbstractDataRetrieval{
                                 p,
                                 o.getValueQuantity().getValue().toString()
                             );
+                            // store in data
+                            this.choObsMap.put(Integer.toString(output.getID()), output);
                             break;
                         case "72166-2":
                             output = new xd.safeheart.model.Observation(
@@ -339,6 +341,8 @@ public class DataRetrieval extends AbstractDataRetrieval{
                                 p,
                                 o.getValueCodeableConcept().getText()
                             );
+                            // store in data
+                            this.tobacObsMap.put(Integer.toString(output.getID()), output);
                             break;
                             
                         default:
@@ -351,12 +355,6 @@ public class DataRetrieval extends AbstractDataRetrieval{
             }
         // keep going to next page    
         } while (obsBundle.getLink(Bundle.LINK_NEXT) != null);
-        
-        if(output != null)
-        {
-            // store in data
-            this.obsMap.put(Integer.toString(output.getID()), output);
-        }
         
         return output;
     }
@@ -416,7 +414,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
                                         // add to first list
                                         output.get(0).add(model);
                                         // store in data
-                                        this.obsMap.put(Integer.toString(model.getID()), model);
+                                        this.bloodDiasObsMap.put(Integer.toString(model.getID()), model);
                                     }
                                     // if systolic
                                     else if (c.getCode().getCodingFirstRep().getCode().equals("8480-6"))
@@ -433,7 +431,7 @@ public class DataRetrieval extends AbstractDataRetrieval{
                                         // add to second list
                                         output.get(1).add(model);
                                         // store in data
-                                        this.obsMap.put(Integer.toString(model.getID()), model);
+                                        this.bloodSysObsMap.put(Integer.toString(model.getID()), model);
                                     }
                                 }
                                 break;
@@ -455,11 +453,19 @@ public class DataRetrieval extends AbstractDataRetrieval{
      * Updates all the Observation in the hashmap
      */
     public void reGetObs() {
+        this.updateObsMap(choObsMap);
+        this.updateObsMap(bloodDiasObsMap);
+        this.updateObsMap(bloodSysObsMap);
+        this.updateObsMap(tobacObsMap);
+    }
+    
+    private void updateObsMap(HashMap<String, xd.safeheart.model.Observation> map)
+    {
         // update all observation in the hashmap
-        for (HashMap.Entry<String, xd.safeheart.model.Observation> entry : this.obsMap.entrySet()) {
+        for (HashMap.Entry<String, xd.safeheart.model.Observation> entry : map.entrySet()) {
             org.hl7.fhir.dstu3.model.Observation o = this.searchObservationById(entry.getKey());
             try {
-                this.obsMap.put(entry.getKey(), new xd.safeheart.model.Observation(
+                map.put(entry.getKey(), new xd.safeheart.model.Observation(
                         Integer.parseInt(o.getIdElement().getIdPart()),
                         o.getCode().getText(),
                         o.getValueQuantity().getUnit(),
