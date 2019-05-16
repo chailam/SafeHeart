@@ -35,12 +35,12 @@ public class DataRetrieval implements AbstractDataRetrieval{
     private final FhirContext ctx;
     private final IGenericClient client;
     private xd.safeheart.model.Practitioner practitioner;
-    protected HashMap <String, xd.safeheart.model.Patient> patientMap;
-    protected HashMap <String, xd.safeheart.model.Encounter> encounterMap;
-    protected HashMap <String, xd.safeheart.model.Observation> choObsMap;
-    protected HashMap <String, ArrayList<xd.safeheart.model.Observation>> bloodDiasObsMap;
-    protected HashMap <String, ArrayList<xd.safeheart.model.Observation>> bloodSysObsMap;
-    protected HashMap <String, xd.safeheart.model.Observation> tobacObsMap;
+    private final HashMap <String, xd.safeheart.model.Patient> patientMap;
+    private final HashMap <String, xd.safeheart.model.Encounter> encounterMap;
+    private final HashMap <String, xd.safeheart.model.Observation> choObsMap;
+    private final HashMap <String, ArrayList<xd.safeheart.model.Observation>> bloodDiasObsMap;
+    private final HashMap <String, ArrayList<xd.safeheart.model.Observation>> bloodSysObsMap;
+    private final HashMap <String, xd.safeheart.model.Observation> tobacObsMap;
     
     
     public DataRetrieval(String inputUrl) {
