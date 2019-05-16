@@ -32,9 +32,9 @@ public interface AbstractDataRetrieval {
 
     public Practitioner getPractitioner();
 
-    public Observation getRecentObsByPat(Patient p, String string);
+    public Observation getRecentObsByPat(Patient p, String codeStr);
 
-    public ArrayList<ArrayList<Observation>> getAllHistoricObsByPat(Patient p, String string);
+    public ArrayList<ArrayList<Observation>> getAllHistoricObsByPat(Patient p, String codeStr);
 
     public void reGetObs();
     
