@@ -129,11 +129,21 @@ public class Controller {
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Diastolic Blood Pressure"))  // search for Diastolic Blood Pressure Data in our program
                 {
-                    this.view.getSelectedBloodDiasObs().get(Integer.toString(p.getId())).add(o);
+                    // create list inside map if null
+                    if (this.view.getSelectedBloodDiasObs().get(Integer.toString(p.getId())) == null)
+                    {
+                        this.view.getSelectedBloodDiasObs().put(Integer.toString(p.getId()), new ArrayList<>());
+                    }
+                    this.view.getSelectedBloodDiasObs().get(Integer.toString(p.getId())).add(obsResult);
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Systolic Blood Pressure")) // search for Systolic Blood Pressure Data in our program
                 {
-                    this.view.getSelectedBloodSysObs().get(Integer.toString(p.getId())).add(o);
+                    // create list inside map if null
+                    if (this.view.getSelectedBloodSysObs().get(Integer.toString(p.getId())) == null)
+                    {
+                        this.view.getSelectedBloodSysObs().put(Integer.toString(p.getId()), new ArrayList<>());
+                    }
+                    this.view.getSelectedBloodSysObs().get(Integer.toString(p.getId())).add(obsResult);
                     foundInMap = true;
                 } else if (o.getPatient().equals(p) && o.getType().equals("Tobacco smoking status NHIS")) // search for Tobacco smoking status NHIS Data in our program
                 {
