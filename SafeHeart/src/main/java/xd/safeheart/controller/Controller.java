@@ -54,6 +54,7 @@ public class Controller implements Observer{
         this.view.setVisible(true);
         this.view.getInitButton().addActionListener(e -> getPatientByPracId());
         this.view.getShowChoButton().addActionListener(e -> getChoObsByPatient());
+        this.view.getShowTobBloodButton().addActionListener(e->getTobacBloodObsByPatient());
         this.view.start();
     }
     
@@ -67,8 +68,7 @@ public class Controller implements Observer{
         JLabel display = this.view.getDisplayText();
         JList<Patient> selectedPatientList = this.view.getSelectedPatientJList();
         display.setText("");
-
-        this.updateDetailTable();
+        
         // practitioner's id
         String pracId = pracIdText.getText();
         // test if id a number
@@ -111,17 +111,50 @@ public class Controller implements Observer{
     private void getChoObsByPatient()
     {
         //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
-        System.out.println("Getting all Observations for selected Patients");
+        System.out.println("Getting all Cholesterol Observations for selected Patients");
         List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
         // Clear all the data in list
         this.view.clearChoSelected();
         // Clear the graph
-        if (chartMap.size() > 0){
-            for (HashMap.Entry<String, LineChart> entry : chartMap.entrySet()){
-                entry.getValue().setVisible(false);
-                entry.getValue().dispose();
+        this.clearGraph();
+        
+        // Search for selected observation
+        for (Patient p : selPat)
+        {
+            boolean foundInMap = false;
+            Observation obsResult;
+            
+            System.out.println(this.dR.getChoObsMap().get(Integer.toString(p.getId())));
+            if (this.dR.getChoObsMap().containsKey(Integer.toString(p.getId())))
+            {
+                this.view.getSelectedChoObs().add(this.dR.getChoObsMap().get(Integer.toString(p.getId())));
+                foundInMap = true;
+            }
+                       
+            // not found in program, get from server
+            //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
+            if(!foundInMap)
+            {
+                obsResult = this.dR.getRecentObsByPat(p,"2093-3");
+                if (obsResult != null)
+                {
+                    this.view.getSelectedChoObs().add(obsResult);
+                }        
             }
         }
+        // update table
+        this.updateChoTable();     
+    }
+
+    private void getTobacBloodObsByPatient()
+    {
+        //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
+        System.out.println("Getting all Tobacco and Blood Pressure Observations for selected Patients");
+        List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
+        // Clear all the data in list
+        this.view.clearTobBloodSelected();
+        // Clear the graph
+        this.clearGraph();
         
         // Search for selected observation
         for (Patient p : selPat)
@@ -131,12 +164,6 @@ public class Controller implements Observer{
             ArrayList<ArrayList<Observation>> bloodPressureResultList;
             
             System.out.println(this.dR.getChoObsMap().get(Integer.toString(p.getId())));
-            if (this.dR.getChoObsMap().containsKey(Integer.toString(p.getId())))
-            {
-                this.view.getSelectedChoObs().add(this.dR.getChoObsMap().get(Integer.toString(p.getId())));
-                foundInMap = true;
-            }
-            
             if (this.dR.getBloodDiasObsMap().containsKey(Integer.toString(p.getId())))
             {
                 this.view.getSelectedBloodDiasObs().put(Integer.toString(p.getId()), new ArrayList<>(this.dR.getBloodDiasObsMap().get(Integer.toString(p.getId()))));
@@ -160,11 +187,6 @@ public class Controller implements Observer{
             //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
             if(!foundInMap)
             {
-                obsResult = this.dR.getRecentObsByPat(p,"2093-3");
-                if (obsResult != null)
-                {
-                    this.view.getSelectedChoObs().add(obsResult);
-                } 
                 obsResult = this.dR.getRecentObsByPat(p,"72166-2");
                 if (obsResult != null)
                 {
@@ -188,31 +210,34 @@ public class Controller implements Observer{
             }
         }
         // update table
-        this.updateDetailTable();
+        this.updateTobTable();
         
         // Show graph
         this.showGraph();
         
         // Show alert message
         this.bloodPressureAlert();
-        
     }
-
+    
+    
     
     /**
      * Update the table by the data stored
      */
-    private void updateDetailTable()
+    private void updateChoTable()
     {
         //Update cholesterol table
         JTable tab = this.view.getchoJTable();
-        this.view.getchoPane().setViewportView(tab);
+        this.view.getShowPane().setViewportView(tab);
         AbstractTableModel tableModel = new TableModel1(this.view.getSelectedChoObs());
         tab.setModel(tableModel);
-        
-        //Upddate tobacco table
+    }
+    
+    private void updateTobTable()
+    {
+        //Update tobacco table
         JTable tobac = this.view.gettobJTable();
-        this.view.gettobPane().setViewportView(tobac);
+        this.view.getShowPane().setViewportView(tobac);
         AbstractTableModel tableModel2 = new TableModel2(this.view.getSelectedTobacObs());
         tobac.setModel(tableModel2);
     }
@@ -234,6 +259,16 @@ public class Controller implements Observer{
             chartMap.put(Integer.toString(p.getId()),chart);
         }
     }
+    
+    private void clearGraph(){
+        if (chartMap.size() > 0){
+            for (HashMap.Entry<String, LineChart> entry : chartMap.entrySet()){
+                entry.getValue().setVisible(false);
+                entry.getValue().dispose();
+            }
+        }
+        chartMap.clear();
+    }
    
     
     private void bloodPressureAlert(){
@@ -243,7 +278,6 @@ public class Controller implements Observer{
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
         {
             ArrayList<Observation> sysList = entry.getValue();
-            this.view.getSysBloodPressureIDText().setText("bbb");
             for (int j = 0; j < sysList.size();j++){
                 if (Float.parseFloat(sysList.get(j).getValue()) > 180){
                     sysAlert = sysAlert + Integer.toString(sysList.get(j).getPatient().getId()) + sysList.get(j).getPatient().getFamilyName() + sysList.get(j).getPatient().getGivenName() + ", ";
@@ -256,10 +290,9 @@ public class Controller implements Observer{
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodDiasObs().entrySet()) 
         {
             ArrayList<Observation> diasList = entry.getValue();
-            this.view.getDiasBloodPressureIDText().setText("aaa");
             for (int j = 0; j < diasList.size();j++){
                 System.out.println(diasList.get(j).getValue());
-                if (Float.parseFloat(diasList.get(j).getValue()) > 180){
+                if (Float.parseFloat(diasList.get(j).getValue()) > 120){
                     diasAlert = diasAlert + Integer.toString(diasList.get(j).getPatient().getId()) + diasList.get(j).getPatient().getFamilyName() + diasList.get(j).getPatient().getGivenName() + ", ";
                     this.view.getDiasBloodPressureIDText().setText(diasAlert);
                     break;

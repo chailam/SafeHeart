@@ -55,9 +55,8 @@ public class View extends javax.swing.JFrame implements Observer {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
         patientPane = new javax.swing.JScrollPane();
-        choPane = new javax.swing.JScrollPane();
+        showPane = new javax.swing.JScrollPane();
         showChoButton = new javax.swing.JButton();
-        tobPane = new javax.swing.JScrollPane();
         showHyperBlood = new javax.swing.JLabel();
         showSysBloodPressureID = new javax.swing.JLabel();
         showHyperBlood2 = new javax.swing.JLabel();
@@ -72,7 +71,7 @@ public class View extends javax.swing.JFrame implements Observer {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FIT3077  Assignment 2");
 
-        choPane.setAutoscrolls(true);
+        showPane.setAutoscrolls(true);
 
         showChoButton.setText("Show Cholesterol");
         showChoButton.addActionListener(new java.awt.event.ActionListener() {
@@ -88,9 +87,8 @@ public class View extends javax.swing.JFrame implements Observer {
         showTobBloodButton.setText("Show Tobacco&Blood Pressure");
 
         jLayeredPane1.setLayer(patientPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(choPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(showPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(showChoButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(tobPane, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(showHyperBlood, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(showSysBloodPressureID, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(showHyperBlood2, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -102,24 +100,6 @@ public class View extends javax.swing.JFrame implements Observer {
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addGap(405, 405, 405)
-                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tobPane, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
-                            .addComponent(choPane)))
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addGap(439, 439, 439)
-                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(showDiasBloodPressureID, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                                .addGap(5, 5, 5)
-                                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(showSysBloodPressureID, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(showHyperBlood)))
-                            .addComponent(showHyperBlood2))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
@@ -129,7 +109,14 @@ public class View extends javax.swing.JFrame implements Observer {
                         .addComponent(showChoButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(showTobBloodButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(949, 949, 949))
+                .addGap(42, 42, 42)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(showHyperBlood)
+                    .addComponent(showPane, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+                    .addComponent(showHyperBlood2)
+                    .addComponent(showSysBloodPressureID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showDiasBloodPressureID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -144,17 +131,15 @@ public class View extends javax.swing.JFrame implements Observer {
                             .addComponent(showTobBloodButton))
                         .addGap(0, 5, Short.MAX_VALUE))
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(choPane, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tobPane, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(showPane, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(showHyperBlood)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(showSysBloodPressureID, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(showSysBloodPressureID, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(showHyperBlood2)
-                        .addGap(18, 18, 18)
-                        .addComponent(showDiasBloodPressureID, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(showDiasBloodPressureID, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
@@ -218,8 +203,7 @@ public class View extends javax.swing.JFrame implements Observer {
     
     ///// Reset the Model for table to show the value
     private void jTableInitialize(){
-        choPane.setViewportView(chojTable);
-        tobPane.setViewportView(tobjTable);
+        showPane.setViewportView(chojTable);
         AbstractTableModel choTableModel = new TableModel1(selectedChoObs);
         AbstractTableModel tobTableModel = new TableModel2(selectedTobacObs);
         chojTable.setModel(choTableModel);
@@ -230,6 +214,11 @@ public class View extends javax.swing.JFrame implements Observer {
     public void clearChoSelected()
     {
         this.selectedChoObs.clear();
+    }
+    
+    // Clears selected patients and observations
+    public void clearTobBloodSelected()
+    {
         this.selectedTobacObs.clear();
         this.selectedBloodDiasObs.clear();
         this.selectedBloodSysObs.clear();
@@ -272,14 +261,9 @@ public class View extends javax.swing.JFrame implements Observer {
         return this.patientPane;
     }
     
-    public javax.swing.JScrollPane getchoPane()
+    public javax.swing.JScrollPane getShowPane()
     {
-        return this.choPane;
-    }
-    
-    public javax.swing.JScrollPane gettobPane()
-    {
-        return this.tobPane;
+        return this.showPane;
     }
     
     public javax.swing.JTable getchoJTable()
@@ -382,7 +366,6 @@ public class View extends javax.swing.JFrame implements Observer {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane choPane;
     private javax.swing.JLabel displayText;
     private javax.swing.JButton initButton;
     private javax.swing.JLayeredPane jLayeredPane1;
@@ -394,9 +377,9 @@ public class View extends javax.swing.JFrame implements Observer {
     private javax.swing.JLabel showDiasBloodPressureID;
     private javax.swing.JLabel showHyperBlood;
     private javax.swing.JLabel showHyperBlood2;
+    private javax.swing.JScrollPane showPane;
     private javax.swing.JLabel showSysBloodPressureID;
     private javax.swing.JButton showTobBloodButton;
-    private javax.swing.JScrollPane tobPane;
     // End of variables declaration//GEN-END:variables
    
 }
