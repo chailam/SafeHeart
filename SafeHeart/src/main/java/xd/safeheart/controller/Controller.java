@@ -124,7 +124,6 @@ public class Controller implements Observer{
             boolean foundInMap = false;
             Observation obsResult;
             
-            System.out.println(this.dR.getChoObsMap().get(Integer.toString(p.getId())));
             if (this.dR.getChoObsMap().containsKey(Integer.toString(p.getId())))
             {
                 this.view.getSelectedChoObs().add(this.dR.getChoObsMap().get(Integer.toString(p.getId())));
@@ -163,7 +162,6 @@ public class Controller implements Observer{
             Observation obsResult;
             ArrayList<ArrayList<Observation>> bloodPressureResultList;
             
-            System.out.println(this.dR.getChoObsMap().get(Integer.toString(p.getId())));
             if (this.dR.getBloodDiasObsMap().containsKey(Integer.toString(p.getId())))
             {
                 this.view.getSelectedBloodDiasObs().put(Integer.toString(p.getId()), new ArrayList<>(this.dR.getBloodDiasObsMap().get(Integer.toString(p.getId()))));
@@ -244,9 +242,6 @@ public class Controller implements Observer{
     
     private void showGraph()
     {
-        System.out.println("this.view.getSelectedBloodSysObs() size" + this.view.getSelectedBloodSysObs().size());
-        System.out.println("this.view.getSelectedBloodDiasObs() size" + this.view.getSelectedBloodDiasObs().size());
-
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
         {
             Patient p = this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient();
@@ -270,10 +265,13 @@ public class Controller implements Observer{
         chartMap.clear();
     }
    
-    
+
     private void bloodPressureAlert(){
-        sysAlert = "";
-        diasAlert = "";
+        this.sysAlert = "";
+        this.diasAlert = "";
+        this.view.getSysBloodPressureIDText().setText(this.sysAlert);
+        this.view.getDiasBloodPressureIDText().setText(this.diasAlert);
+                
 
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
         {
@@ -291,7 +289,6 @@ public class Controller implements Observer{
         {
             ArrayList<Observation> diasList = entry.getValue();
             for (int j = 0; j < diasList.size();j++){
-                System.out.println(diasList.get(j).getValue());
                 if (Float.parseFloat(diasList.get(j).getValue()) > 120){
                     diasAlert = diasAlert + Integer.toString(diasList.get(j).getPatient().getId()) + diasList.get(j).getPatient().getFamilyName() + diasList.get(j).getPatient().getGivenName() + ", ";
                     this.view.getDiasBloodPressureIDText().setText(diasAlert);
@@ -306,6 +303,8 @@ public class Controller implements Observer{
      */
     @Override
     public void update(){
+        this.dR.reGetObs();
         this.getChoObsByPatient();
+        this.getTobacBloodObsByPatient();
     }
 }
