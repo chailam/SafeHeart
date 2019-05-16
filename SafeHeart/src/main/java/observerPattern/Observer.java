@@ -4,9 +4,10 @@
  *	 Aik Han Ng (28947991)
  *	 Chai Lam Loi (28136179)
  */
-package xd.safeheart.system;
+package observerPattern;
 
 
-public class Observer {
-    
+public interface Observer {
+
+	public void update();
 }

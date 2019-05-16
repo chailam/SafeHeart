@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
+import observerPattern.Observer;
 import xd.safeheart.system.DataRetrieval;
 
 /**
@@ -26,7 +27,7 @@ import xd.safeheart.system.DataRetrieval;
  * @author Chai Lam
  * @author Aik Han
  */
-public class Controller {
+public class Controller implements Observer{
     private final View view;  //the view
     private final DataRetrieval dR;
     private String sysAlert;  //the alert label for systolic blood pressure
@@ -247,13 +248,7 @@ public class Controller {
             chartMap.put(Integer.toString(p.getId()),chart);
         }
     }
-    
-    /**
-     * Constantly updates Observations
-     */
-    public void updateObservations(){
-        this.getChoObsByPatient();
-    }
+   
     
     private void bloodPressureAlert(){
         sysAlert = "";
@@ -285,5 +280,13 @@ public class Controller {
                 }
             }
         }
+    }
+    
+    /**
+     * Constantly updates Observations
+     */
+    @Override
+    public void update(){
+        this.getChoObsByPatient();
     }
 }

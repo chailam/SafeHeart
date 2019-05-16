@@ -10,13 +10,14 @@ import xd.safeheart.model.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.table.AbstractTableModel;
+import observerPattern.Observer;
 
 /**
  * User Interface of the program, by using JFrame
  * @author Chai Lam
  * @author Aik Han
  */
-public class View extends javax.swing.JFrame {
+public class View extends javax.swing.JFrame implements Observer {
 
     ///// My declaration of variable
     private final javax.swing.JList<Patient> selectedPatientJList = new javax.swing.JList<>();
@@ -211,8 +212,7 @@ public class View extends javax.swing.JFrame {
 
     ///// Action for the button "start"
     private void showChoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showChoButtonActionPerformed
-//        getSelected();
-//        jTableInitialize();
+
     }//GEN-LAST:event_showChoButtonActionPerformed
     
     
@@ -234,8 +234,6 @@ public class View extends javax.swing.JFrame {
         this.selectedBloodDiasObs.clear();
         this.selectedBloodSysObs.clear();
     }
-    
-    
     
     // getters of UI element
     
@@ -333,6 +331,12 @@ public class View extends javax.swing.JFrame {
     {
         return this.selectedTobacObs;
     }
+    
+    @Override
+    public void update(){
+    
+    }
+    
     
     /**
      * @param args the command line arguments

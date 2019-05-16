@@ -22,16 +22,13 @@ public class Client {
         c = new Controller();
         c.initView();
         
-        // init monitor
-        InterfaceMonitor m;
-        m = new CholesterolMonitor();
         
         // set time loop to execute every 1 hours on the monitor to update observation
         ScheduledExecutorService ses = Executors.newSingleThreadScheduledExecutor();
         ses.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                 m.monitorUpdate(c);
+                 c.update();
             }
         }, 0, 1, TimeUnit.HOURS);
      }
