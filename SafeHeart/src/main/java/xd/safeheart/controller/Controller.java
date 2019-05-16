@@ -33,6 +33,7 @@ public class Controller implements Observer{
     private String sysAlert;  //the alert label for systolic blood pressure
     private String diasAlert;  //the alert label for diastolic blood pressure
     private HashMap <String, LineChart> chartMap = new HashMap<>();
+    private int determineView;
   
     // Constructor
     public Controller(){
@@ -110,6 +111,9 @@ public class Controller implements Observer{
      */
     private void getChoObsByPatient()
     {
+        // Set the determineView to 1 for viewing cholesterol
+        determineView = 1;
+        
         //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
         System.out.println("Getting all Cholesterol Observations for selected Patients");
         List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
@@ -147,6 +151,9 @@ public class Controller implements Observer{
 
     private void getTobacBloodObsByPatient()
     {
+        // Set the determineView to 2 for viewing cholesterol
+        determineView = 2;
+        
         //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
         System.out.println("Getting all Tobacco and Blood Pressure Observations for selected Patients");
         List<Patient> selPat = this.view.getSelectedPatientJList().getSelectedValuesList();
@@ -304,7 +311,10 @@ public class Controller implements Observer{
     @Override
     public void update(){
         this.dR.reGetObs();
-        this.getChoObsByPatient();
+        if (determineView == 1){
+            this.getChoObsByPatient();
+        } else if (determineView == 2){
         this.getTobacBloodObsByPatient();
+        }
     }
 }
