@@ -6,6 +6,7 @@
  */
 package xd.safeheart.system;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import xd.safeheart.model.*;
 
@@ -19,8 +20,8 @@ public abstract class AbstractDataRetrieval {
     protected HashMap <String, Patient> patientMap;
     protected HashMap <String, Encounter> encounterMap;
     protected HashMap <String, Observation> choObsMap;
-    protected HashMap <String, Observation> bloodDiasObsMap;
-    protected HashMap <String, Observation> bloodSysObsMap;
+    protected HashMap <String, ArrayList<Observation>> bloodDiasObsMap;
+    protected HashMap <String, ArrayList<Observation>> bloodSysObsMap;
     protected HashMap <String, Observation> tobacObsMap;
 
     public AbstractDataRetrieval(){
@@ -41,11 +42,11 @@ public abstract class AbstractDataRetrieval {
         return choObsMap;
     }
 
-    public HashMap<String, Observation> getBloodDiasObsMap() {
+    public HashMap<String, ArrayList<Observation>> getBloodDiasObsMap() {
         return bloodDiasObsMap;
     }
 
-    public HashMap<String, Observation> getBloodSysObsMap() {
+    public HashMap<String, ArrayList<Observation>> getBloodSysObsMap() {
         return bloodSysObsMap;
     }
 

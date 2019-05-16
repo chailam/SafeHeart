@@ -130,46 +130,32 @@ public class Controller implements Observer{
             Observation obsResult;
             ArrayList<ArrayList<Observation>> bloodPressureResultList;
             
-            for (Observation o : this.dR.getChoObsMap().values()) {
-                // search for Cholesterol Data in our program
-                if (o.getPatient().equals(p) && o.getType().equals("Total Cholesterol"))
-                {
-                    this.view.getSelectedChoObs().add(o);
-                    foundInMap = true;
-                }
-            }
-            for (Observation o : this.dR.getBloodDiasObsMap().values()) {
-                if (o.getPatient().equals(p) && o.getType().equals("Diastolic Blood Pressure"))  // search for Diastolic Blood Pressure Data in our program
-                {
-                    // create list inside map if null
-                    if (this.view.getSelectedBloodDiasObs().get(Integer.toString(p.getId())) == null)
-                    {
-                        this.view.getSelectedBloodDiasObs().put(Integer.toString(p.getId()), new ArrayList<>());
-                    }
-                    this.view.getSelectedBloodDiasObs().get(Integer.toString(p.getId())).add(o);
-                    foundInMap = true;
-                }
-            }
-            for (Observation o : this.dR.getBloodSysObsMap().values()) {
-                if (o.getPatient().equals(p) && o.getType().equals("Systolic Blood Pressure")) // search for Systolic Blood Pressure Data in our program
-                {
-                    // create list inside map if null
-                    if (this.view.getSelectedBloodSysObs().get(Integer.toString(p.getId())) == null)
-                    {
-                        this.view.getSelectedBloodSysObs().put(Integer.toString(p.getId()), new ArrayList<>());
-                    }
-                    this.view.getSelectedBloodSysObs().get(Integer.toString(p.getId())).add(o);
-                    foundInMap = true;
-                }
+            System.out.println(this.dR.getChoObsMap().get(Integer.toString(p.getId())));
+            if (this.dR.getChoObsMap().containsKey(Integer.toString(p.getId())))
+            {
+                this.view.getSelectedChoObs().add(this.dR.getChoObsMap().get(Integer.toString(p.getId())));
+                foundInMap = true;
             }
             
-            for (Observation o : this.dR.getTobacObsMap().values()) {
-                if (o.getPatient().equals(p) && o.getType().equals("Tobacco smoking status NHIS")) // search for Tobacco smoking status NHIS Data in our program
-                {
-                    this.view.getSelectedTobacObs().add(o);
-                    foundInMap = true;
-                }
+            if (this.dR.getBloodDiasObsMap().containsKey(Integer.toString(p.getId())))
+            {
+                this.view.getSelectedBloodDiasObs().put(Integer.toString(p.getId()), new ArrayList<>(this.dR.getBloodDiasObsMap().get(Integer.toString(p.getId()))));
+                foundInMap = true;
             }
+            
+            if (this.dR.getBloodSysObsMap().containsKey(Integer.toString(p.getId())))
+            {
+                this.view.getSelectedBloodSysObs().put(Integer.toString(p.getId()), new ArrayList<>(this.dR.getBloodSysObsMap().get(Integer.toString(p.getId()))));
+                foundInMap = true;
+            }
+            
+            if (this.dR.getTobacObsMap().containsKey(Integer.toString(p.getId())))
+            {
+                this.view.getSelectedTobacObs().add(this.dR.getTobacObsMap().get(Integer.toString(p.getId())));
+                foundInMap = true;
+            }
+            
+            
             // not found in program, get from server
             //"2093-3" for "Total Cholesterol",    "8462-4" for "Diastolic Blood Pressure",    "8480-6"for "Systolic Blood Pressure",   "72166-2" for "Tobacco smoking status NHIS"
             if(!foundInMap)
