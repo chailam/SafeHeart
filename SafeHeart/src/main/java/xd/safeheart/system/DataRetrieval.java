@@ -30,16 +30,28 @@ import org.hl7.fhir.exceptions.FHIRException;
  * @author Chai Lam
  * @author Aik Han
  */
-public class DataRetrieval extends AbstractDataRetrieval{
+public class DataRetrieval implements AbstractDataRetrieval{
     private final String serverBaseUrl;
     private final FhirContext ctx;
     private final IGenericClient client;
     private xd.safeheart.model.Practitioner practitioner;
+    protected HashMap <String, xd.safeheart.model.Patient> patientMap;
+    protected HashMap <String, xd.safeheart.model.Encounter> encounterMap;
+    protected HashMap <String, xd.safeheart.model.Observation> choObsMap;
+    protected HashMap <String, ArrayList<xd.safeheart.model.Observation>> bloodDiasObsMap;
+    protected HashMap <String, ArrayList<xd.safeheart.model.Observation>> bloodSysObsMap;
+    protected HashMap <String, xd.safeheart.model.Observation> tobacObsMap;
     
     
     public DataRetrieval(String inputUrl) {
-        super();
+        //super();
         serverBaseUrl = inputUrl;
+        patientMap = new HashMap<>();
+        encounterMap = new HashMap<>();
+        choObsMap = new HashMap<>();
+        bloodDiasObsMap = new HashMap<>();
+        bloodSysObsMap = new HashMap<>();
+        tobacObsMap = new HashMap<>();
         
         // context - create this once, as it's an expensive operation
         // see http://hapifhir.io/doc_intro.html
@@ -520,5 +532,25 @@ public class DataRetrieval extends AbstractDataRetrieval{
                 }
             }
         }
+    }
+    
+    public HashMap <String,xd.safeheart.model.Patient> getPatientMap(){
+        return this.patientMap;
+    }
+    
+    public HashMap<String, xd.safeheart.model.Observation> getChoObsMap() {
+        return choObsMap;
+    }
+
+    public HashMap<String, ArrayList<xd.safeheart.model.Observation>> getBloodDiasObsMap() {
+        return bloodDiasObsMap;
+    }
+
+    public HashMap<String, ArrayList<xd.safeheart.model.Observation>> getBloodSysObsMap() {
+        return bloodSysObsMap;
+    }
+
+    public HashMap<String, xd.safeheart.model.Observation> getTobacObsMap() {
+        return tobacObsMap;
     }
 }

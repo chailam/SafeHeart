@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.AbstractTableModel;
 import observerPattern.Observer;
+import xd.safeheart.system.AbstractDataRetrieval;
 import xd.safeheart.system.DataRetrieval;
 
 /**
@@ -29,7 +30,7 @@ import xd.safeheart.system.DataRetrieval;
  */
 public class Controller implements Observer{
     private final View view;  //the view
-    private final DataRetrieval dR;
+    private final AbstractDataRetrieval dR;
     private String sysAlert;  //the alert label for systolic blood pressure
     private String diasAlert;  //the alert label for diastolic blood pressure
     private HashMap <String, LineChart> chartMap = new HashMap<>();
@@ -47,7 +48,7 @@ public class Controller implements Observer{
     // Getter
     public DataRetrieval getDR()
     {
-        return this.dR;
+        return (DataRetrieval) this.dR;
     }
     
     // initialise view
