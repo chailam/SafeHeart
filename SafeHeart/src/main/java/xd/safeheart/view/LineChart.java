@@ -40,12 +40,12 @@ public class LineChart extends JFrame {
       TimeSeriesCollection series = new TimeSeriesCollection();
       TimeSeries sysDateSet = new TimeSeries("Systolic");
       for (Observation o : sysObs){
-          sysDateSet.add(new Day(o.getDay(),o.getMonth(),o.getYear()),Float.parseFloat(o.getValue()));
+          sysDateSet.addOrUpdate(new Day(o.getDay(),o.getMonth(),o.getYear()),Float.parseFloat(o.getValue()));
       }
       
       TimeSeries diasDataSet = new TimeSeries("Diastolic");
       for (Observation o : diasObs){
-          diasDataSet.add(new Day(o.getDay(),o.getMonth(),o.getYear()),Float.parseFloat(o.getValue()));
+          diasDataSet.addOrUpdate(new Day(o.getDay(),o.getMonth(),o.getYear()),Float.parseFloat(o.getValue()));
       }
       
       series.addSeries(diasDataSet);
