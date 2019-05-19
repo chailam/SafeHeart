@@ -13,9 +13,13 @@ import xd.safeheart.system.*;
 import xd.safeheart.controller.Controller;
 
 /*
- * Client that runs the server. The main function
+ * Client that runs the server. The Client class that contains the main function
  */
 public class Client {
+    /**
+     * Main function of the program
+     * @param args command line arguments
+     */
     public static void main(String args[]){
         // initialise controller in MVC design
         Controller c;

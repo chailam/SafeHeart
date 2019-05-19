@@ -11,12 +11,18 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.XYDataset;
 import xd.safeheart.model.Observation;
 
+/**
+ * For Blood pressure (diastolic & systolic) Observation
+ * It renders the Line Chart model which determines its style, and data
+ * @author Chai Lam Loi (28136179)
+ */
 public class LineChart extends JFrame {
 
-   private ChartPanel chartPanel;
-   private ArrayList<Observation> sysObs;
-   private ArrayList<Observation> diasObs;
+   private final ChartPanel chartPanel;
+   private final ArrayList<Observation> sysObs;
+   private final ArrayList<Observation> diasObs;
    
+   // constructor
    public LineChart( String chartTitle, ArrayList<Observation> sysObs, ArrayList<Observation> diasObs ) {
       super(chartTitle);
      this.sysObs = sysObs;
@@ -32,10 +38,12 @@ public class LineChart extends JFrame {
       setContentPane(chartPanel);
    }
    
+   // returns chart panel
    public ChartPanel returnchartPanel(){
        return this.chartPanel;
    }
 
+   // creates dataset of xy axis
    private XYDataset createDataset( ) {
       TimeSeriesCollection series = new TimeSeriesCollection();
       TimeSeries sysDateSet = new TimeSeries("Systolic");

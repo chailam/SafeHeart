@@ -42,7 +42,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
     private final HashMap <String, ArrayList<xd.safeheart.model.Observation>> bloodSysObsMap;
     private final HashMap <String, xd.safeheart.model.Observation> tobacObsMap;
     
-    
+    // constructor
     public DataRetrieval(String inputUrl) {
         //super();
         serverBaseUrl = inputUrl;
@@ -122,6 +122,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     /**
      * Function done for every entry to get the encounter and the patient related, and store them
+     * @param entry entry component of Bundle
      */
     private void insertPatientAndEncounter(Bundle.BundleEntryComponent entry)
     {
@@ -155,6 +156,8 @@ public class DataRetrieval implements AbstractDataRetrieval{
        
     /**
      * Simply read the Practitioner by id
+     * @param id id of practitioner
+     * @return org.hl7.fhir.dstu3.model.Practitioner
      */
     private org.hl7.fhir.dstu3.model.Practitioner searchPractitionerById(String id) {
         try {
@@ -177,6 +180,8 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     /**
      * Simply read the Encounter by id
+     * @param id id of Encounter
+     * @return org.hl7.fhir.dstu3.model.Encounter
      */
     private org.hl7.fhir.dstu3.model.Encounter searchEncounterById(String id) {
         try {
@@ -208,6 +213,8 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     /**
      * Simply read the Observation by id
+     * @param id id of Observation
+     * @return org.hl7.fhir.dstu3.model.Observation
      */
     private org.hl7.fhir.dstu3.model.Observation searchObservationById(String id) {
         try {
@@ -231,6 +238,8 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     /**
      * Creates a Practitioner based from our model, from the fhir hapi's model
+     * @param prac (org.hl7.fhir.dstu3.model.Practitioner)
+     * @return xd.safeheart.model.Practitioner
      */
     private xd.safeheart.model.Practitioner createModelPractitoner(org.hl7.fhir.dstu3.model.Practitioner prac)
     {
@@ -248,6 +257,8 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     /**
      * Creates a Patient based from our model, from the fhir hapi's model
+     * @param pat (org.hl7.fhir.dstu3.model.Patien)
+     * @return xd.safeheart.model.Patient
      */
     private xd.safeheart.model.Patient createModelPatient(org.hl7.fhir.dstu3.model.Patient pat)
     {
@@ -264,6 +275,8 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     /**
      * Gets the official(NameUse.OFFICIAL) HumanName out of the list
+     * @param lname List of names
+     * @return org.hl7.fhir.dstu3.model.HumanName (the name chosen)
      */
     private org.hl7.fhir.dstu3.model.HumanName getOfficialName (List<org.hl7.fhir.dstu3.model.HumanName> lname)
     {
@@ -282,7 +295,9 @@ public class DataRetrieval implements AbstractDataRetrieval{
      * Sources:
      * https://stackoverflow.com/questions/1116123/how-do-i-calculate-someones-age-in-java
      * https://stackoverflow.com/questions/21242110/convert-java-util-date-to-java-time-localdate
-    */
+     * @param dobDate date of birth
+     * @return age calculated
+     */
     private int calculateAgeFromDate(Date dobDate)
     {
         LocalDate now = LocalDate.now();
@@ -301,6 +316,9 @@ public class DataRetrieval implements AbstractDataRetrieval{
     /**
      * Gets only the latest Observation by Patient model
      * "2093-3" for "Total Cholesterol", "72166-2" for "Tobacco smoking status NHIS"
+     * @param p Subject patient
+     * @param codeStr code of observation
+     * @return xd.safeheart.model.Observation
      */
     public xd.safeheart.model.Observation getRecentObsByPat(xd.safeheart.model.Patient p, String codeStr)
     {
@@ -381,6 +399,9 @@ public class DataRetrieval implements AbstractDataRetrieval{
      * Gets all instance of that Observation by Patient model, sorted by date
      * "55284-4" for "Blood Pressure":
      * "8462-4" for "Diastolic Blood Pressure", "8480-6" for "Systolic Blood Pressure"
+     * @param p Subject patient
+     * @param codeStr code of observation
+     * @return list of different observation list that contains all historic observations
      */
     public ArrayList<ArrayList<xd.safeheart.model.Observation>> getAllHistoricObsByPat(xd.safeheart.model.Patient p, String codeStr)
     {
@@ -487,7 +508,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     /**
      * Updates all in observation maps
-     * @param map 
+     * @param map the observation map to update
      */
     private void updateObsMap(HashMap<String, xd.safeheart.model.Observation> map)
     {
@@ -510,7 +531,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     /**
      * Updates all observations in maps containing list of observations
-     * @param map 
+     * @param map the observation map that contains historic observations to update
      */
     private void updateObsListMap(HashMap<String, ArrayList<xd.safeheart.model.Observation>> map)
     {
@@ -533,6 +554,8 @@ public class DataRetrieval implements AbstractDataRetrieval{
             }
         }
     }
+    
+    // getters
     
     public HashMap <String,xd.safeheart.model.Patient> getPatientMap(){
         return this.patientMap;

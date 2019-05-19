@@ -12,7 +12,7 @@ import xd.safeheart.model.*;
 
 
 /**
- * Abstract Data Retrieval
+ * Abstract interface for Data Retrieval
  * @author Chai Lam
  * @author Aik Han
  */

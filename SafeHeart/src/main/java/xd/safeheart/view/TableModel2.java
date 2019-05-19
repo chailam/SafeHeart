@@ -16,7 +16,12 @@ import xd.safeheart.model.Observation;
 import xd.safeheart.model.Patient;
 
 
-
+/**
+ * For tobacco
+ * It renders the Table model which determines its style, and columns
+ * @author Chai Lam
+ * @author Aik Han
+ */
 public class TableModel2 extends AbstractTableModel {
 
     private ArrayList <Observation> tobacOb;

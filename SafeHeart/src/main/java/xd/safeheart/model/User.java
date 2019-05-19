@@ -15,6 +15,7 @@ public class User {
 	public User() {
 	}
 	
+        // roles operations
 	public void addRoles(UserRole u) {
 		this.roles.add(u);
 	}
@@ -23,7 +24,7 @@ public class User {
 		this.roles.remove(u);
 	}
 	
-	public boolean searhRoles(UserRole u) {
+	public boolean searchRoles(UserRole u) {
 		if (roles.contains(u)) {
 			return true;
 		}

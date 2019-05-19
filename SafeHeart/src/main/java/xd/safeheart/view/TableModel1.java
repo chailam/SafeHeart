@@ -11,23 +11,26 @@ import javax.swing.table.AbstractTableModel;
 import xd.safeheart.model.*;
 
 /**
+ * For Total Cholesterol Observations
  * It renders the Table model which determines its style, and columns
  * @author Chai Lam
  * @author Aik Han
  */
 public class TableModel1 extends AbstractTableModel {
 
-    private ArrayList <Observation> selectedO;
-    private String[] columnNames = { "ObsId", "FamilyName", "GivenName", "Age",
+    private final ArrayList <Observation> selectedO;
+    private final String[] columnNames = { "ObsId", "FamilyName", "GivenName", "Age",
                 "Gender", "Cholesterol", "Unit"};
-    private int columnLength = 7;
-    private int rowLength;
+    private final int columnLength = 7;
+    private final int rowLength;
 
+    // Constructor
     public TableModel1(ArrayList<Observation> selectedO){
          this.selectedO = selectedO;
          this.rowLength = selectedO.size();
     }
 
+    // getters for all table information
     @Override
     public String getColumnName(int columnId){
          return columnNames[columnId];

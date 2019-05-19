@@ -25,6 +25,7 @@ import xd.safeheart.system.DataRetrieval;
 /**
  * Controller notifies the DataRetrieval (model) and updates the view
  * It also listens to any user interaction on the view
+ * Controller for the MVC structure
  * @author Chai Lam
  * @author Aik Han
  */
@@ -150,6 +151,9 @@ public class Controller implements Observer{
         this.updateChoTable();     
     }
 
+    /**
+     * Gets all Tobacco & Blood Pressure Observation by a patient or a set of patients selected.
+     */
     private void getTobacBloodObsByPatient()
     {
         // Set the determineView to 2 for viewing cholesterol
@@ -228,7 +232,7 @@ public class Controller implements Observer{
     
     
     /**
-     * Update the table by the data stored
+     * Update the Cholesterol table by the data stored
      */
     private void updateChoTable()
     {
@@ -239,6 +243,9 @@ public class Controller implements Observer{
         tab.setModel(tableModel);
     }
     
+    /**
+     * Update the Tobacco table by the data stored
+     */
     private void updateTobTable()
     {
         //Update tobacco table
@@ -248,6 +255,9 @@ public class Controller implements Observer{
         tobac.setModel(tableModel2);
     }
     
+    /**
+     * Show the graph of Blood Pressure
+     */
     private void showGraph()
     {
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
@@ -263,6 +273,9 @@ public class Controller implements Observer{
         }
     }
     
+    /**
+     * Clear the graph
+     */
     private void clearGraph(){
         if (chartMap.size() > 0){
             for (HashMap.Entry<String, LineChart> entry : chartMap.entrySet()){
@@ -273,18 +286,21 @@ public class Controller implements Observer{
         chartMap.clear();
     }
    
-
+    /**
+     * Display the blood pressure when it reaches a threshold
+     */
     private void bloodPressureAlert(){
         this.sysAlert = "";
         this.diasAlert = "";
         this.view.getSysBloodPressureIDText().setText(this.sysAlert);
         this.view.getDiasBloodPressureIDText().setText(this.diasAlert);
                 
-
+        // loop systolic blood pressure
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
         {
             ArrayList<Observation> sysList = entry.getValue();
             for (int j = 0; j < sysList.size();j++){
+                // check if any of them reaches the tolerance value
                 if (Float.parseFloat(sysList.get(j).getValue()) > 180){
                     sysAlert = sysAlert + Integer.toString(sysList.get(j).getPatient().getId()) + sysList.get(j).getPatient().getFamilyName() + sysList.get(j).getPatient().getGivenName() + ", ";
                     this.view.getSysBloodPressureIDText().setText(sysAlert);
@@ -293,10 +309,12 @@ public class Controller implements Observer{
             }
         }
         
+        // loop diastolic blood pressure
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodDiasObs().entrySet()) 
         {
             ArrayList<Observation> diasList = entry.getValue();
             for (int j = 0; j < diasList.size();j++){
+                // check if any of them reaches the tolerance value
                 if (Float.parseFloat(diasList.get(j).getValue()) > 120){
                     diasAlert = diasAlert + Integer.toString(diasList.get(j).getPatient().getId()) + diasList.get(j).getPatient().getFamilyName() + diasList.get(j).getPatient().getGivenName() + ", ";
                     this.view.getDiasBloodPressureIDText().setText(diasAlert);
@@ -312,9 +330,12 @@ public class Controller implements Observer{
     @Override
     public void update(){
         this.dR.reGetObs();
+        // if cholesterol view is opened
         if (determineView == 1){
             this.getChoObsByPatient();
-        } else if (determineView == 2){
+        }
+        // if Tobacco/Blood Pressure view is opened
+        else if (determineView == 2){
         this.getTobacBloodObsByPatient();
         }
     }

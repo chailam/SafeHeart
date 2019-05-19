@@ -9,12 +9,12 @@ public class Patient extends UserRole {
 	
 
 	//Constructor
-		public Patient(int id) {
-			super(id);
-		}
-			
-		//Constructor
-		public Patient(int id, String familyName, String givenName, int age, String gender ) {
-			super(id, familyName, givenName, age, gender);
-		}
+        public Patient(int id) {
+                super(id);
+        }
+
+        //Constructor
+        public Patient(int id, String familyName, String givenName, int age, String gender ) {
+                super(id, familyName, givenName, age, gender);
+        }
 }
