@@ -24,11 +24,11 @@ import xd.safeheart.model.Patient;
  */
 public class TobaccoTableModel extends AbstractTableModel {
 
-    private ArrayList <Observation> tobacOb;
-    private String[] columnNames = { "ObsId", "FamilyName", "GivenName", "Age",
+    private final ArrayList <Observation> tobacOb;
+    private final String[] columnNames = { "ObsId", "FamilyName", "GivenName", "Age",
                 "Gender", "Tobacco"};
-    private int columnLength = 6;
-    private int rowLength;
+    private final int columnLength = 6;
+    private final int rowLength;
 
     public TobaccoTableModel(ArrayList <Observation> tobacOb){
          this.tobacOb = tobacOb;
