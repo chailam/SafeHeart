@@ -19,9 +19,9 @@ import xd.safeheart.model.*;
 public class CholesterolTableModel extends AbstractTableModel {
 
     private final ArrayList <Observation> selectedO;
-    private final String[] columnNames = { "ObsId", "FamilyName", "GivenName", "Age",
+    private final String[] columnNames = { "ObsId", "PatientId", "FamilyName", "GivenName", "Age",
                 "Gender", "Cholesterol", "Unit"};
-    private final int columnLength = 7;
+    private final int columnLength = 8;
     private final int rowLength;
 
     // Constructor
@@ -50,20 +50,23 @@ public class CholesterolTableModel extends AbstractTableModel {
     public Object getValueAt(int rowId, int columnId) {
         //Patient p = selectedP.get(rowId);
         Observation o = selectedO.get(rowId);
+        Patient p = o.getPatient();
         switch (columnId) {
             case 0:
                 return o.getID();
-            case 1: 
-                return o.getPatient().getFamilyName();
-            case 2:
-                return o.getPatient().getGivenName();
+            case 1:
+                return p.getId();
+            case 2: 
+                return p.getFamilyName();
             case 3:
-                return o.getPatient().getAge();
+                return p.getGivenName();
             case 4:
-                return o.getPatient().getGender();
+                return p.getAge();
             case 5:
-                return o.getValue();
+                return p.getGender();
             case 6:
+                return o.getValue();
+            case 7:
                 return o.getUnit();
            }
            return null;
@@ -85,6 +88,8 @@ public class CholesterolTableModel extends AbstractTableModel {
              case 5:
                return String.class;
              case 6:
+               return String.class;
+             case 7:
                return String.class;
              }
              return null;
