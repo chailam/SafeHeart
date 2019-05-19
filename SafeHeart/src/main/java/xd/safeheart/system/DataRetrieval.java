@@ -73,6 +73,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
      * @param id
      * @return boolean to denote it has successfully retrieve data or not
      */
+    @Override
     public boolean populateDataByPractitionerId(String id) {
         System.out.println("Searching for Practitioner");
         org.hl7.fhir.dstu3.model.Practitioner targetPractitioner = this.searchPractitionerById(id);
@@ -94,20 +95,22 @@ public class DataRetrieval implements AbstractDataRetrieval{
                     .execute();
             
             System.out.println("Generating all Patient and Encounter");
-            encBundle.getEntry().forEach((entry) -> {
-                // within each entry is a resource
-                this.insertPatientAndEncounter(entry);
-            });
-            
-            // keep going to next page
-            while (encBundle.getLink(Bundle.LINK_NEXT) != null) {
-                // load next page
-                encBundle = client.loadPage().next(encBundle).execute();
+            boolean firstPage = true;
+            do
+            {
+                if(!firstPage)
+                {
+                    // load next page
+                    encBundle = client.loadPage().next(encBundle).execute();
+                }
+                
                 encBundle.getEntry().forEach((entry) -> {
-                // within each entry is a resource
+                    // within each entry is a resource
                     this.insertPatientAndEncounter(entry);
                 });
-            }
+                firstPage = false;
+            // keep going to next page
+            }while (encBundle.getLink(Bundle.LINK_NEXT) != null);
             
 //            System.out.println("Querying for all DiagnosticReport");
 //            this.queryDiagReport();
@@ -309,6 +312,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     // getters
     
+    @Override
     public xd.safeheart.model.Practitioner getPractitioner(){
         return this.practitioner;
     }
@@ -320,6 +324,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
      * @param codeStr code of observation
      * @return xd.safeheart.model.Observation
      */
+    @Override
     public xd.safeheart.model.Observation getRecentObsByPat(xd.safeheart.model.Patient p, String codeStr)
     {
         xd.safeheart.model.Observation output = null;
@@ -389,6 +394,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
                     break;
                 }
             }
+            firstPage = false;
         // keep going to next page while output not found
         } while (obsBundle.getLink(Bundle.LINK_NEXT) != null && output == null);
         
@@ -403,6 +409,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
      * @param codeStr code of observation
      * @return list of different observation list that contains all historic observations
      */
+    @Override
     public ArrayList<ArrayList<xd.safeheart.model.Observation>> getAllHistoricObsByPat(xd.safeheart.model.Patient p, String codeStr)
     {
         ArrayList<ArrayList<xd.safeheart.model.Observation>> output = new ArrayList<>();
@@ -424,6 +431,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
                 // load next page
                 obsBundle = client.loadPage().next(obsBundle).execute();
             }
+            
             for (BundleEntryComponent entry : obsBundle.getEntry())
             {
                 // within each entry is a resource
@@ -438,47 +446,51 @@ public class DataRetrieval implements AbstractDataRetrieval{
                                 // loop through all component
                                 for(org.hl7.fhir.dstu3.model.Observation.ObservationComponentComponent c: o.getComponent())
                                 {
-                                    // if diastolic
-                                    if (c.getCode().getCodingFirstRep().getCode().equals("8462-4"))
+                                    // if has value
+                                    if (c.hasValueQuantity())
                                     {
-                                        model = new xd.safeheart.model.Observation(
-                                            Integer.parseInt(o.getIdElement().getIdPart()),
-                                            c.getCode().getText(),
-                                            c.getValueQuantity().getUnit(),
-                                            p,
-                                            c.getValueQuantity().getValue().toString(),
-                                            // date to localdate
-                                            o.getIssued().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                                        );
-                                        // add to first list
-                                        output.get(0).add(model);
-                                        if (this.bloodDiasObsMap.get(Integer.toString(p.getId())) == null)
+                                        // if diastolic
+                                        if (c.getCode().getCodingFirstRep().getCode().equals("8462-4"))
                                         {
-                                            this.bloodDiasObsMap.put(Integer.toString(p.getId()), new ArrayList<>());
+                                            model = new xd.safeheart.model.Observation(
+                                                Integer.parseInt(o.getIdElement().getIdPart()),
+                                                c.getCode().getText(),
+                                                c.getValueQuantity().getUnit(),
+                                                p,
+                                                c.getValueQuantity().getValue().toString(),
+                                                // date to localdate
+                                                o.getIssued().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                                            );
+                                            // add to first list
+                                            output.get(0).add(model);
+                                            if (this.bloodDiasObsMap.get(Integer.toString(p.getId())) == null)
+                                            {
+                                                this.bloodDiasObsMap.put(Integer.toString(p.getId()), new ArrayList<>());
+                                            }
+                                            // store in data
+                                            this.bloodDiasObsMap.get(Integer.toString(p.getId())).add(model);
                                         }
-                                        // store in data
-                                        this.bloodDiasObsMap.get(Integer.toString(p.getId())).add(model);
-                                    }
-                                    // if systolic
-                                    else if (c.getCode().getCodingFirstRep().getCode().equals("8480-6"))
-                                    {
-                                        model = new xd.safeheart.model.Observation(
-                                            Integer.parseInt(o.getIdElement().getIdPart()),
-                                            c.getCode().getText(),
-                                            c.getValueQuantity().getUnit(),
-                                            p,
-                                            c.getValueQuantity().getValue().toString(),
-                                            // date to localdate
-                                            o.getIssued().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-                                        );
-                                        // add to second list
-                                        output.get(1).add(model);
-                                        if (this.bloodSysObsMap.get(Integer.toString(p.getId())) == null)
+                                        // if systolic
+                                        else if (c.getCode().getCodingFirstRep().getCode().equals("8480-6"))
                                         {
-                                            this.bloodSysObsMap.put(Integer.toString(p.getId()), new ArrayList<>());
+                                            model = new xd.safeheart.model.Observation(
+                                                Integer.parseInt(o.getIdElement().getIdPart()),
+                                                c.getCode().getText(),
+                                                c.getValueQuantity().getUnit(),
+                                                p,
+                                                c.getValueQuantity().getValue().toString(),
+                                                // date to localdate
+                                                o.getIssued().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
+                                            );
+                                            // add to second list
+                                            output.get(1).add(model);
+                                            if (this.bloodSysObsMap.get(Integer.toString(p.getId())) == null)
+                                            {
+                                                this.bloodSysObsMap.put(Integer.toString(p.getId()), new ArrayList<>());
+                                            }
+                                            // store in data
+                                            this.bloodSysObsMap.get(Integer.toString(p.getId())).add(model);
                                         }
-                                        // store in data
-                                        this.bloodSysObsMap.get(Integer.toString(p.getId())).add(model);
                                     }
                                 }
                                 break;
@@ -490,7 +502,8 @@ public class DataRetrieval implements AbstractDataRetrieval{
                     Logger.getLogger(DataRetrieval.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        // keep going to next page    
+            firstPage = false;
+        // keep going to next page
         } while (obsBundle.getLink(Bundle.LINK_NEXT) != null);
         
         return output;
@@ -499,6 +512,7 @@ public class DataRetrieval implements AbstractDataRetrieval{
     /**
      * Updates all the Observation in the hashmap
      */
+    @Override
     public void reGetObs() {
         this.updateObsMap(choObsMap);
         this.updateObsListMap(bloodDiasObsMap);
@@ -557,22 +571,27 @@ public class DataRetrieval implements AbstractDataRetrieval{
     
     // getters
     
+    @Override
     public HashMap <String,xd.safeheart.model.Patient> getPatientMap(){
         return this.patientMap;
     }
     
+    @Override
     public HashMap<String, xd.safeheart.model.Observation> getChoObsMap() {
         return choObsMap;
     }
 
+    @Override
     public HashMap<String, ArrayList<xd.safeheart.model.Observation>> getBloodDiasObsMap() {
         return bloodDiasObsMap;
     }
 
+    @Override
     public HashMap<String, ArrayList<xd.safeheart.model.Observation>> getBloodSysObsMap() {
         return bloodSysObsMap;
     }
 
+    @Override
     public HashMap<String, xd.safeheart.model.Observation> getTobacObsMap() {
         return tobacObsMap;
     }
