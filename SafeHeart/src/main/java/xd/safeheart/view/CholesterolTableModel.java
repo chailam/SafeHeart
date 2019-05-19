@@ -16,7 +16,7 @@ import xd.safeheart.model.*;
  * @author Chai Lam
  * @author Aik Han
  */
-public class TableModel1 extends AbstractTableModel {
+public class CholesterolTableModel extends AbstractTableModel {
 
     private final ArrayList <Observation> selectedO;
     private final String[] columnNames = { "ObsId", "FamilyName", "GivenName", "Age",
@@ -25,7 +25,7 @@ public class TableModel1 extends AbstractTableModel {
     private final int rowLength;
 
     // Constructor
-    public TableModel1(ArrayList<Observation> selectedO){
+    public CholesterolTableModel(ArrayList<Observation> selectedO){
          this.selectedO = selectedO;
          this.rowLength = selectedO.size();
     }
@@ -73,13 +73,13 @@ public class TableModel1 extends AbstractTableModel {
    public Class<?> getColumnClass(int columnId){
           switch (columnId){
              case 0:
-               return Integer.class;
+               return String.class;
              case 1:
                return String.class;
              case 2:
                return String.class;
              case 3:
-               return Integer.class;
+               return String.class;
              case 4:
                return String.class;
              case 5:

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import xd.safeheart.view.*;
 import xd.safeheart.model.*;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -34,7 +35,7 @@ public class Controller implements Observer{
     private final AbstractDataRetrieval dR;
     private String sysAlert;  //the alert label for systolic blood pressure
     private String diasAlert;  //the alert label for diastolic blood pressure
-    private final HashMap <String, LineChart> chartMap;
+    private final HashMap <String, BloodPressureLineChart> chartMap;
     private int determineView;
   
     // Constructor
@@ -240,7 +241,7 @@ public class Controller implements Observer{
         //Update cholesterol table
         JTable tab = this.view.getchoJTable();
         this.view.getShowPane().setViewportView(tab);
-        AbstractTableModel tableModel = new TableModel1(this.view.getSelectedChoObs());
+        AbstractTableModel tableModel = new CholesterolTableModel(this.view.getSelectedChoObs());
         tab.setModel(tableModel);
     }
     
@@ -252,7 +253,7 @@ public class Controller implements Observer{
         //Update tobacco table
         JTable tobac = this.view.gettobJTable();
         this.view.getShowPane().setViewportView(tobac);
-        AbstractTableModel tableModel2 = new TableModel2(this.view.getSelectedTobacObs());
+        AbstractTableModel tableModel2 = new TobaccoTableModel(this.view.getSelectedTobacObs());
         tobac.setModel(tableModel2);
     }
     
@@ -264,7 +265,9 @@ public class Controller implements Observer{
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
         {
             Patient p = this.view.getSelectedBloodSysObs().get(entry.getKey()).get(0).getPatient();
-            LineChart chart = new LineChart(p.getId() + p.getFamilyName() + p.getGivenName(),
+            BloodPressureLineChart chart = new BloodPressureLineChart(
+                    String.format("Blood Pressure of %d", p.getId()),
+                    String.format("%d: %s %s", p.getId(), p.getFamilyName(), p.getGivenName()),
                     this.view.getSelectedBloodSysObs().get(entry.getKey()),
                     this.view.getSelectedBloodDiasObs().get(entry.getKey()));
 
@@ -279,7 +282,7 @@ public class Controller implements Observer{
      */
     private void clearGraph(){
         if (chartMap.size() > 0){
-            for (HashMap.Entry<String, LineChart> entry : chartMap.entrySet()){
+            for (HashMap.Entry<String, BloodPressureLineChart> entry : chartMap.entrySet()){
                 entry.getValue().setVisible(false);
                 entry.getValue().dispose();
             }
@@ -296,31 +299,38 @@ public class Controller implements Observer{
         this.view.getSysBloodPressureIDText().setText(this.sysAlert);
         this.view.getDiasBloodPressureIDText().setText(this.diasAlert);
                 
+        // first alert or not
+        boolean first = true;
         // loop systolic blood pressure
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodSysObs().entrySet()) 
         {
             ArrayList<Observation> sysList = entry.getValue();
-            for (int j = 0; j < sysList.size();j++){
-                // check if any of them reaches the tolerance value
-                if (Float.parseFloat(sysList.get(j).getValue()) > 180){
-                    sysAlert = sysAlert + Integer.toString(sysList.get(j).getPatient().getId()) + sysList.get(j).getPatient().getFamilyName() + sysList.get(j).getPatient().getGivenName() + ", ";
-                    this.view.getSysBloodPressureIDText().setText(sysAlert);
-                    break;
-                }
+            int j = sysList.size()-1;
+            // check if latest one reaches the tolerance value
+            if (Float.parseFloat(sysList.get(j).getValue()) > 180){
+                // determine if need to add comma
+                String comma = first ? "" : ", ";
+                sysAlert = String.format("%s%s%s(%.02f)", sysAlert, comma, Integer.toString(sysList.get(j).getPatient().getId()), Float.parseFloat(sysList.get(j).getValue()));
+                this.view.getSysBloodPressureIDText().setText(sysAlert);
+                first = false;
+                break;
             }
         }
         
+        first = true;
         // loop diastolic blood pressure
         for (HashMap.Entry<String,ArrayList<Observation>> entry : this.view.getSelectedBloodDiasObs().entrySet()) 
         {
             ArrayList<Observation> diasList = entry.getValue();
-            for (int j = 0; j < diasList.size();j++){
-                // check if any of them reaches the tolerance value
-                if (Float.parseFloat(diasList.get(j).getValue()) > 120){
-                    diasAlert = diasAlert + Integer.toString(diasList.get(j).getPatient().getId()) + diasList.get(j).getPatient().getFamilyName() + diasList.get(j).getPatient().getGivenName() + ", ";
-                    this.view.getDiasBloodPressureIDText().setText(diasAlert);
-                    break;
-                }
+            int j = diasList.size()-1;
+            // check if latest one reaches the tolerance value
+            if (Float.parseFloat(diasList.get(j).getValue()) > 120){
+                // determine if need to add comma
+                String comma = first ? "" : ", ";
+                diasAlert = String.format("%s%s%s(%.02f)", sysAlert, comma, Integer.toString(diasList.get(j).getPatient().getId()), Float.parseFloat(diasList.get(j).getValue()));
+                this.view.getDiasBloodPressureIDText().setText(diasAlert);
+                first = false;
+                break;
             }
         }
     }
