@@ -243,6 +243,8 @@ public class Controller implements Observer{
         this.view.getShowPane().setViewportView(tab);
         AbstractTableModel tableModel = new CholesterolTableModel(this.view.getSelectedChoObs());
         tab.setModel(tableModel);
+        final int width = 80;
+        tab.getColumnModel().getColumn(6).setPreferredWidth(width);
     }
     
     /**
@@ -253,8 +255,10 @@ public class Controller implements Observer{
         //Update tobacco table
         JTable tobac = this.view.gettobJTable();
         this.view.getShowPane().setViewportView(tobac);
-        AbstractTableModel tableModel2 = new TobaccoTableModel(this.view.getSelectedTobacObs());
-        tobac.setModel(tableModel2);
+        AbstractTableModel tableModel = new TobaccoTableModel(this.view.getSelectedTobacObs());
+        tobac.setModel(tableModel);
+        final int width = 100;
+        tobac.getColumnModel().getColumn(6).setPreferredWidth(width);
     }
     
     /**
@@ -347,7 +351,7 @@ public class Controller implements Observer{
         }
         // if Tobacco/Blood Pressure view is opened
         else if (determineView == 2){
-        this.getTobacBloodObsByPatient();
+            this.getTobacBloodObsByPatient();
         }
     }
 }
