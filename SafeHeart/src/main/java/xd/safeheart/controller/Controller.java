@@ -34,12 +34,13 @@ public class Controller implements Observer{
     private final AbstractDataRetrieval dR;
     private String sysAlert;  //the alert label for systolic blood pressure
     private String diasAlert;  //the alert label for diastolic blood pressure
-    private HashMap <String, LineChart> chartMap = new HashMap<>();
+    private final HashMap <String, LineChart> chartMap;
     private int determineView;
   
     // Constructor
     public Controller(){
         this.view = new View();
+        this.chartMap = new HashMap<>();
         
         String serverBaseUrl = "http://hapi-fhir.erc.monash.edu:8080/baseDstu3/";
         //Retrieve data from server
