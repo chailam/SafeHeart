@@ -15,6 +15,7 @@ import xd.safeheart.model.Observation;
  * For Blood pressure (diastolic & systolic) Observation
  * It renders the Line Chart model which determines its style, and data
  * @author Chai Lam Loi (28136179)
+ * @author Aik Han Ng (28947991)
  */
 public class BloodPressureLineChart extends JFrame {
 
@@ -44,7 +45,7 @@ public class BloodPressureLineChart extends JFrame {
    }
 
    // creates dataset of xy axis
-   private XYDataset createDataset( ) {
+   private XYDataset createDataset() {
         TimeSeriesCollection series = new TimeSeriesCollection();
         TimeSeries sysDateSet = new TimeSeries("Systolic");
         for (Observation o : sysObs){
