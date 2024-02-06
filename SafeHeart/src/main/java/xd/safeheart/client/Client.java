@@ -1,5 +1,5 @@
 /*
- * FIT3077 Assignment 2 SafeHeart
+ * Client that runs the server. The Client class that contains the main function
  * Made by:
  *	 Aik Han Ng (28947991)
  *	 Chai Lam Loi (28136179)
@@ -12,9 +12,7 @@ import java.util.concurrent.TimeUnit;
 import xd.safeheart.system.*;
 import xd.safeheart.controller.Controller;
 
-/*
- * Client that runs the server. The Client class that contains the main function
- */
+
 public class Client {
     /**
      * Main function of the program
