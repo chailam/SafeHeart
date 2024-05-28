@@ -4,6 +4,9 @@
 
 The Safe Heart application is designed to empower patients and clinicians with a comprehensive, user-friendly tool for recording and managing patient health information, specifically targeting cardiovascular health. By focusing on ease of use and clear presentation, Safe Heart aims to improve the communication of critical health data and risk assessments, ensuring that both patients and healthcare providers have the information they need to make informed decisions.
 
+It is mainly developed using Java language.
+
+
 ## Key Features
 
 ### Patient Information Management
